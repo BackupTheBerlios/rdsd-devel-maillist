@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] radio-si470x driver
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2008-February/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20radio-si470x%20driver&In-Reply-To=%3C20080213002758.7c42b79d%40bluebox.local%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000162.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] radio-si470x driver</H1>
+    <B>Hans J. Koch</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20radio-si470x%20driver&In-Reply-To=%3C20080213002758.7c42b79d%40bluebox.local%3E"
+       TITLE="[Rdsd-devel] radio-si470x driver">koch at hjk-az.de
+       </A><BR>
+    <I>Wed Feb 13 00:27:58 CET 2008</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000162.html">[Rdsd-devel] RDS Data File
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#161">[ date ]</a>
+              <a href="thread.html#161">[ thread ]</a>
+              <a href="subject.html#161">[ subject ]</a>
+              <a href="author.html#161">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Am Tue, 12 Feb 2008 16:22:45 +0100 (CET)
+schrieb &quot;<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">jm.bourdaret at laposte.net</A>&quot; &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">jm.bourdaret at laposte.net</A>&gt;:
+
+Hi,
+
+&gt;<i> Thanks for the driver ! it's working great with an &quot;ADS TECH
+</I>&gt;<i> InstantFM Music&quot; on a brand new debian etch, with a kernel-image
+</I>&gt;<i> stock package upgraded to 2.6.24-1.
+</I>
+thanks for that report, I've CCed the rdsd-devel list, others might
+have that card, too.
+
+&gt;<i> 
+</I>&gt;<i> The only glitches encountered were 100% Debian Unstable ones (here
+</I>&gt;<i> they are if you want to share this info):
+</I>&gt;<i> 
+</I>&gt;<i> install linux-image-2.6.24-1-686 and boot it.
+</I>&gt;<i> after installing kernel-headers-2.6.24 and kernel-kbuild-2.6.24
+</I>&gt;<i> after &quot;hg clone v4l-dvb ...&quot;
+</I>&gt;<i> a &quot;make&quot; will eventually end up with a &quot;Makefile: no such file ....&quot;
+</I>&gt;<i> one need to
+</I>&gt;<i> -install the full kernel-source-2.6.24 package, 
+</I>&gt;<i> then
+</I>&gt;<i> -replace a link from &quot;/lib/modules/2.6.24-1-686/build&quot; pointing to
+</I>&gt;<i> &quot;/usr/src/linux-source-2.6.24/&quot; (instead of &quot;headers&quot; package) -issue
+</I>&gt;<i> a &quot;make; make clean&quot; in v4l-dvb directory (step needed) -restore the
+</I>&gt;<i> link from &quot;/lib/modules/2.6.24-1-686/build&quot;
+</I>&gt;<i> to /usr/src/linux-headers-2.6.24/&quot; -issue the final &quot;make; make
+</I>&gt;<i> install&quot; in v4l directory.
+</I>&gt;<i> 
+</I>&gt;<i> (the whole stuff is about missing files
+</I>&gt;<i> in /lib/modules-2.6.24-1-686/build/scripts/basic/ )
+</I>
+No, unfortunately it's all my fault. A user application should NEVER
+include kernel headers. Hope we can fix that soon (in rdsd,
+rdssource.cpp). 
+
+&gt;<i> 
+</I>&gt;<i> also librds/rdsd is working great with this radio dongle, although
+</I>&gt;<i> the &quot;make; make install&quot; is not enough, need to do a &quot;ldconfig&quot; and
+</I>&gt;<i> create a /etc/rdsd.conf based on README example (and stripped to the
+</I>&gt;<i> only source /dev/radio0)
+</I>
+Thanks for that hint. We should call ldconfig in the install make
+target. And it might be good to also install a skeleton rdsd.conf
+file, that would certainly make things easier for new users. 
+
+&gt;<i> 
+</I>&gt;<i> Thanks for these two pieces of software
+</I>&gt;<i> 
+</I>&gt;<i> jean-marc
+</I>
+Thanks for your feedback,
+Hans
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000162.html">[Rdsd-devel] RDS Data File
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#161">[ date ]</a>
+              <a href="thread.html#161">[ thread ]</a>
+              <a href="subject.html#161">[ subject ]</a>
+              <a href="author.html#161">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

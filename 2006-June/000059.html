@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] any FM tuner Card
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2006-June/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20any%20FM%20tuner%20Card&In-Reply-To=%3C200606271940.17854.koch%40hjk-az.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000058.html">
+   <LINK REL="Next"  HREF="000063.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] any FM tuner Card</H1>
+    <B>Hans J. Koch</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20any%20FM%20tuner%20Card&In-Reply-To=%3C200606271940.17854.koch%40hjk-az.de%3E"
+       TITLE="[Rdsd-devel] any FM tuner Card">koch at hjk-az.de
+       </A><BR>
+    <I>Tue Jun 27 19:40:17 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000058.html">[Rdsd-devel] any FM tuner Card
+</A></li>
+        <LI>Next message: <A HREF="000063.html">[Rdsd-devel] any FM tuner Card
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#59">[ date ]</a>
+              <a href="thread.html#59">[ thread ]</a>
+              <a href="subject.html#59">[ subject ]</a>
+              <a href="author.html#59">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Am Dienstag, 27. Juni 2006 09:42 schrieb K&#233;vin REDON:
+
+&gt;<i>
+</I>&gt;<i> &gt;Well, all code in the project is written in C++ so far. Of course there
+</I>&gt;<i> &gt; can be client applications in any language. librds has a C compatible
+</I>&gt;<i> &gt; API.
+</I>&gt;<i>
+</I>&gt;<i> then it will be a good training for C++ ;)
+</I>
+Yes, especially because it's of course written very cleanly and is absolutely 
+bug free :-)
+
+&gt;<i>
+</I>&gt;<i> other point : I can't find any tuner FM/TV card that has this chip
+</I>&gt;<i> (SAA6588 by Philips), can someone give me some URL so I can buy it ?
+</I>
+Well, the problem at the moment is that a standard kernel supports only RDS on 
+bttv cards. I sent a patch for the saa7134 driver to Video4Linux mailing 
+list, but it got lost somehow. I'll send it again as soon as I find the time.
+
+Unfortunately, AFAIK all the cards in the market right now are SAA7134 cards, 
+a few examples are given in the V4L wiki:
+
+<A HREF="http://www.linuxtv.org/v4lwiki/index.php/Radio_Data_System_(RDS">http://www.linuxtv.org/v4lwiki/index.php/Radio_Data_System_(RDS</A>)
+
+You have to decide wether you want to help getting RDS on SAA7134 to work or 
+you can try to get an old bttv card, e.g. from eBay.
+
+&gt;<i>
+</I>&gt;<i> The RSD signal is just then 57kHz band from the audio signal. May it
+</I>&gt;<i> be possible to extract the RSD information from any tuner FM card. If
+</I>&gt;<i> the card does not filter it, I can work on it (signal processing with
+</I>&gt;<i> Scilab first, C++ program then), so that it could be accesible from
+</I>&gt;<i> any normal card by any normal user ?
+</I>
+Well, if you're good enough at hardware development, you can perhaps solder an 
+SAA6588 to the audio output of the tuner, and use the video chip's I2C bus to 
+connect it. The SAA6588 will be found out of the box by the kernel. Problem 
+could be that not all tuners have audio outputs, I think some only output IF 
+signals, and audio demodulation takes place inside the chip. Not sure about 
+this, though.
+
+&gt;<i>
+</I>&gt;<i> I'm still reading all the technical stuff, and have a lot of questions ...
+</I>
+Feel free to ask...
+
+Hans
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000058.html">[Rdsd-devel] any FM tuner Card
+</A></li>
+	<LI>Next message: <A HREF="000063.html">[Rdsd-devel] any FM tuner Card
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#59">[ date ]</a>
+              <a href="thread.html#59">[ thread ]</a>
+              <a href="subject.html#59">[ subject ]</a>
+              <a href="author.html#59">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

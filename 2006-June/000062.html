@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> Fwd: [Rdsd-devel] TMC details
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2006-June/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20Fwd%3A%20%5BRdsd-devel%5D%20TMC%20details&In-Reply-To=%3C4a20f6450606280318l66b86991mdd147a4e887b7d3a%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000061.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>Fwd: [Rdsd-devel] TMC details</H1>
+    <B>K&#233;vin REDON</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20Fwd%3A%20%5BRdsd-devel%5D%20TMC%20details&In-Reply-To=%3C4a20f6450606280318l66b86991mdd147a4e887b7d3a%40mail.gmail.com%3E"
+       TITLE="Fwd: [Rdsd-devel] TMC details">kevredon at gmail.com
+       </A><BR>
+    <I>Wed Jun 28 12:18:16 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000061.html">[Rdsd-devel] TMC details
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#62">[ date ]</a>
+              <a href="thread.html#62">[ thread ]</a>
+              <a href="subject.html#62">[ subject ]</a>
+              <a href="author.html#62">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>---------- Forwarded message ----------
+From: K&#233;vin REDON &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">kevredon at gmail.com</A>&gt;
+Date: Jun 28, 2006 12:05 PM
+Subject: [Rdsd-devel] TMC details
+To: Daniele Ravizza &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">sirhaplo at tin.it</A>&gt;
+
+
+the only technical docuent I found is this (about RDS) :
+<A HREF="http://perso.orange.fr/ybnet/rds.htm">http://perso.orange.fr/ybnet/rds.htm</A>
+I'm searching for TMC and I will tell you
+
+On 6/28/06, Daniele Ravizza &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">sirhaplo at tin.it</A>&gt; wrote:
+&gt;<i> Hi all,
+</I>&gt;<i> I'm writing a software for extract TMC information from RDS and put those
+</I>&gt;<i> infos on a Database. Those infos will then drawn on a map with an icon.
+</I>&gt;<i>
+</I>&gt;<i> With read_rds.c i succesfully read every group, but i cannot understand how
+</I>&gt;<i> decode it.
+</I>&gt;<i> I tried something like that :
+</I>&gt;<i>
+</I>&gt;<i> Block B [ 11Bit common for RDS ][ 2 bit for type][ 3bit for duration]
+</I>&gt;<i> Block C [ 1bit for direction ][ 1bit for diversion ][ 3bit for extent ][
+</I>&gt;<i> 11bit fo Event ]
+</I>&gt;<i> Block D [ 16bit x Location ]
+</I>&gt;<i>
+</I>&gt;<i> But i need more infos. I think that isn't so correct. I got those problems :
+</I>&gt;<i>
+</I>&gt;<i> 1) I get location with ID too big for my location database. my DB stop to
+</I>&gt;<i> about 13000 location ... i got locations like 60000.
+</I>&gt;<i> 2) Events : i dont know how events are coded.
+</I>&gt;<i> 3) What are type / extension / diversion flags ?
+</I>&gt;<i> 4) How are mantained the problems ? TMC stop to send message about that ?
+</I>&gt;<i> After how much time i must trow away the signal ?
+</I>&gt;<i>
+</I>&gt;<i> Thanks in advice. I want to make something usefull to all.
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> Daniele &quot;SirHap|0&quot; Ravizza
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000061.html">[Rdsd-devel] TMC details
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#62">[ date ]</a>
+              <a href="thread.html#62">[ thread ]</a>
+              <a href="subject.html#62">[ subject ]</a>
+              <a href="author.html#62">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

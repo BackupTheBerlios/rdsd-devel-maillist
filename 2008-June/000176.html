@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] Make saa7134 driver use saa6588 driver
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2008-June/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Make%20saa7134%20driver%20use%20saa6588%20driver&In-Reply-To=%3C159889.55513.qm%40web34406.mail.mud.yahoo.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000175.html">
+   <LINK REL="Next"  HREF="000178.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] Make saa7134 driver use saa6588 driver</H1>
+    <B>goog long</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Make%20saa7134%20driver%20use%20saa6588%20driver&In-Reply-To=%3C159889.55513.qm%40web34406.mail.mud.yahoo.com%3E"
+       TITLE="[Rdsd-devel] Make saa7134 driver use saa6588 driver">cecolong at yahoo.com
+       </A><BR>
+    <I>Mon Jun  2 22:53:14 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000175.html">[Rdsd-devel] KNC ONE TV-RDS question
+</A></li>
+        <LI>Next message: <A HREF="000178.html">[Rdsd-devel] Make saa7134 driver use saa6588 driver
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#176">[ date ]</a>
+              <a href="thread.html#176">[ thread ]</a>
+              <a href="subject.html#176">[ subject ]</a>
+              <a href="author.html#176">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>After applying the patch, I loaded the modules:
+modprobe saa7134
+modprobe saa6588 debug=5 rbds=1
+rbds=1 for North America.
+
+then I run &quot;rdsd -d&quot; and &quot;rdsquery -t gstat&quot;, and tuned to a channel with good sound quality. I collected the logs below. I wonder why there are so many bad groups or unknown groups. I plugged in the antenna that comes with the KNC1 board. It is a wire antenna. Could it be the RDS signal is bad or there are no RDS data availability?
+
+Jun&nbsp; 2 15:38:28 localhost kernel: saa6588: New block: 0xd2 0xac 0x12 1 blocks total.
+Jun&nbsp; 2 15:38:28 localhost kernel: saa6588: Read: 0xd2 0xac 0x12 0 blocks total.
+Jun&nbsp; 2 15:38:28 localhost kernel: Saw block 2 again.
+Jun&nbsp; 2 15:38:28 localhost kernel: Saw block 2 again.
+Jun&nbsp; 2 15:38:28 localhost kernel: Saw block 2 again.
+Jun&nbsp; 2 15:38:28 localhost kernel: Saw block 2 again.
+Jun&nbsp; 2 15:38:28 localhost kernel: Saw block 2 again.
+Jun&nbsp; 2 15:38:29 localhost kernel: Saw block 2 again.
+Jun&nbsp; 2 15:38:29 localhost kernel: Saw block 2 again.
+Jun&nbsp; 2 15:38:29 localhost kernel: Saw block 2 again.
+Jun&nbsp; 2 15:38:29 localhost kernel: Saw block 2 again.
+Jun&nbsp; 2 15:38:29 localhost kernel: Saw block 2 again.
+Jun&nbsp; 2 15:38:29 localhost kernel: Saw block 2 again.
+Jun&nbsp; 2 15:38:29 localhost kernel: Saw block 2 again.
+Jun&nbsp; 2 15:38:29 localhost kernel: saa6588: New block: 0x86 0x86 0x2d 1 blocks total.
+Jun&nbsp; 2 15:38:29 localhost kernel: saa6588: Read: 0x86 0x86 0x2d 0 blocks total.
+Jun&nbsp; 2 15:38:29 localhost kernel: Saw block 5 again.
+Jun&nbsp; 2 15:38:29 localhost kernel: saa6588: New block: 0x35 0x71 0x24 1 blocks total.
+Jun&nbsp; 2 15:38:29 localhost kernel: saa6588: Read: 0x35 0x71 0x24 0 blocks total.
+Jun&nbsp; 2 15:38:29 localhost kernel: saa6588: New block: 0x01 0xd7 0x2d 1 blocks total.
+Jun&nbsp; 2 15:38:29 localhost kernel: saa6588: Read: 0x01 0xd7 0x2d 0 blocks total.
+Jun&nbsp; 2 15:38:29 localhost kernel: saa6588: New block: 0x20 0xe5 0x00 1 blocks total.
+Jun&nbsp; 2 15:38:29 localhost kernel: saa6588: Read: 0x20 0xe5 0x00 0 blocks total.
+
+<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">root at localhost</A>:/root&gt; rdsquery -t gstat
+gstat:
+0A 0 5
+0B 2 5
+1A 0 4
+1B 0 2
+2A 0 1
+2B 1 0
+3A 0 3
+3B 0 1
+4A 0 1
+4B 1 4
+5A 1 2
+5B 0 0
+6A 0 4
+6B 0 3
+7A 1 5
+7B 1 2
+8A 0 3
+8B 0 0
+9A 1 2
+9B 0 1
+10A 0 1
+10B 1 4
+11A 0 2
+11B 1 2
+12A 0 0
+12B 0 3
+13A 0 2
+13B 0 0
+14A 0 3
+14B 0 3
+15A 0 0
+15B 1 1
+??? 0 249
+
+
+
+
+
+
+
+
+      
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/rdsd-devel/attachments/20080602/846beb0d/attachment.html">https://lists.berlios.de/pipermail/rdsd-devel/attachments/20080602/846beb0d/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000175.html">[Rdsd-devel] KNC ONE TV-RDS question
+</A></li>
+	<LI>Next message: <A HREF="000178.html">[Rdsd-devel] Make saa7134 driver use saa6588 driver
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#176">[ date ]</a>
+              <a href="thread.html#176">[ thread ]</a>
+              <a href="subject.html#176">[ subject ]</a>
+              <a href="author.html#176">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

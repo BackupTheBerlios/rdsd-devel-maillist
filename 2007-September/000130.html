@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] Patch: Fix a bug in saa6588 kernel module
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Patch%3A%20Fix%20a%20bug%20in%20saa6588%20kernel%20module&In-Reply-To=%3C200709080115.20078.koch%40hjk-az.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000131.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] Patch: Fix a bug in saa6588 kernel module</H1>
+    <B>Hans J. Koch</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Patch%3A%20Fix%20a%20bug%20in%20saa6588%20kernel%20module&In-Reply-To=%3C200709080115.20078.koch%40hjk-az.de%3E"
+       TITLE="[Rdsd-devel] Patch: Fix a bug in saa6588 kernel module">koch at hjk-az.de
+       </A><BR>
+    <I>Sat Sep  8 01:15:19 CEST 2007</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000131.html">[Rdsd-devel] Patch: Make RDS work with saa7134 cards
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#130">[ date ]</a>
+              <a href="thread.html#130">[ thread ]</a>
+              <a href="subject.html#130">[ subject ]</a>
+              <a href="author.html#130">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>There's a serious bug in the saa6588 kernel module.
+Thanks to Derek Philip for pointing this out.
+
+The following patch fixes it, it's against 2.6.23-rc5.
+
+I'll post this to the Video4Linux ML soon, please test
+and comment.
+
+The patch fixes the problem that the machine completely
+hangs as soon as you try to modprobe saa6588 if you have
+have saa7134 loaded. That saa6588 works with bttv is 
+pure luck!!!
+
+Thanks,
+Hans
+
+Index: linux-2.6.23-rc/drivers/media/video/saa6588.c
+===================================================================
+--- linux-2.6.23-rc.orig/drivers/media/video/saa6588.c	2007-09-07 23:34:57.000000000 +0200
++++ linux-2.6.23-rc/drivers/media/video/saa6588.c	2007-09-07 23:38:07.000000000 +0200
+@@ -406,6 +406,7 @@
+ 		kfree(s);
+ 		return -ENOMEM;
+ 	}
++	spin_lock_init(&amp;s-&gt;lock);
+ 	s-&gt;client = client_template;
+ 	s-&gt;block_count = 0;
+ 	s-&gt;wr_index = 0;
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000131.html">[Rdsd-devel] Patch: Make RDS work with saa7134 cards
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#130">[ date ]</a>
+              <a href="thread.html#130">[ thread ]</a>
+              <a href="subject.html#130">[ subject ]</a>
+              <a href="author.html#130">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

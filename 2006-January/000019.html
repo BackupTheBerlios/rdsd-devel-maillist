@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] Read data from a SAA6588 directly via I2C
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Read%20data%20from%20a%20SAA6588%20directly%20via%20I2C&In-Reply-To=%3C200601122104.06232.koch%40hjk-az.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000018.html">
+   <LINK REL="Next"  HREF="000020.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] Read data from a SAA6588 directly via I2C</H1>
+    <B>Hans J. Koch</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Read%20data%20from%20a%20SAA6588%20directly%20via%20I2C&In-Reply-To=%3C200601122104.06232.koch%40hjk-az.de%3E"
+       TITLE="[Rdsd-devel] Read data from a SAA6588 directly via I2C">koch at hjk-az.de
+       </A><BR>
+    <I>Thu Jan 12 21:04:05 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000018.html">[Rdsd-devel] Read data from a SAA6588 directly via I2C
+</A></li>
+        <LI>Next message: <A HREF="000020.html">[Rdsd-devel] rdsd causes 100% CPU load
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#19">[ date ]</a>
+              <a href="thread.html#19">[ thread ]</a>
+              <a href="subject.html#19">[ subject ]</a>
+              <a href="author.html#19">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Am Donnerstag, 12. Januar 2006 09:40 schrieb Guillaume Sisteron:
+&gt;<i>
+</I>&gt;<i> Alright.
+</I>&gt;<i> So, the data read directly from i2c should be swapped and/or modified to
+</I>&gt;<i> meet V4L2 specifications...
+</I>
+Well, rdsd will do that. The decoder expects bytes as specified by V4L2, so 
+I'll have to modify them.
+
+&gt;<i> But I've got a problem:
+</I>&gt;<i> my application needs to use the last 2 bytes sent by SAA6588 (byte 5 and
+</I>&gt;<i> byte 6), which give: number of errors and signal quality. (In fact, my
+</I>&gt;<i> application is aimed to analyse RDS quality signal and quality reception
+</I>&gt;<i> at different points).
+</I>
+Yes, I noticed that problem, too. There should probably be an ioctl() that 
+returns some kind of RDS quality. But it's a problem to make that hardware 
+independent. I wanted to add some quality functionality by analyzing for 
+example the ratio of valid and invalid groups. There might be faster 
+algorithms to calculate some measure for quality, too. I'm open for 
+suggestions. For &quot;i2cdev&quot;, the quality read from the SAA6588 could easily be 
+used.
+
+&gt;<i>
+</I>&gt;<i> So, I wonder if I should use your code and try to add the needed
+</I>&gt;<i> functionnality, or if I should better implement new code as I needs to
+</I>&gt;<i> decode directly from I2C, and I need to capture data as soon as
+</I>&gt;<i> possible, for example as soon as I receive the block A with PI
+</I>&gt;<i> information, I need to return it immediately to client application...
+</I>&gt;<i> So, I don't know yet the best solution.
+</I>
+Neither do I. I tried it that way, but noticed that (depending on signal 
+strength) you receive A LOT of faulty RDS blocks that have NO error flag set. 
+IMHO it is best to receive complete groups and then decode them. That is what 
+rdsd does, and you immediately receive an event for PI after each group. If 
+you look at each block separately, you'll get a lot of stange PI codes and 
+need extra code to decide whether you trust them or not.
+
+I guess you need that for fast tuning. In such applications, you'll have to 
+wait for more than one PI anyway, to be sure it's valid. In that case, you 
+can as well wait for a whole group as rdsd does.
+ 
+&gt;<i>
+</I>&gt;<i> Concerning the read from SAA6588, you read 6 bytes, but in my SAA6588
+</I>&gt;<i> specs, they say to read 7 bytes (byte 0 to byte 6). So what happends
+</I>&gt;<i> when you only read 6 bytes ?
+</I>
+In fact, I only use the first 3 bytes. But reading 3 bytes didn't work in my 
+tests, so I tried to read 6 bytes, and that works.
+
+Hans
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000018.html">[Rdsd-devel] Read data from a SAA6588 directly via I2C
+</A></li>
+	<LI>Next message: <A HREF="000020.html">[Rdsd-devel] rdsd causes 100% CPU load
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#19">[ date ]</a>
+              <a href="thread.html#19">[ thread ]</a>
+              <a href="subject.html#19">[ subject ]</a>
+              <a href="author.html#19">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

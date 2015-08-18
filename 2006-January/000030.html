@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] rdsd causes 100% CPU load
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20rdsd%20causes%20100%25%20CPU%20load&In-Reply-To=%3C200601211820.22844.koch%40hjk-az.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000027.html">
+   <LINK REL="Next"  HREF="000032.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] rdsd causes 100% CPU load</H1>
+    <B>Hans J. Koch</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20rdsd%20causes%20100%25%20CPU%20load&In-Reply-To=%3C200601211820.22844.koch%40hjk-az.de%3E"
+       TITLE="[Rdsd-devel] rdsd causes 100% CPU load">koch at hjk-az.de
+       </A><BR>
+    <I>Sat Jan 21 18:20:22 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000027.html">[Rdsd-devel] rdsd causes 100% CPU load
+</A></li>
+        <LI>Next message: <A HREF="000032.html">[Rdsd-devel] rdsd causes 100% CPU load
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#30">[ date ]</a>
+              <a href="thread.html#30">[ thread ]</a>
+              <a href="subject.html#30">[ subject ]</a>
+              <a href="author.html#30">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Am Samstag, 21. Januar 2006 13:11 schrieb Rolf Meeser:
+
+&gt;<i> &gt;
+</I>&gt;<i> &gt; dd if=/dev/radio0 of=outfile.bin bs=3 count=1000
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; doesn't work for me. Why? Does it work with your
+</I>&gt;<i> &gt; kernel module?
+</I>&gt;<i>
+</I>&gt;<i> Yes, it works fine. This is what it says on the
+</I>&gt;<i> command line:
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">rolf at shuttle</A>:~$ dd if=/dev/radio0 of=outfile.bin bs=3
+</I>&gt;<i> count=1000
+</I>&gt;<i> 1000+0 records in
+</I>&gt;<i> 1000+0 records out
+</I>&gt;<i> 3000 bytes transferred in 21.881776 seconds (137
+</I>&gt;<i> bytes/sec)
+</I>
+That's exactly the byte rate that you would expect from RDS... Obviously, your 
+module is implemented better than mine. Can you send me the latest version of 
+your code? The one I downloaded from ov-lennestadt.de doesn't have the poll() 
+function yet.
+
+&gt;<i>
+</I>&gt;<i> outfile.bin seems to contain valid RDS blocks.
+</I>
+You could test that by setting up a &quot;file&quot; source in rdsd.conf and see if it's 
+decoded properly. I always do that for development on my notebook. But I use 
+a special program to create the file, dd doesn't work for me. 
+
+Cheers,
+Hans
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000027.html">[Rdsd-devel] rdsd causes 100% CPU load
+</A></li>
+	<LI>Next message: <A HREF="000032.html">[Rdsd-devel] rdsd causes 100% CPU load
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#30">[ date ]</a>
+              <a href="thread.html#30">[ thread ]</a>
+              <a href="subject.html#30">[ subject ]</a>
+              <a href="author.html#30">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

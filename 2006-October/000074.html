@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] RDS for TMC
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2006-October/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20RDS%20for%20TMC&In-Reply-To=%3C200610070054.09959.koch%40hjk-az.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000075.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] RDS for TMC</H1>
+    <B>Hans J. Koch</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20RDS%20for%20TMC&In-Reply-To=%3C200610070054.09959.koch%40hjk-az.de%3E"
+       TITLE="[Rdsd-devel] RDS for TMC">koch at hjk-az.de
+       </A><BR>
+    <I>Sat Oct  7 00:54:09 CEST 2006</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000075.html">[Rdsd-devel] New to the list....
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#74">[ date ]</a>
+              <a href="thread.html#74">[ thread ]</a>
+              <a href="subject.html#74">[ subject ]</a>
+              <a href="author.html#74">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Danielle,
+I cc'ed the rdsd-devel list so that others can read this, too.
+
+Am Donnerstag, 5. Oktober 2006 16:47 schrieb Daniele Ravizza:
+&gt;<i> Hello Hans,
+</I>&gt;<i> I'm the man who is developing the TMC receiver.
+</I>&gt;<i> We spoke about it a lot of time ago.
+</I>&gt;<i>
+</I>&gt;<i> After a lot of months we still have problems, probably in reception.
+</I>
+Can you give more details?
+
+&gt;<i> We have a KNC-ONE Tv Station RDS.
+</I>&gt;<i>
+</I>&gt;<i> saa7134 and saa6588.
+</I>&gt;<i>
+</I>&gt;<i> We patched the driver to find the sa6588 and everything went well.
+</I>&gt;<i> As i wrote you long time ago we receive the block in a wrong order.
+</I>&gt;<i>
+</I>&gt;<i> * Could it be a problem of synthonization of the radio ?
+</I>
+No.
+
+&gt;<i> * What card have you used to develop the module ?
+</I>
+Terratec Cinergy 600
+
+&gt;<i> * Have you some cards to suggest ?
+</I>
+No, any card with saa6588 should work.
+
+&gt;<i> * Are the bttv (bt8x8) cards better than saa7134 ?
+</I>
+No, for video or TV the SAA7134 is better. bttv cards have the advantage that 
+the RDS driver is included in the stable kernel.
+
+&gt;<i> * Have saa7134 some sort of signal quality system ? Do you know some
+</I>&gt;<i> hardware with signal detection ?
+</I>
+Well, all these chips have some sort of signal strength detection. The result 
+is available through the V4L2 API. That's what scantv uses, for example.
+
+Technically, you can query the signal strength using the VIDIOC_G_TUNER ioctl. 
+Here's the description from the API manual:
+<A HREF="http://www.linuxtv.org/downloads/video4linux/API/V4L2_API/spec/r9122.htm">http://www.linuxtv.org/downloads/video4linux/API/V4L2_API/spec/r9122.htm</A>
+
+&gt;<i> * Have you done progress on the module and the rdsd daemon ?
+</I>
+Unfortunately, no. I collected a lot of information about TMC decoding, and 
+started work on it, but I simply don't have the time. It might be better in 
+November/December, so I hope I can offer some TMC christmas presents :-)
+
+Hans
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000075.html">[Rdsd-devel] New to the list....
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#74">[ date ]</a>
+              <a href="thread.html#74">[ thread ]</a>
+              <a href="subject.html#74">[ subject ]</a>
+              <a href="author.html#74">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

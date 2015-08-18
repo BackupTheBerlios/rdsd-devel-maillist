@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] SIGPIPE
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2007-November/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20SIGPIPE&In-Reply-To=%3C20071115164721.65fa294e%40dilbert.local%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000149.html">
+   <LINK REL="Next"  HREF="000151.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] SIGPIPE</H1>
+    <B>Hans-J&#252;rgen Koch</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20SIGPIPE&In-Reply-To=%3C20071115164721.65fa294e%40dilbert.local%3E"
+       TITLE="[Rdsd-devel] SIGPIPE">hjk at linutronix.de
+       </A><BR>
+    <I>Thu Nov 15 16:47:21 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000149.html">[Rdsd-devel] SIGPIPE
+</A></li>
+        <LI>Next message: <A HREF="000151.html">[Rdsd-devel] SIGPIPE
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#150">[ date ]</a>
+              <a href="thread.html#150">[ thread ]</a>
+              <a href="subject.html#150">[ subject ]</a>
+              <a href="author.html#150">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Am Wed, 14 Nov 2007 21:31:12 +0100
+schrieb &quot;Daniel Lindenaar (rdsd)&quot; &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">daniel-rdsd at lindenaar.eu</A>&gt;:
+
+&gt;<i> Hi guys,
+</I>&gt;<i> Another thing I came across: rdsd often quits unexpectedly,
+</I>&gt;<i> especially when stopping and starting rdsquery a lot. It seems to be
+</I>&gt;<i> caused by a SIGPIPE signal that's thrown when rdsd tries to write to
+</I>&gt;<i> a disconnected client. I've added SIGPIPE to the list of signals that
+</I>&gt;<i> get caught and now rdsd doesn't quit anymore. Any ideas on this?
+</I>&gt;<i> maybe this is the way to go or maybe there's something that needs to
+</I>&gt;<i> be done in the client handling code.
+</I>
+Hmm, I never saw that issue. rdsd does all communication through
+sockets, and you can usually detect a disconnected client by checking
+the return value of your read/write functions. That's how it's done in
+rdsd. 
+Did you test with TCP/IP or unix domain sockets? I wasn't aware that
+you can receive a SIGPIPE when a socket connection breaks. Seems I
+have to read some basic docs again :-)
+Anyway, if rdsd receives SIGPIPE signals, it is of course the right
+thing to catch them. It shouldn't need special handling, though. I
+tested that quite a lot and think that disconnecting clients are
+detected reliably. OTOH, I only tested with clients that disconnect
+gracefully. Did you just pull the cable?
+
+Thanks,
+Hans
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000149.html">[Rdsd-devel] SIGPIPE
+</A></li>
+	<LI>Next message: <A HREF="000151.html">[Rdsd-devel] SIGPIPE
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#150">[ date ]</a>
+              <a href="thread.html#150">[ thread ]</a>
+              <a href="subject.html#150">[ subject ]</a>
+              <a href="author.html#150">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

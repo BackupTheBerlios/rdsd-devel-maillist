@@ -1,0 +1,300 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] New to the list....
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2006-October/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20New%20to%20the%20list....&In-Reply-To=%3C016401c6f576%24d4cbcd30%243bff1905%40Blues%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000078.html">
+   <LINK REL="Next"  HREF="000080.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] New to the list....</H1>
+    <B>Henry Vredegoor</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20New%20to%20the%20list....&In-Reply-To=%3C016401c6f576%24d4cbcd30%243bff1905%40Blues%3E"
+       TITLE="[Rdsd-devel] New to the list....">henry.vredegoor at gmail.com
+       </A><BR>
+    <I>Sun Oct 22 03:10:14 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000078.html">[Rdsd-devel] New to the list....
+</A></li>
+        <LI>Next message: <A HREF="000080.html">[Rdsd-devel] New to the list....
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#79">[ date ]</a>
+              <a href="thread.html#79">[ thread ]</a>
+              <a href="subject.html#79">[ subject ]</a>
+              <a href="author.html#79">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Hans,
+
+
+Some replies and (wild-) ideas:
+
+
+&gt;<i> -----Original Message-----
+</I>&gt;<i> From: <A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">rdsd-devel-bounces at lists.berlios.de</A> 
+</I>&gt;<i> [mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">rdsd-devel-bounces at lists.berlios.de</A>] On Behalf Of Hans J. Koch
+</I>&gt;<i> Sent: zaterdag 21 oktober 2006 23:06
+</I>&gt;<i> To: <A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">rdsd-devel at lists.berlios.de</A>
+</I>&gt;<i> Subject: Re: [Rdsd-devel] New to the list....
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Am Samstag, 21. Oktober 2006 21:32 schrieb Henry Vredegoor:
+</I>&gt;<i> &gt; Hello Hans,
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Thank you for your quick reply.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; I'm glad you confirmed that my understanding of the current 
+</I>&gt;<i> &gt; kernel/driver situation for RDS is somewhat correct...... ;-)
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Some thoughts..............
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Question/Remark 1
+</I>&gt;<i> &gt; ------------------
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; As far as I remember from my active days as a UNIX systems 
+</I>&gt;<i> &gt; administrator, I know that there were &quot;raw-&quot; and &quot;block&quot; 
+</I>&gt;<i> IO-devices. I 
+</I>&gt;<i> &gt; think this will still be the situation in LINUX(-es) today? Would 
+</I>&gt;<i> &gt; therefore a comparable device structure for rds-devices not be more 
+</I>&gt;<i> &gt; feasible? Say something like e.g.. &quot;/dev/rrds00&quot; and &quot;/dev/rds00&quot;?
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; This could be an implementation of a similar 
+</I>&gt;<i> (blocked-)device like a 
+</I>&gt;<i> &gt; &quot;/dev/tty&quot; (it is in fact some kind of asynchronous serial 
+</I>&gt;<i> &gt; device/UART!), be it blocked in a. hardware (like with saa6588) or
+</I>&gt;<i> &gt; b. in driver/kernel software
+</I>&gt;<i> &gt; or a raw
+</I>&gt;<i> &gt; c. A (character/byte-) device?
+</I>&gt;<i> 
+</I>&gt;<i> RDS data read from /dev/radio is still &quot;raw data&quot;. You get a 
+</I>&gt;<i> stream of 
+</I>&gt;<i> 3-byte-blocks that still need decoding (that's what rdsd 
+</I>&gt;<i> does). The good 
+</I>&gt;<i> thing is that these blocks always have the same format, no 
+</I>&gt;<i> matter from which 
+</I>&gt;<i> hardware they come.
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>
+This is all a matter of how you define &quot;raw&quot;!!  ;-) :
+I'm used as a former SA to think in this case off &quot;raw&quot; as unprocessed,
+transparent, not interpreted.
+In the case of /dev/rrds to me it would be a stream of bits (bytes) for
+witch you have to do the error checking/repair, strip the extra error
+correction info bits.
+In the block device /dev/rds you have the error corrected data and have the
+&quot;real&quot; data.
+To me such a device is similar to a tty device in the sense that it is
+&quot;&#239;nterpreted&quot;, processed upon. (Compare rtty and tty)
+In the situation where you do not have the radio &quot;inside&quot; the PC but as some
+external unit (Serial, USB, Bluetooth) or do not have the control over the
+radio (no tuning, mode selection etc., only data input) it seems more
+appropriate (simpler) to me.
+
+But I agree, for the application-level this would be still raw data.....
+
+&gt;<i> 
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Question/Remark 2
+</I>&gt;<i> &gt; -----------------
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; I think the relation in software with &quot;Video for LINUX&quot; and 
+</I>&gt;<i> RDS is not 
+</I>&gt;<i> &gt; a very obvious one since its only relation is/was I think the fact 
+</I>&gt;<i> &gt; that TV/Radio cards supported an access method to the RDS/Radio 
+</I>&gt;<i> &gt; hardware?
+</I>&gt;<i> 
+</I>&gt;<i> For historical reason, radio is also handled by Video4Linux 
+</I>&gt;<i> drivers. There is 
+</I>&gt;<i> no such thing as &quot;Radio4Linux&quot;. Even drivers for very old ISA 
+</I>&gt;<i> radio-only 
+</I>&gt;<i> cards are within the video4linux kernel subsystem.
+</I>&gt;<i> 
+</I>&gt;<i> &gt; Or is there also some application of RDS (higher level 
+</I>&gt;<i> protocol or so) 
+</I>&gt;<i> &gt; for TV/Video that I am not aware of?
+</I>&gt;<i> 
+</I>&gt;<i> No.
+</I>&gt;<i> 
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; I think a more &quot;general&quot; RDS kernel device separated from 
+</I>&gt;<i> V4L2 would 
+</I>&gt;<i> &gt; be desirable?
+</I>&gt;<i> 
+</I>&gt;<i> No, I don't think so. In the end, all you need is a device 
+</I>&gt;<i> file from which you 
+</I>&gt;<i> can read your data blocks. This device usually has an 
+</I>&gt;<i> associated tuner to 
+</I>&gt;<i> select the radio station. This is both possible with 
+</I>&gt;<i> /dev/radio. If you had 
+</I>&gt;<i> an extra /dev/rds, you'd run into conflicts with the tuner or 
+</I>&gt;<i> you'd need to 
+</I>&gt;<i> open /dev/rds for data and /dev/radio for tuning. If you have 
+</I>&gt;<i> several radio 
+</I>&gt;<i> cards, how do you know that /dev/rds0 actually belongs to 
+</I>&gt;<i> /dev/radio0 ?
+</I>&gt;<i>
+</I>
+I see an RDS interface not per s&#233; as a radio but more as some data-source. 
+A data source you can tune the frequency of, make mode selections and so on,
+sure, but no &quot;real&quot; radio.
+(Think of special TMC receiver hardware)
+That would be a separate device I could set Volume, treble, bass and so on
+and that I would actual be listening to.
+And why not talk (for the setup of the radio etc.) to a device &quot;/dev/rds&quot;
+(Just one device, no separate device &quot;/dev/radio&quot; at all required)?
+
+And:
+
+History is history................ ;-)
+
+
+
+&gt;<i> &gt; Think also of the special TMC receivers that are available today 
+</I>&gt;<i> &gt; (Serial? USB? Bluetooth?)
+</I>&gt;<i> 
+</I>&gt;<i> It would be nice if somebody would write a V4L2 driver for these.
+</I>&gt;<i> 
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Sorry if I am disrupting an existing situation, just my 
+</I>&gt;<i> &gt; opinion/thoughts!
+</I>&gt;<i> 
+</I>&gt;<i> You're welcome. It is good if I review my opinions sometimes.
+</I>&gt;<i> 
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Could you please inform me of:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Who/how many people are currently actively developing RDS/TMC 
+</I>&gt;<i> &gt; applications for LINUX that you are aware of?
+</I>&gt;<i> 
+</I>&gt;<i> There might be quite a few people out there, but they either 
+</I>&gt;<i> cancel there 
+</I>&gt;<i> projects after a while, or at least they don't publish them. 
+</I>&gt;<i> I seem to be the 
+</I>&gt;<i> only one with a V4L2 compliant approach. My saa6588 kernel 
+</I>&gt;<i> driver is also the 
+</I>&gt;<i> only module in the official kernel that handles an RDS decoder chip.
+</I>&gt;<i> 
+</I>&gt;<i> &gt; What projects are these?
+</I>&gt;<i> 
+</I>&gt;<i> Lots of people seem to build their own hardware and connect them to a 
+</I>&gt;<i> microcontroller or a PC. They write software that supports only their 
+</I>&gt;<i> hardware and their application. Therefore, nobody else is 
+</I>&gt;<i> interested in it, 
+</I>&gt;<i> and they seldom publish it.
+</I>&gt;<i> 
+</I>&gt;<i> &gt; What is their status?
+</I>&gt;<i> 
+</I>&gt;<i> I can only speak for my project: After presenting it at the 
+</I>&gt;<i> Linuxtag in May, I 
+</I>&gt;<i> had very little time to continue coding. I had a job where I 
+</I>&gt;<i> spent one hour 
+</I>&gt;<i> each day in my car just to drive there and back again. 
+</I>&gt;<i> Fortunately, this is 
+</I>&gt;<i> over now. That'll give me 5 extra hours each week and, 
+</I>&gt;<i> hopefully, this will 
+</I>&gt;<i> lead to some progress for the RDS project.
+</I>
+I had the same situation for many, many years (and a job witch involved a
+lot of overtime etc.)
+I agree it takes a lot of precious time out of your personal life.
+Not to speak of the frequent traffic jams.
+Ehhh, right, there is a nice app. named RDS for such
+situations..................... ;-)
+ 
+
+&gt;<i> Next steps will be:
+</I>&gt;<i> 
+</I>&gt;<i> * Get saa7134 RDS support into the kernel.
+</I>&gt;<i> * Add TMC decoding
+</I>
+And of course TMC message presentation/display!! (not only decoding!!)......
+The really difficult app in my opinion.
+Not only the use (and keeping it up to date!!) of a database to translate
+the TMC codes to actual messages/locations in a particular language, but
+also operational aspects of situations.
+
+Let alone getting this info in some sort of navigation app........
+
+&gt;<i> * Make Debian packages
+</I>&gt;<i> 
+</I>&gt;<i> At the moment, rdsd is quite stable and can decode basic 
+</I>&gt;<i> stuff like date/time, 
+</I>&gt;<i> radiotext or station name. I've got it running continuously 
+</I>&gt;<i> for several days 
+</I>&gt;<i> without problems. I wrote a small superkaramba script that 
+</I>&gt;<i> shows radiotext 
+</I>&gt;<i> directly on my desktop. Of course, I'd appreciate it if 
+</I>&gt;<i> somebody wrote a 
+</I>&gt;<i> decent GUI using librds.
+</I>
+I thought about that.
+I think it would be nice and a good strategy/starting point to develop some
+sort of command line interface and -application witch uses a standard
+command set to perform basic actions on all types of supported RDS hardware
+(Something like the standard modem &quot;AT command&quot; set), maybe using rdslib ??.
+
+E.g.. Simple commands like &quot;Set Frequency&quot;, &quot;Set PTY mode&quot;, &quot;Set TA mode&quot;,
+&quot;Read Frequency&quot;, &quot;Read Mode&quot;, &quot;Start reading RDS Data&quot; and such.
+
+All standard GUI applications should adhere to such a standard and could be
+used with all hardware for which this interface would be implemented.
+
+
+Utopia?!
+
+Again only my 2 cents worth opinion and what I understand of it!!
+
+Or am I way of base/dreamin' ??   :-)
+
+Regards,
+
+Henry.
+
+&gt;<i> 
+</I>&gt;<i> Cheers,
+</I>&gt;<i> Hans
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Rdsd-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">Rdsd-devel at lists.berlios.de</A> 
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">https://lists.berlios.de/mailman/listinfo/rdsd-devel</A>
+</I>&gt;<i> 
+</I>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000078.html">[Rdsd-devel] New to the list....
+</A></li>
+	<LI>Next message: <A HREF="000080.html">[Rdsd-devel] New to the list....
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#79">[ date ]</a>
+              <a href="thread.html#79">[ thread ]</a>
+              <a href="subject.html#79">[ subject ]</a>
+              <a href="author.html#79">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

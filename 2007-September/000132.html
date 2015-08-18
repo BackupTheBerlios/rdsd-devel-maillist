@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] [PATCH] Bugfix for saa6588.c,	add forgotten spin_lock_init()
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20%5BPATCH%5D%20Bugfix%20for%20saa6588.c%2C%0A%09add%20forgotten%20spin_lock_init%28%29&In-Reply-To=%3C200709122120.44075.hjk%40linutronix.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000131.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] [PATCH] Bugfix for saa6588.c,	add forgotten spin_lock_init()</H1>
+    <B>Hans-J&#252;rgen Koch</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20%5BPATCH%5D%20Bugfix%20for%20saa6588.c%2C%0A%09add%20forgotten%20spin_lock_init%28%29&In-Reply-To=%3C200709122120.44075.hjk%40linutronix.de%3E"
+       TITLE="[Rdsd-devel] [PATCH] Bugfix for saa6588.c,	add forgotten spin_lock_init()">hjk at linutronix.de
+       </A><BR>
+    <I>Wed Sep 12 21:20:43 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000131.html">[Rdsd-devel] Patch: Make RDS work with saa7134 cards
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#132">[ date ]</a>
+              <a href="thread.html#132">[ thread ]</a>
+              <a href="subject.html#132">[ subject ]</a>
+              <a href="author.html#132">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>There's a serious bug in saa6588.c, it uses a non-initialized spin_lock.
+Funny thing is that it works fine with bttv, but completly freezes the
+machine if e.g. saa7134 is loaded.
+
+Thanks to Derek Philip for reporting this bug on the rdsd-devel list.
+
+This patch adds the missing spin_lock_init().
+
+Signed-off-by: Hans J. Koch &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">hjk at linutronix.de</A>&gt;
+
+---
+Index: linux-2.6.23-rc/drivers/media/video/saa6588.c
+===================================================================
+--- linux-2.6.23-rc.orig/drivers/media/video/saa6588.c	2007-09-12 
+21:02:42.000000000 +0200
++++ linux-2.6.23-rc/drivers/media/video/saa6588.c	2007-09-12 
+21:04:22.000000000 +0200
+@@ -406,6 +406,7 @@
+ 		kfree(s);
+ 		return -ENOMEM;
+ 	}
++	spin_lock_init(&amp;s-&gt;lock);
+ 	s-&gt;client = client_template;
+ 	s-&gt;block_count = 0;
+ 	s-&gt;wr_index = 0;
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000131.html">[Rdsd-devel] Patch: Make RDS work with saa7134 cards
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#132">[ date ]</a>
+              <a href="thread.html#132">[ thread ]</a>
+              <a href="subject.html#132">[ subject ]</a>
+              <a href="author.html#132">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] Read data from a SAA6588 directly via I2C
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Read%20data%20from%20a%20SAA6588%20directly%20via%20I2C&In-Reply-To=%3C200601102148.31931.koch%40hjk-az.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000014.html">
+   <LINK REL="Next"  HREF="000016.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] Read data from a SAA6588 directly via I2C</H1>
+    <B>Hans J. Koch</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Read%20data%20from%20a%20SAA6588%20directly%20via%20I2C&In-Reply-To=%3C200601102148.31931.koch%40hjk-az.de%3E"
+       TITLE="[Rdsd-devel] Read data from a SAA6588 directly via I2C">koch at hjk-az.de
+       </A><BR>
+    <I>Tue Jan 10 21:48:31 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000014.html">[Rdsd-devel] Read data from a SAA6588 directly via I2C
+</A></li>
+        <LI>Next message: <A HREF="000016.html">[Rdsd-devel] Read data from a SAA6588 directly via I2C
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#15">[ date ]</a>
+              <a href="thread.html#15">[ thread ]</a>
+              <a href="subject.html#15">[ subject ]</a>
+              <a href="author.html#15">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Am Dienstag, 10. Januar 2006 18:21 schrieb Guillaume Sisteron:
+&gt;<i> Hello,
+</I>
+Hi Guillaume,
+welcome to the list!
+
+&gt;<i>
+</I>&gt;<i> in the man page of rdsd, you write:
+</I>&gt;<i>
+</I>&gt;<i> The type &quot;i2cdev&quot;  was  supposed  to read  data  from a SAA6588 directly
+</I>&gt;<i> via I2C. This is deprecated now and will probably go away soon.
+</I>&gt;<i>
+</I>&gt;<i> Can you tell me why you're going to remove this functionnality ?
+</I>&gt;<i> Because I was going to use it this way. In fact, I'm developing a card
+</I>&gt;<i> with ARM processor, linux-based, and i've got a SAA6588 chip connected
+</I>&gt;<i> via i2c.
+</I>&gt;<i> So I think I will read bytes directly via I2C. Do you think it's a wrong
+</I>&gt;<i> method ?
+</I>
+No, surely that's a sort of application where &quot;i2cdev&quot; would be useful. If you 
+build your own embedded system, you probably don't have a video chip like 
+BT8x8 or SAA7134 on board. In that case you won't have a /dev/radio, 
+and /dev/i2c is your only chance. If you have a bttv/saa7134 chip on board, 
+you should definetly use the driver for that.
+
+All right, I'll keep &quot;i2cdev&quot;. This means I'll have to fix it. IIRC, at the 
+moment the byte order is not correct. I will file a bug against rdsd in the 
+bug tracker. Hope I can fix this within a week or so.
+
+A disadvantage of /dev/i2c is that it doesn't buffer incoming bytes. So, if 
+rdsd cannot read fast enough, some bytes are lost. The saa6588 kernel module 
+prevents this by buffering 300 bytes (default). This gives you two or three 
+seconds headroom. Another disadvantage is that /dev/i2c will only work for 
+SAA6588 chips, which makes rdsd hardware dependend. Those were the main 
+reasons why I wanted to drop it, but I'll keep it now as somebody has a use 
+for it.
+
+By the way, I'd be interested in a radio card with ARM processor. Will the 
+card you develop be available somewhere?
+
+Cheers,
+Hans
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000014.html">[Rdsd-devel] Read data from a SAA6588 directly via I2C
+</A></li>
+	<LI>Next message: <A HREF="000016.html">[Rdsd-devel] Read data from a SAA6588 directly via I2C
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#15">[ date ]</a>
+              <a href="thread.html#15">[ thread ]</a>
+              <a href="subject.html#15">[ subject ]</a>
+              <a href="author.html#15">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

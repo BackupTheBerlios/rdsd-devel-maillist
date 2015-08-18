@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] Patch: Make RDS work with saa7134 cards
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Patch%3A%20Make%20RDS%20work%20with%20saa7134%20cards&In-Reply-To=%3C200709080123.46951.koch%40hjk-az.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000130.html">
+   <LINK REL="Next"  HREF="000132.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] Patch: Make RDS work with saa7134 cards</H1>
+    <B>Hans J. Koch</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Patch%3A%20Make%20RDS%20work%20with%20saa7134%20cards&In-Reply-To=%3C200709080123.46951.koch%40hjk-az.de%3E"
+       TITLE="[Rdsd-devel] Patch: Make RDS work with saa7134 cards">koch at hjk-az.de
+       </A><BR>
+    <I>Sat Sep  8 01:23:46 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000130.html">[Rdsd-devel] Patch: Fix a bug in saa6588 kernel module
+</A></li>
+        <LI>Next message: <A HREF="000132.html">[Rdsd-devel] [PATCH] Bugfix for saa6588.c,	add forgotten spin_lock_init()
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#131">[ date ]</a>
+              <a href="thread.html#131">[ thread ]</a>
+              <a href="subject.html#131">[ subject ]</a>
+              <a href="author.html#131">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>ATM, the saa6588 module can only be used with bttv cards.
+The saa7134 driver lacks the necessary read() and poll()
+functions for /dev/radioX. This patch adds them.
+
+I've got some problems with my Terratec Cinergy 600 card
+at the moment, couldn't test this properly yet.
+
+Could somebody please test this patch? I'd very much like
+to send this to the Video4Linux list, but I want somebody
+else to confirm that it works for you.
+
+Thanks,
+Hans
+
+Index: linux-2.6.23-rc/drivers/media/video/saa7134/saa7134-video.c
+===================================================================
+--- linux-2.6.23-rc.orig/drivers/media/video/saa7134/saa7134-video.c	2007-09-07 23:44:37.000000000 +0200
++++ linux-2.6.23-rc/drivers/media/video/saa7134/saa7134-video.c	2007-09-08 00:03:08.000000000 +0200
+@@ -31,6 +31,7 @@
+ #include &quot;saa7134-reg.h&quot;
+ #include &quot;saa7134.h&quot;
+ #include &lt;media/v4l2-common.h&gt;
++#include &lt;media/rds.h&gt;
+ 
+ #ifdef CONFIG_VIDEO_V4L1_COMPAT
+ /* Include V4L1 specific functions. Should be removed soon */
+@@ -2329,6 +2330,36 @@
+ 	return video_usercopy(inode, file, cmd, arg, radio_do_ioctl);
+ }
+ 
++static ssize_t radio_read(struct file *file, char __user *data,
++				size_t count, loff_t *ppos)
++{
++	struct saa7134_fh *fh = file-&gt;private_data;
++	struct saa7134_dev *dev = fh-&gt;dev;
++	struct rds_command cmd;
++	cmd.block_count = count/3;
++	cmd.buffer = data;
++	cmd.instance = file;
++	cmd.result = -ENODEV;
++
++	saa7134_i2c_call_clients(dev, RDS_CMD_READ, &amp;cmd);
++
++	return cmd.result;
++}
++
++static unsigned int radio_poll(struct file *file, poll_table *wait)
++{
++	struct saa7134_fh *fh = file-&gt;private_data;
++	struct saa7134_dev *dev = fh-&gt;dev;
++	struct rds_command cmd;
++	cmd.instance = file;
++	cmd.event_list = wait;
++	cmd.result = -ENODEV;
++
++	saa7134_i2c_call_clients(dev, RDS_CMD_POLL, &amp;cmd);
++
++	return cmd.result;
++}
++
+ static const struct file_operations video_fops =
+ {
+ 	.owner	  = THIS_MODULE,
+@@ -2347,9 +2378,11 @@
+ 	.owner	  = THIS_MODULE,
+ 	.open	  = video_open,
+ 	.release  = video_release,
++	.read	  = radio_read,
+ 	.ioctl	  = radio_ioctl,
+ 	.compat_ioctl	= v4l_compat_ioctl32,
+ 	.llseek   = no_llseek,
++	.poll	  = radio_poll,
+ };
+ 
+ /* ----------------------------------------------------------- */
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000130.html">[Rdsd-devel] Patch: Fix a bug in saa6588 kernel module
+</A></li>
+	<LI>Next message: <A HREF="000132.html">[Rdsd-devel] [PATCH] Bugfix for saa6588.c,	add forgotten spin_lock_init()
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#131">[ date ]</a>
+              <a href="thread.html#131">[ thread ]</a>
+              <a href="subject.html#131">[ subject ]</a>
+              <a href="author.html#131">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

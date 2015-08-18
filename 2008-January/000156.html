@@ -1,0 +1,508 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] [PATCH] rdsd output fifo for implementing GNS 1.0	protocol
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2008-January/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20%5BPATCH%5D%20rdsd%20output%20fifo%20for%20implementing%20GNS%201.0%0A%09protocol&In-Reply-To=%3C200801271621.11515.tobias.lorenz%40gmx.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000155.html">
+   <LINK REL="Next"  HREF="000159.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] [PATCH] rdsd output fifo for implementing GNS 1.0	protocol</H1>
+    <B>Tobias Lorenz</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20%5BPATCH%5D%20rdsd%20output%20fifo%20for%20implementing%20GNS%201.0%0A%09protocol&In-Reply-To=%3C200801271621.11515.tobias.lorenz%40gmx.net%3E"
+       TITLE="[Rdsd-devel] [PATCH] rdsd output fifo for implementing GNS 1.0	protocol">tobias.lorenz at gmx.net
+       </A><BR>
+    <I>Sun Jan 27 16:21:11 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000155.html">[Rdsd-devel]  Patch: Make RDS work with saa7134 cards
+</A></li>
+        <LI>Next message: <A HREF="000159.html">[Rdsd-devel] [PATCH] rdsd output fifo for implementing GNS 1.0 protocol
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#156">[ date ]</a>
+              <a href="thread.html#156">[ thread ]</a>
+              <a href="subject.html#156">[ subject ]</a>
+              <a href="author.html#156">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi rdsd developers,
+
+this patch adds a new global option &quot;outfile&quot; to the configuration file.
+Using this outfile will allow to forward RDS blocks A,B,C,D to an rds-logfile or output-fifo.
+The patch is implemented in a way, that easily allows enhancing it with a RDS group filter function, so that only program relevant information is forwarded.
+But currently it just outputs every RDS block.
+
+The purpose is this:
+There are some GPS-receivers that not only provide NMEA output, but also mix these information with RDS-TMC data for traffic information.
+This protocol is called GNS 1.0 and is really just the plain NMEA stream, but with 8 bytes for RDSA,B,C,D blocks enclosed in: ?........?
+
+So, gpsd together with rdsd can produce a gns 1.0 stream, that can be feed to a wine/navigation software.
+For combining the streams from gpsd and rdsd, I already modified the gpspipe program.
+I'm going to stress test this and publish it later.
+
+Bye,
+&#160; Toby
+
+Signed-off-by: Tobias Lorenz &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">tobias.lorenz at gmx.net</A>&gt;
+Index: outhandler.h
+===================================================================
+--- empty &#160; &#160; &#160; 2008-01-24 22:26:39.000000000 +0100
++++ outhandler.h &#160; &#160; &#160; &#160;2008-01-23 23:10:49.000000000 +0100
+@@ -0,0 +1,55 @@
++/***************************************************************************
++ * &#160; Copyright (C) 2008 by Tobias Lorenz &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; *
++ * &#160; <A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">tobias.lorenz at gmx.net</A> &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; *
++ * &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; *
++ * &#160; This program is free software; you can redistribute it and/or modify &#160;*
++ * &#160; it under the terms of the GNU General Public License as published by &#160;*
++ * &#160; the Free Software Foundation; either version 2 of the License, or &#160; &#160; *
++ * &#160; (at your option) any later version. &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; *
++ * &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; *
++ * &#160; This program is distributed in the hope that it will be useful, &#160; &#160; &#160; *
++ * &#160; but WITHOUT ANY WARRANTY; without even the implied warranty of &#160; &#160; &#160; &#160;*
++ * &#160; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. &#160;See the &#160; &#160; &#160; &#160; *
++ * &#160; GNU General Public License for more details. &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;*
++ * &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; *
++ * &#160; You should have received a copy of the GNU General Public License &#160; &#160; *
++ * &#160; along with this program; if not, write to the &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; *
++ * &#160; Free Software Foundation, Inc., &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; *
++ * &#160; 59 Temple Place - Suite 330, Boston, MA &#160;02111-1307, USA. &#160; &#160; &#160; &#160; &#160; &#160; *
++ ***************************************************************************/
++#ifndef STDOUTHANDLER_H
++#define STDOUTHANDLER_H
++
++#include &lt;string&gt;
++#include &quot;rdsgroup.h&quot;
++
++namespace std {
++
++/**
++Handles out messages.
++
+<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">+ at author</A> Tobias Lorenz
++*/
++
++
++
++class OutHandler{
++public:
++ &#160;OutHandler();
++ &#160;~OutHandler();
++ &#160;int SetFilename(string filename_);
++ &#160;bool GetFileValid();
++ &#160;string GetFilename();
++ &#160;int Open();
++ &#160;void Close();
++ &#160;void Write(unsigned char *buf, int size);
++ &#160;void WriteGroup(RDSgroup *group);
++private:
++ &#160;string filename;
++ &#160;bool filename_valid;
++ &#160;int fd;
++};
++
++};
++
++#endif
+Index: outhandler.cpp
+===================================================================
+--- empty &#160; &#160; &#160; 2008-01-24 22:26:39.000000000 +0100
++++ outhandler.cpp &#160; &#160; &#160;2008-01-24 20:53:28.000000000 +0100
+@@ -0,0 +1,117 @@
++/***************************************************************************
++ * &#160; Copyright (C) 2008 by Tobias Lorenz &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; *
++ * &#160; <A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">tobias.lorenz at gmx.net</A> &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; *
++ * &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; *
++ * &#160; This program is free software; you can redistribute it and/or modify &#160;*
++ * &#160; it under the terms of the GNU General Public License as published by &#160;*
++ * &#160; the Free Software Foundation; either version 2 of the License, or &#160; &#160; *
++ * &#160; (at your option) any later version. &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; *
++ * &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; *
++ * &#160; This program is distributed in the hope that it will be useful, &#160; &#160; &#160; *
++ * &#160; but WITHOUT ANY WARRANTY; without even the implied warranty of &#160; &#160; &#160; &#160;*
++ * &#160; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. &#160;See the &#160; &#160; &#160; &#160; *
++ * &#160; GNU General Public License for more details. &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;*
++ * &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; *
++ * &#160; You should have received a copy of the GNU General Public License &#160; &#160; *
++ * &#160; along with this program; if not, write to the &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; *
++ * &#160; Free Software Foundation, Inc., &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; *
++ * &#160; 59 Temple Place - Suite 330, Boston, MA &#160;02111-1307, USA. &#160; &#160; &#160; &#160; &#160; &#160; *
++ ***************************************************************************/
++#include &quot;outhandler.h&quot;
++#include &quot;rdsd_errors.h&quot;
++#include &lt;fcntl.h&gt;
++#include &lt;sys/ioctl.h&gt;
++#include &lt;sstream&gt;
++#include &lt;errno.h&gt;
++#include &lt;iostream&gt;
++#include &lt;fstream&gt;
++#include &lt;ctime&gt;
++
++namespace std {
++
++OutHandler::OutHandler()
++ &#160; &#160; &#160; : fd(-1)
++{
++ &#160;filename_valid = false;
++}
++
++OutHandler::~OutHandler()
++{
++ &#160; &#160; &#160; Close();
++}
++
++int OutHandler::SetFilename(string filename_)
++{
++ &#160;filename = &quot;&quot;;
++ &#160;ofstream test(filename_.c_str(),ios::app);
++ &#160;if (!test){
++ &#160; &#160;filename_valid = false;
++ &#160; &#160;return -1;
++ &#160;}
++ &#160;filename = filename_;
++ &#160;filename_valid = true;
++ &#160;return 0;
++}
++
++string OutHandler::GetFilename()
++{
++ &#160;return filename;
++}
++
++bool OutHandler::GetFileValid()
++{
++ &#160;return filename_valid;
++}
++
++int OutHandler::Open()
++{
++ &#160;Close();
++ &#160;int ret;
++
++ &#160;ret = open(filename.c_str(),O_RDWR); //We might need to be able to write bytes to SAA6588 registers
++ &#160;if (ret&lt;0){
++ &#160; &#160; // LogMsg(LL_ERR,&quot;Failed to open source: &quot;+filename);
++ &#160; &#160; return RDSD_OUT_OPEN_ERROR;
++ &#160;}
++ &#160;fd = ret;
++ &#160;// LogMsg(LL_DEBUG,&quot;Source opened: &quot;+filename);
++ &#160;return RDSD_OK;
++}
++
++void OutHandler::Close()
++{
++ &#160;if (fd&gt;=0){
++ &#160; &#160;close(fd);
++ &#160;}
++ &#160;fd = -1;
++}
++
++void OutHandler::Write(unsigned char *buf, int size)
++{
++ &#160;if (fd&gt;=0)
++ &#160; &#160;write(fd,&amp;buf[0],size);
++}
++
++void OutHandler::WriteGroup(RDSgroup *group)
++{
++ &#160;unsigned char buf[8];
++ &#160;unsigned int g;
++
++ &#160;/* filter groups */
++// &#160;g = group-&gt;GetGroupType();
++// &#160;if ((g == GROUP_3A) || (g == GROUP_4A) || (g == GROUP_8A)) {
++ &#160; &#160; &#160; &#160; buf[0] = group-&gt;GetByte(0, 0);
++ &#160; &#160; &#160; &#160; buf[1] = group-&gt;GetByte(0, 1);
++ &#160; &#160; &#160; &#160; buf[2] = group-&gt;GetByte(1, 0);
++ &#160; &#160; &#160; &#160; buf[3] = group-&gt;GetByte(1, 1);
++ &#160; &#160; &#160; &#160; buf[4] = group-&gt;GetByte(2, 0);
++ &#160; &#160; &#160; &#160; buf[5] = group-&gt;GetByte(2, 1);
++ &#160; &#160; &#160; &#160; buf[6] = group-&gt;GetByte(3, 0);
++ &#160; &#160; &#160; &#160; buf[7] = group-&gt;GetByte(3, 1);
++
++ &#160; &#160; &#160; &#160; Write((unsigned char *)&amp;buf, 8);
++// &#160;}
++}
++
++
++};
+Index: Makefile.in
+===================================================================
+--- Makefile.in&#160;(Revision 60)
++++ Makefile.in&#160;(Arbeitskopie)
+@@ -69,7 +69,7 @@
+&#160;VERSION = @VERSION@
+&#160;
+&#160;bin_PROGRAMS = rdsd
+-rdsd_SOURCES = rdsd.cpp conffile.cpp confsection.cpp confvalue.cpp &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;rdshandler.cpp rdssource.cpp rdsclient.cpp loghandler.cpp rdsdecoder.cpp rdschanneldata.cpp rdsgroup.cpp &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;altfreqlist.cpp radiotext.cpp tmclist.cpp
++rdsd_SOURCES = rdsd.cpp conffile.cpp confsection.cpp confvalue.cpp &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;rdshandler.cpp rdssource.cpp rdsclient.cpp loghandler.cpp outhandler.cpp rdsdecoder.cpp rdschanneldata.cpp rdsgroup.cpp &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;altfreqlist.cpp radiotext.cpp tmclist.cpp
+&#160;
+&#160;
+&#160;# set the include path found by configure
+@@ -77,7 +77,7 @@
+&#160;
+&#160;# the library search path.
+&#160;rdsd_LDFLAGS = $(all_libraries) 
+-noinst_HEADERS = conffile.h confsection.h confvalue.h conffile.h confsection.h &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;confvalue.h rdshandler.h rdssource.h rdsclient.h loghandler.h rdsd_errors.h &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;rdsdecoder.h rdschanneldata.h rdsgroup.h altfreqlist.h radiotext.h tmclist.h
++noinst_HEADERS = conffile.h confsection.h confvalue.h conffile.h confsection.h &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;confvalue.h rdshandler.h rdssource.h rdsclient.h loghandler.h outhandler.h rdsd_errors.h &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;rdsdecoder.h rdschanneldata.h rdsgroup.h altfreqlist.h radiotext.h tmclist.h
+&#160;
+&#160;mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+&#160;CONFIG_CLEAN_FILES = 
+@@ -89,7 +89,7 @@
+&#160;LDFLAGS = @LDFLAGS@
+&#160;LIBS = @LIBS@
+&#160;rdsd_OBJECTS = &#160;rdsd.o conffile.o confsection.o confvalue.o rdshandler.o \
+-rdssource.o rdsclient.o loghandler.o rdsdecoder.o rdschanneldata.o rdsgroup.o \
++rdssource.o rdsclient.o loghandler.o outhandler.o rdsdecoder.o rdschanneldata.o rdsgroup.o \
+&#160;altfreqlist.o radiotext.o tmclist.o
+&#160;rdsd_LDADD = $(LDADD)
+&#160;rdsd_DEPENDENCIES = 
+@@ -107,7 +107,7 @@
+&#160;TAR = tar
+&#160;GZIP_ENV = --best
+&#160;DEP_FILES = &#160;.deps/altfreqlist.P .deps/conffile.P .deps/confsection.P \
+-.deps/confvalue.P .deps/loghandler.P .deps/radiotext.P \
++.deps/confvalue.P .deps/loghandler.P .deps/outhandler.P .deps/radiotext.P \
+&#160;.deps/rdsclient.P .deps/rdsd.P .deps/rdsdecoder.P .deps/rdschanneldata.P .deps/rdsgroup.P \
+&#160;.deps/rdshandler.P .deps/rdssource.P .deps/tmclist.P
+&#160;SOURCES = $(rdsd_SOURCES)
+Index: rdssource.cpp
+===================================================================
+--- rdssource.cpp&#160;&#160;&#160;&#160;&#160;&#160;&#160;(Revision 60)
++++ rdssource.cpp&#160;&#160;&#160;&#160;&#160;&#160;&#160;(Arbeitskopie)
+@@ -68,6 +68,12 @@
+&#160; &#160;Data.SetLogHandler(loghandler);
+&#160;}
+&#160;
++void RDSsource::SetOutHandler(OutHandler *outhandler)
++{
++ &#160;out = outhandler;
++ &#160;Data.SetOutHandler(outhandler);
++}
++
+&#160;string RDSsource::GetStatusStr()
+&#160;{
+&#160; &#160;ostringstream result;
+Index: rdsdecoder.cpp
+===================================================================
+--- rdsdecoder.cpp&#160;&#160;&#160;&#160;&#160;&#160;(Revision 60)
++++ rdsdecoder.cpp&#160;&#160;&#160;&#160;&#160;&#160;(Arbeitskopie)
+@@ -45,6 +45,11 @@
+&#160; &#160;log = loghandler;
+&#160;}
+&#160;
++void RDSdecoder::SetOutHandler(OutHandler *outhandler)
++{
++ &#160;out = outhandler;
++}
++
+&#160;void RDSdecoder::LogMsg(LogLevel prio)
+&#160;{
+&#160; &#160;if (log) log-&gt;LogMsg(prio,logstr.str());
+@@ -81,14 +86,12 @@
+&#160;// and that Buf.size() is a multiple of 3
+&#160;void RDSdecoder::AddBytes(CharBuf* Buf)
+&#160;{
+- &#160;uint i=0;
++ &#160;uint i;
+&#160; &#160;int index;
+- &#160;while (i&lt;Buf-&gt;size()){
++ &#160;for (i=0; i&lt;Buf-&gt;size(); i+=3){
+&#160;
+&#160; &#160; &#160;group.AddBlock(Buf-&gt;at(i),Buf-&gt;at(i+1),Buf-&gt;at(i+2)); //LSB,MSB,Status
+&#160;
+- &#160; &#160;i+=3;
+- &#160; &#160;
+&#160; &#160; &#160;switch (group.GetGroupStatus()){
+&#160; &#160; &#160; &#160;case GS_EMPTY: &#160; &#160; &#160;group.Clear();
+&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;continue;
+@@ -112,6 +115,7 @@
+&#160; &#160; &#160;index = group.GetGroupType();
+&#160; &#160; &#160;good_group_counters[index] = good_group_counters[index]+1;
+&#160; &#160; &#160;group_counters_cnt++;
++ &#160; &#160;out-&gt;WriteGroup(&amp;group);
+&#160; &#160; &#160;
+&#160; &#160; &#160;if (group_counters_cnt&gt;10){
+&#160; &#160; &#160; &#160;set_event(RDS_EVENT_GROUP_STAT);
+@@ -134,8 +138,7 @@
+&#160; &#160; &#160;block1_lower5 = (group.GetByte(1,0) &amp; 0x1F);
+&#160;
+&#160; &#160; &#160;// The rest is group specific:
+- &#160; &#160;
+- &#160; &#160;switch (group.GetGroupType()){
++ &#160; &#160;switch (index){
+&#160; &#160; &#160; &#160;case GROUP_0A:
+&#160; &#160; &#160; &#160;case GROUP_0B: set_rds_flag(curchind, RDS_FLAG_IS_TA,(block1_lower5 &amp; 0x10));
+&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; set_rds_flag(curchind, RDS_FLAG_IS_MUSIC,(block1_lower5 &amp; 0x08));
+Index: rdssource.h
+===================================================================
+--- rdssource.h&#160;(Revision 60)
++++ rdssource.h&#160;(Arbeitskopie)
+@@ -24,6 +24,7 @@
+&#160;#include &lt;vector&gt;
+&#160;#include &quot;confsection.h&quot;
+&#160;#include &quot;loghandler.h&quot;
++#include &quot;outhandler.h&quot;
+&#160;#include &quot;rdsdecoder.h&quot;
+&#160;
+&#160;
+@@ -47,6 +48,7 @@
+&#160; &#160;string GetName();
+&#160; &#160;string GetPath();
+&#160; &#160;void SetLogHandler(LogHandler *loghandler);
++ &#160;void SetOutHandler(OutHandler *outhandler);
+&#160; &#160;string GetStatusStr();
+&#160; &#160;int GetFd();
+&#160; &#160;int Open();
+@@ -68,6 +70,7 @@
+&#160; &#160;bool use_v4l1;
+&#160; &#160;SourceStatus status;
+&#160; &#160;LogHandler *log;
++ &#160;OutHandler *out;
+&#160; &#160;void LogMsg(LogLevel prio, string msg);
+&#160; &#160;void show_sys_error(const string&amp; msg);
+&#160;};
+Index: rdsdecoder.h
+===================================================================
+--- rdsdecoder.h&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;(Revision 60)
++++ rdsdecoder.h&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;(Arbeitskopie)
+@@ -30,6 +30,7 @@
+&#160;#include &quot;tmclist.h&quot;
+&#160;#include &quot;rdschanneldata.h&quot;
+&#160;#include &quot;loghandler.h&quot;
++#include &quot;outhandler.h&quot;
+&#160;
+&#160;namespace std {
+&#160;
+@@ -48,6 +49,7 @@
+&#160; &#160;RDSdecoder();
+&#160; &#160;~RDSdecoder();
+&#160; &#160;void SetLogHandler(LogHandler *loghandler);
++ &#160;void SetOutHandler(OutHandler *outhandler);
+&#160; &#160;void LogMsg(LogLevel prio, string msg);
+&#160; &#160;void LogMsg(LogLevel prio);
+&#160; &#160;rds_events_t GetAllEvents();
+@@ -69,6 +71,7 @@
+&#160;private:
+&#160; &#160;LogHandler *log;
+&#160; &#160;ostringstream logstr;
++ &#160;OutHandler *out;
+&#160; &#160;
+&#160; &#160;RDSgroup group;
+&#160; &#160;vector&lt;unsigned long&gt; good_group_counters;
+Index: rdshandler.cpp
+===================================================================
+--- rdshandler.cpp&#160;&#160;&#160;&#160;&#160;&#160;(Revision 60)
++++ rdshandler.cpp&#160;&#160;&#160;&#160;&#160;&#160;(Arbeitskopie)
+@@ -178,6 +178,9 @@
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &#160;if (valname == &quot;logfile&quot;){
+&#160; &#160; &#160; &#160; &#160; &#160; &#160;log.SetLogFilename(confval-&gt;GetString(valid));
+&#160; &#160; &#160; &#160; &#160; &#160;}
++&#160;&#160;&#160;&#160;&#160;&#160;&#160; &#160;if (valname == &quot;outfile&quot;){
++ &#160; &#160; &#160; &#160; &#160; &#160;out.SetFilename(confval-&gt;GetString(valid));
++ &#160; &#160; &#160; &#160; &#160;}
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &#160;if (valname == &quot;pidfile&quot;){
+&#160; &#160; &#160; &#160; &#160; &#160; &#160;pid_file_name = confval-&gt;GetString(valid);
+&#160; &#160; &#160; &#160; &#160; &#160;}
+@@ -206,7 +209,8 @@
+&#160; &#160; &#160;} &#160;
+&#160; &#160;}
+&#160; &#160;if ( log.GetFileLog() &amp;&amp; !log.GetLogFileValid() ) return RDSD_INVALID_LOGFILE;
+- &#160;
++ &#160;out.Open();
++
+&#160; &#160;return RDSD_OK; 
+&#160;}
+&#160;
+@@ -219,6 +223,7 @@
+&#160; &#160; &#160; &#160;RDSsource* src = new RDSsource;
+&#160; &#160; &#160; &#160;if (src){
+&#160; &#160; &#160; &#160; &#160;src-&gt;SetLogHandler(&amp;log);
++&#160;&#160;&#160;&#160;&#160;&#160;&#160;src-&gt;SetOutHandler(&amp;out);
+&#160; &#160; &#160; &#160; &#160;int ret=src-&gt;Init(sect);
+&#160; &#160; &#160; &#160; &#160;if (ret==RDSD_OK) srclist.push_back(src);
+&#160; &#160; &#160; &#160; &#160;else {
+Index: Makefile.am
+===================================================================
+--- Makefile.am&#160;(Revision 60)
++++ Makefile.am&#160;(Arbeitskopie)
+@@ -1,6 +1,6 @@
+&#160;bin_PROGRAMS = rdsd
+&#160;rdsd_SOURCES = rdsd.cpp conffile.cpp confsection.cpp confvalue.cpp \
+-&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;rdshandler.cpp rdssource.cpp rdsclient.cpp loghandler.cpp rdsdecoder.cpp rdschanneldata.cpp rdsgroup.cpp \
++&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;rdshandler.cpp rdssource.cpp rdsclient.cpp loghandler.cpp outhandler.cpp rdsdecoder.cpp rdschanneldata.cpp rdsgroup.cpp \
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;altfreqlist.cpp radiotext.cpp tmclist.cpp
+&#160;
+&#160;# set the include path found by configure
+@@ -9,5 +9,5 @@
+&#160;# the library search path.
+&#160;rdsd_LDFLAGS = $(all_libraries) 
+&#160;noinst_HEADERS = conffile.h confsection.h confvalue.h conffile.h confsection.h \
+-&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;confvalue.h rdshandler.h rdssource.h rdsclient.h loghandler.h rdsd_errors.h \
++&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;confvalue.h rdshandler.h rdssource.h rdsclient.h loghandler.h outhandler.h rdsd_errors.h \
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;rdsdecoder.h rdschanneldata.h rdsgroup.h altfreqlist.h radiotext.h tmclist.h
+Index: rdshandler.h
+===================================================================
+--- rdshandler.h&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;(Revision 60)
++++ rdshandler.h&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;(Arbeitskopie)
+@@ -24,6 +24,7 @@
+&#160;#include &quot;rdssource.h&quot;
+&#160;#include &quot;rdsclient.h&quot;
+&#160;#include &quot;loghandler.h&quot;
++#include &quot;outhandler.h&quot;
+&#160;#include &quot;rdsd_errors.h&quot;
+&#160;#include &lt;sys/select.h&gt; 
+&#160;
+@@ -43,6 +44,7 @@
+&#160; &#160;int WorkLoop();
+&#160; &#160;void Terminate();
+&#160; &#160;LogHandler log;
++ &#160;OutHandler out;
+&#160; &#160;const string&amp; GetPidFilename();
+&#160;private:
+&#160; &#160;ConfFile conf;
+Index: rdsd_errors.h
+===================================================================
+--- rdsd_errors.h&#160;&#160;&#160;&#160;&#160;&#160;&#160;(Revision 60)
++++ rdsd_errors.h&#160;&#160;&#160;&#160;&#160;&#160;&#160;(Arbeitskopie)
+@@ -41,6 +41,7 @@
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; RDSD_TCPIP_SOCK_CREATE,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; RDSD_RADIO_IOCTL,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; RDSD_I2C_IOCTL,
++&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; RDSD_OUT_OPEN_ERROR,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &#160; &#160; &#160; };
+&#160;
+&#160;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000155.html">[Rdsd-devel]  Patch: Make RDS work with saa7134 cards
+</A></li>
+	<LI>Next message: <A HREF="000159.html">[Rdsd-devel] [PATCH] rdsd output fifo for implementing GNS 1.0 protocol
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#156">[ date ]</a>
+              <a href="thread.html#156">[ thread ]</a>
+              <a href="subject.html#156">[ subject ]</a>
+              <a href="author.html#156">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

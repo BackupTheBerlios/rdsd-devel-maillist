@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] USB radios?
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2006-April/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20USB%20radios%3F&In-Reply-To=%3C200604112159.50532.koch%40hjk-az.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000041.html">
+   <LINK REL="Next"  HREF="000044.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] USB radios?</H1>
+    <B>Hans J. Koch</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20USB%20radios%3F&In-Reply-To=%3C200604112159.50532.koch%40hjk-az.de%3E"
+       TITLE="[Rdsd-devel] USB radios?">koch at hjk-az.de
+       </A><BR>
+    <I>Tue Apr 11 21:59:49 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000041.html">[Rdsd-devel] USB radios?
+</A></li>
+        <LI>Next message: <A HREF="000044.html">[Rdsd-devel] USB radios?
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#42">[ date ]</a>
+              <a href="thread.html#42">[ thread ]</a>
+              <a href="subject.html#42">[ subject ]</a>
+              <a href="author.html#42">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Am Dienstag, 11. April 2006 21:30 schrieb Antony Stone:
+&gt;<i> On Tuesday 11 April 2006 19:29, Hans J. Koch wrote:
+</I>&gt;<i> &gt; &gt; I'm very interested specifically in accessing the TMC traffic data
+</I>&gt;<i> &gt; &gt; caried over RDS.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; So am I. I'll present our RDS stuff on the LinuxTag
+</I>&gt;<i>
+</I>&gt;<i> Oh, that's good - I am speaking at LinuxTag as well - I am talking about
+</I>&gt;<i> GPSdrive, Kismet, and more :)
+</I>
+Great, these are tools I use, too. I always wanted to have a connection 
+between GPSdrive and RDS-TMC...
+
+&gt;<i>
+</I>&gt;<i> Maybe we can meet there ?
+</I>
+Yes, sure! Booth 105, IIRC. I'm there every day.
+
+&gt;<i>
+</I>&gt;<i> &gt; (<A HREF="http://www.linuxtag.org">http://www.linuxtag.org</A>) and will especially try to find people who can
+</I>&gt;<i> &gt; help with that (writing code and testing). TMC specifications are not
+</I>&gt;<i> &gt; freely available (I'm grateful for any hints), so there are some reverse
+</I>&gt;<i> &gt; engineering efforts necessary.
+</I>&gt;<i>
+</I>&gt;<i> Indeed - I have found some clues about TMC, but not much, however I do not
+</I>&gt;<i> yet have an RDS-capable radio receiver (I'm happy to get a PCI or PCMCIA
+</I>&gt;<i> one for development and testing purposes, but would find USB far more
+</I>&gt;<i> convenient for the system I have installed in my car).    Therefore I
+</I>&gt;<i> haven't yet done any investigation of how things seem to be encoded.
+</I>&gt;<i>
+</I>&gt;<i> I wonder whether the lack of information about TMC is because:
+</I>&gt;<i>
+</I>&gt;<i>  - nobody has yet looked into this as a publicly accessible open source of
+</I>&gt;<i> data
+</I>
+The only open source I'm aware of used to be here:
+
+<A HREF="http://www.siski.de/~carsten/rds-dekoder.html">http://www.siski.de/~carsten/rds-dekoder.html</A>
+
+It was written in C and did some TMC decoding. It doesn't seem to be there 
+anymore, at least I can't find it. Fortunately, I've still got a copy :-) 
+Most of it is included in rdsd, anyway.
+
+&gt;<i>
+</I>&gt;<i>  - the suppliers of the data are actively hiding the specifications and
+</I>&gt;<i> making it difficult to obtain
+</I>
+Yes, to make money.
+
+&gt;<i>
+</I>&gt;<i>  - the standards are available but at a very high price
+</I>&gt;<i> ?
+</I>Yes, and only under NDA.
+
+This will tell you everything: <A HREF="http://www.tmcforum.com/">http://www.tmcforum.com/</A>
+
+&gt;<i>
+</I>&gt;<i> As far as I can tell, different countries have very different positions
+</I>&gt;<i> regarding public traffic data - much of Europe seems to have subscription-
+</I>&gt;<i> free access to TMC data signals, but the UK (where I am based) sells mainly
+</I>&gt;<i> subscription-based TMC/GPS equipment (although some GPS systems are
+</I>&gt;<i> available with subscription-free TMC, just at a higher price).
+</I>
+Well, if you've got a radio card with RDS decoder, you should be able to 
+decode at least the basic RDS information. Usually, you only have to pay for 
+special services transmitted via ODA groups.  But it is well possible that 
+some stations don't send normal TMC groups but only ODA. You'll have to find 
+out. By the way, specifying a good interface for ODA is still an open issue 
+for rdsd/librds. Suggestions are welcome.
+
+Hans
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000041.html">[Rdsd-devel] USB radios?
+</A></li>
+	<LI>Next message: <A HREF="000044.html">[Rdsd-devel] USB radios?
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#42">[ date ]</a>
+              <a href="thread.html#42">[ thread ]</a>
+              <a href="subject.html#42">[ subject ]</a>
+              <a href="author.html#42">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

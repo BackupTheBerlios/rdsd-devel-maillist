@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] saa7134 and saa6588 works togheter.
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2006-June/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20saa7134%20and%20saa6588%20works%20togheter.&In-Reply-To=%3Cccfacb6f0606280245r145c4746n661c5e7ac22c0ceb%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000063.html">
+   <LINK REL="Next"  HREF="000061.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] saa7134 and saa6588 works togheter.</H1>
+    <B>Daniele Ravizza</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20saa7134%20and%20saa6588%20works%20togheter.&In-Reply-To=%3Cccfacb6f0606280245r145c4746n661c5e7ac22c0ceb%40mail.gmail.com%3E"
+       TITLE="[Rdsd-devel] saa7134 and saa6588 works togheter.">sirhaplo at tin.it
+       </A><BR>
+    <I>Wed Jun 28 11:45:39 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000063.html">[Rdsd-devel] any FM tuner Card
+</A></li>
+        <LI>Next message: <A HREF="000061.html">[Rdsd-devel] TMC details
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#60">[ date ]</a>
+              <a href="thread.html#60">[ thread ]</a>
+              <a href="subject.html#60">[ subject ]</a>
+              <a href="author.html#60">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hello people,
+im an italian developper.
+
+I successfully installed my KNC-ONE Rds card on a Salckware 10.0 linux.
+Those are the steps :
+* Compiled kernel 2.6.17.1 with video4linux as Modules
+* Downloaded last tree of video4linux drivers frow cvs on web
+* Compiled it
+* Make / Make install
+* modprobe saa7134
+* modprobe saa6588
+* mknod /dev/video0 c 81 0
+* mknod /dev/radio0 c 81 64
+I used radio to set the freq and then the sample/test program that i found
+at rdsd.berlios.de
+
+Good luck to all
+-- 
+Daniele &quot;SirHap|0&quot; Ravizza
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/rdsd-devel/attachments/20060628/4e4a0abc/attachment.html">https://lists.berlios.de/pipermail/rdsd-devel/attachments/20060628/4e4a0abc/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000063.html">[Rdsd-devel] any FM tuner Card
+</A></li>
+	<LI>Next message: <A HREF="000061.html">[Rdsd-devel] TMC details
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#60">[ date ]</a>
+              <a href="thread.html#60">[ thread ]</a>
+              <a href="subject.html#60">[ subject ]</a>
+              <a href="author.html#60">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

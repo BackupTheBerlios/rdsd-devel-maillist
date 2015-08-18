@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] New to the list....
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2006-October/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20New%20to%20the%20list....&In-Reply-To=%3C200610212306.20371.koch%40hjk-az.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000077.html">
+   <LINK REL="Next"  HREF="000079.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] New to the list....</H1>
+    <B>Hans J. Koch</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20New%20to%20the%20list....&In-Reply-To=%3C200610212306.20371.koch%40hjk-az.de%3E"
+       TITLE="[Rdsd-devel] New to the list....">koch at hjk-az.de
+       </A><BR>
+    <I>Sat Oct 21 23:06:18 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000077.html">[Rdsd-devel] New to the list....
+</A></li>
+        <LI>Next message: <A HREF="000079.html">[Rdsd-devel] New to the list....
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#78">[ date ]</a>
+              <a href="thread.html#78">[ thread ]</a>
+              <a href="subject.html#78">[ subject ]</a>
+              <a href="author.html#78">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Am Samstag, 21. Oktober 2006 21:32 schrieb Henry Vredegoor:
+&gt;<i> Hello Hans,
+</I>&gt;<i>
+</I>&gt;<i> Thank you for your quick reply.
+</I>&gt;<i>
+</I>&gt;<i> I'm glad you confirmed that my understanding of the current kernel/driver
+</I>&gt;<i> situation for RDS is somewhat correct...... ;-)
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Some thoughts..............
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Question/Remark 1
+</I>&gt;<i> ------------------
+</I>&gt;<i>
+</I>&gt;<i> As far as I remember from my active days as a UNIX systems administrator, I
+</I>&gt;<i> know that there were &quot;raw-&quot; and &quot;block&quot; IO-devices.
+</I>&gt;<i> I think this will still be the situation in LINUX(-es) today?
+</I>&gt;<i> Would therefore a comparable device structure for rds-devices not be more
+</I>&gt;<i> feasable?
+</I>&gt;<i> Say somthing like eg. &quot;/dev/rrds00&quot; and &quot;/dev/rds00&quot;?
+</I>&gt;<i>
+</I>&gt;<i> This could be an inplementation of a similar (blocked-)device like a
+</I>&gt;<i> &quot;/dev/tty&quot; (it is in fact some kind of asynchronous serial device/UART!),
+</I>&gt;<i> be it blocked in
+</I>&gt;<i> a. hardware (like with saa6588) or
+</I>&gt;<i> b. in driver/kernel sofware
+</I>&gt;<i> or a raw
+</I>&gt;<i> c. A (character/byte-) device?
+</I>
+RDS data read from /dev/radio is still &quot;raw data&quot;. You get a stream of 
+3-byte-blocks that still need decoding (that's what rdsd does). The good 
+thing is that these blocks always have the same format, no matter from which 
+hardware they come.
+
+
+
+&gt;<i>
+</I>&gt;<i> Question/Remark 2
+</I>&gt;<i> -----------------
+</I>&gt;<i>
+</I>&gt;<i> I think the relation in software with &quot;Video for LINUX&quot; and RDS is not a
+</I>&gt;<i> verry obvious one since its only relation is/was I think the fact that
+</I>&gt;<i> TV/Radio cards supported an acces method to the RDS/Radio hardware?
+</I>
+For historical reason, radio is also handled by Video4Linux drivers. There is 
+no such thing as &quot;Radio4Linux&quot;. Even drivers for very old ISA radio-only 
+cards are within the video4linux kernel subsystem.
+
+&gt;<i> Or is there also some application of RDS (higher level protocol or so) for
+</I>&gt;<i> TV/Video that I am not aware of?
+</I>
+No.
+
+&gt;<i>
+</I>&gt;<i> I think a more &quot;general&quot; RDS kernel device separated from V4L2 would be
+</I>&gt;<i> desirable?
+</I>
+No, I don't think so. In the end, all you need is a device file from which you 
+can read your data blocks. This device usually has an associated tuner to 
+select the radio station. This is both possible with /dev/radio. If you had 
+an extra /dev/rds, you'd run into conflicts with the tuner or you'd need to 
+open /dev/rds for data and /dev/radio for tuning. If you have several radio 
+cards, how do you know that /dev/rds0 actually belongs to /dev/radio0 ?
+
+&gt;<i> Think also of the special TMC receivers that are available today (Serial?
+</I>&gt;<i> USB? Bluetooth?)
+</I>
+It would be nice if somebody would write a V4L2 driver for these.
+
+&gt;<i>
+</I>&gt;<i> Sorry if I am disrupting an existing situation, just my opinion/thoughts!
+</I>
+You're welcome. It is good if I review my opinions sometimes.
+
+&gt;<i>
+</I>&gt;<i> Could you please inform me of:
+</I>&gt;<i>
+</I>&gt;<i> Who/how many people are currently actively developping RDS/TMC applications
+</I>&gt;<i> for LINUX that you are aware of?
+</I>
+There might be quite a few people out there, but they either cancel there 
+projects after a while, or at least they don't publish them. I seem to be the 
+only one with a V4L2 compliant approach. My saa6588 kernel driver is also the 
+only module in the official kernel that handles an RDS decoder chip.
+
+&gt;<i> What projects are these?
+</I>
+Lots of people seem to build their own hardware and connect them to a 
+microcontroller or a PC. They write software that supports only their 
+hardware and their application. Therefore, nobody else is interested in it, 
+and they seldom publish it.
+
+&gt;<i> What is their status?
+</I>
+I can only speak for my project: After presenting it at the Linuxtag in May, I 
+had very little time to continue coding. I had a job where I spent one hour 
+each day in my car just to drive there and back again. Fortunately, this is 
+over now. That'll give me 5 extra hours each week and, hopefully, this will 
+lead to some progress for the RDS project. Next steps will be:
+
+* Get saa7134 RDS support into the kernel.
+* Add TMC decoding
+* Make Debian packages
+
+At the moment, rdsd is quite stable and can decode basic stuff like date/time, 
+radiotext or station name. I've got it running continously for several days 
+without problems. I wrote a small superkaramba script that shows radiotext 
+directly on my desktop. Of course, I'd appreciate it if somebody wrote a 
+decent GUI using librds.
+
+Cheers,
+Hans
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000077.html">[Rdsd-devel] New to the list....
+</A></li>
+	<LI>Next message: <A HREF="000079.html">[Rdsd-devel] New to the list....
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#78">[ date ]</a>
+              <a href="thread.html#78">[ thread ]</a>
+              <a href="subject.html#78">[ subject ]</a>
+              <a href="author.html#78">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

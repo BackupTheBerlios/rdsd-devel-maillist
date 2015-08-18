@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] Read data from a SAA6588 directly via I2C
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Read%20data%20from%20a%20SAA6588%20directly%20via%20I2C&In-Reply-To=%3C43C61609.7010909%40viewsurf.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000017.html">
+   <LINK REL="Next"  HREF="000019.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] Read data from a SAA6588 directly via I2C</H1>
+    <B>Guillaume Sisteron</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Read%20data%20from%20a%20SAA6588%20directly%20via%20I2C&In-Reply-To=%3C43C61609.7010909%40viewsurf.com%3E"
+       TITLE="[Rdsd-devel] Read data from a SAA6588 directly via I2C">gsistero at viewsurf.com
+       </A><BR>
+    <I>Thu Jan 12 09:40:41 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000017.html">[Rdsd-devel] Read data from a SAA6588 directly via I2C
+</A></li>
+        <LI>Next message: <A HREF="000019.html">[Rdsd-devel] Read data from a SAA6588 directly via I2C
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#18">[ date ]</a>
+              <a href="thread.html#18">[ thread ]</a>
+              <a href="subject.html#18">[ subject ]</a>
+              <a href="author.html#18">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hans J. Koch wrote:
+
+&gt;<i>Am Dienstag, 10. Januar 2006 21:56 schrieb Guillaume Sisteron:
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>&gt;&gt;<i>Concerning rdsd, I will maybe be interested in developing it as I would
+</I>&gt;&gt;<i>like to add some functionnality: 
+</I>&gt;&gt;<i>    
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>You're welcome!
+</I>&gt;<i>
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>&gt;&gt;<i>other blocks decoding (especially EON). 
+</I>&gt;&gt;<i>    
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>Fine, please post a message as soon as you begin so that we don't work on the 
+</I>&gt;<i>same stuff at the same time. At the moment, I'm working at the saa7134 kernel 
+</I>&gt;<i>module to make these cards RDS aware. After that, I'll return to user space. 
+</I>&gt;<i>There are still lots of things to do there. First will be &quot;i2cdev&quot; :-) I'm 
+</I>&gt;<i>also working on a GUI application to display some RDS data in a more user 
+</I>&gt;<i>friendly way.
+</I>&gt;<i>
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>&gt;&gt;<i>I'm going to study it more tomorrow (I just had a glance at it this
+</I>&gt;&gt;<i>afternoon).
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>you say that working directly with /Dev/i2c makes rdsd hardware
+</I>&gt;&gt;<i>dependent, but it is already hardware dependent as the byte you received
+</I>&gt;&gt;<i>are specific of the SAA6588 chip...
+</I>&gt;&gt;<i>    
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>No! The bytes read from /dev/radio are in a standardized format defined in 
+</I>&gt;<i>V4L2 specifications. In the kernel module (saa6588.c), bytes read from 
+</I>&gt;<i>SAA6588 are modified and swapped to meet this specifications.
+</I>&gt;<i>
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>Alright.
+So, the data read directly from i2c should be swapped and/or modified to 
+meet V4L2 specifications...
+But I've got a problem:
+my application needs to use the last 2 bytes sent by SAA6588 (byte 5 and 
+byte 6), which give: number of errors and signal quality. (In fact, my 
+application is aimed to analyse RDS quality signal and quality reception 
+at different points).
+
+So, I wonder if I should use your code and try to add the needed 
+functionnality, or if I should better implement new code as I needs to 
+decode directly from I2C, and I need to capture data as soon as 
+possible, for example as soon as I receive the block A with PI 
+information, I need to return it immediately to client application... 
+So, I don't know yet the best solution.
+
+Concerning the read from SAA6588, you read 6 bytes, but in my SAA6588 
+specs, they say to read 7 bytes (byte 0 to byte 6). So what happends 
+when you only read 6 bytes ?
+
+Guillaume
+
+&gt;<i>_______________________________________________
+</I>&gt;<i>Rdsd-devel mailing list
+</I>&gt;<i><A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">Rdsd-devel at lists.berlios.de</A>
+</I>&gt;<i><A HREF="http://lists.berlios.de/mailman/listinfo/rdsd-devel">http://lists.berlios.de/mailman/listinfo/rdsd-devel</A>
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>
+
+-- 
+Guillaume Sisteron
+Viewsurf
+
+Tel: 05.57.22.54.40
+Fax: 05.56.08.22.62
+Gsm: 06.03.12.67.38
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/rdsd-devel/attachments/20060112/72af7f70/attachment.html">https://lists.berlios.de/pipermail/rdsd-devel/attachments/20060112/72af7f70/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000017.html">[Rdsd-devel] Read data from a SAA6588 directly via I2C
+</A></li>
+	<LI>Next message: <A HREF="000019.html">[Rdsd-devel] Read data from a SAA6588 directly via I2C
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#18">[ date ]</a>
+              <a href="thread.html#18">[ thread ]</a>
+              <a href="subject.html#18">[ subject ]</a>
+              <a href="author.html#18">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

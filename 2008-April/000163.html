@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] rdsquery hangs on read
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2008-April/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20rdsquery%20hangs%20on%20read&In-Reply-To=%3C789375.93414.qm%40web34405.mail.mud.yahoo.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000165.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] rdsquery hangs on read</H1>
+    <B>goog long</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20rdsquery%20hangs%20on%20read&In-Reply-To=%3C789375.93414.qm%40web34405.mail.mud.yahoo.com%3E"
+       TITLE="[Rdsd-devel] rdsquery hangs on read">cecolong at yahoo.com
+       </A><BR>
+    <I>Mon Apr 28 22:59:08 CEST 2008</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000165.html">[Rdsd-devel] rdsquery hangs on read
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#163">[ date ]</a>
+              <a href="thread.html#163">[ thread ]</a>
+              <a href="subject.html#163">[ subject ]</a>
+              <a href="author.html#163">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi all,
+
+I just checked out librds, rdsquery and rdsd from svn and run this command &quot;rdsquery -t picode&quot; in a loop. It hangs after around 2000 iterations. gdb shows it hangs when it tries to read data from rdsd in process() in librds/rdsconnection.cpp. I am using Unix socket and not running on real hardware but reading from a data file. The output look like this
+
+<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">root at localhost</A>:/root&gt; rdsd -d
+Mon Apr 28 14:24:34 2008 RDS handler initialized.
+<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">root at localhost</A>:/root&gt; rdsquery -t picode
+picode:33283
+
+I interrupted the test when it hangs, and printed out the backtrace as following:
+
+(gdb) r -t picode
+Starting program: /usr/bin/rdsquery -t picode
+
+Program received signal SIGINT, Interrupt.
+0x48a826be in read () from /lib/libc.so.6
+(gdb) bt
+#0  0x48a826be in read () from /lib/libc.so.6
+#1  0x48b339c0 in std::RDSconnection::process (this=&lt;value optimized out&gt;)
+    at rdsconnection.cpp:628
+#2  0x48b3656a in std::RDSconnection::GetEvent (this=&lt;value optimized out&gt;,
+    src=&lt;value optimized out&gt;, events=&lt;value optimized out&gt;)
+    at rdsconnection.cpp:237
+#3  0x48b2fe99 in rds_get_event (hnd=Could not find the frame base for &quot;rds_get_event&quot;.
+) at librds.cpp:198
+#4  0x0804a6c4 in main (argc=1702050352, argv=0xa746e76) at rdsquery.cpp:152
+#5  0x489e9e0c in __libc_start_main () from /lib/libc.so.6
+#6  0x080499b1 in _start  ()
+(gdb)
+
+Cecolong
+       
+---------------------------------
+Be a better friend, newshound, and know-it-all with Yahoo! Mobile.  Try it now.
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/rdsd-devel/attachments/20080428/00a66ddd/attachment.html">https://lists.berlios.de/pipermail/rdsd-devel/attachments/20080428/00a66ddd/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000165.html">[Rdsd-devel] rdsquery hangs on read
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#163">[ date ]</a>
+              <a href="thread.html#163">[ thread ]</a>
+              <a href="subject.html#163">[ subject ]</a>
+              <a href="author.html#163">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

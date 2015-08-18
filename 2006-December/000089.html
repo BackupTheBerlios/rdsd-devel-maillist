@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] Open Data Application
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2006-December/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Open%20Data%20Application&In-Reply-To=%3C200612101909.13889.koch%40hjk-az.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000088.html">
+   <LINK REL="Next"  HREF="000090.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] Open Data Application</H1>
+    <B>Hans J. Koch</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Open%20Data%20Application&In-Reply-To=%3C200612101909.13889.koch%40hjk-az.de%3E"
+       TITLE="[Rdsd-devel] Open Data Application">koch at hjk-az.de
+       </A><BR>
+    <I>Sun Dec 10 19:09:17 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000088.html">[Rdsd-devel] Open Data Application
+</A></li>
+        <LI>Next message: <A HREF="000090.html">[Rdsd-devel] [ANNOUNCE] New developer
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#89">[ date ]</a>
+              <a href="thread.html#89">[ thread ]</a>
+              <a href="subject.html#89">[ subject ]</a>
+              <a href="author.html#89">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Am Samstag, 9. Dezember 2006 20:10 schrieb Rolf Meeser:
+&gt;<i> --- &quot;Hans J. Koch&quot; &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">koch at hjk-az.de</A>&gt; schrieb:
+</I>&gt;<i> &gt; &gt; I started looking into receiving ODA (Open Data
+</I>&gt;<i> &gt; &gt; Application) with rdsd.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Are you interested in a general ODA interface or
+</I>&gt;<i> &gt; just in decoding a special service?
+</I>&gt;<i>
+</I>&gt;<i> This should be a general ODA interface, where all
+</I>&gt;<i> services are passed through to the client.
+</I>
+OK, agreed.
+
+[...]
+
+&gt;<i>
+</I>&gt;<i> Ok, here are my first thoughts about it:
+</I>&gt;<i>
+</I>&gt;<i> 1.
+</I>&gt;<i> A client will register with rdsd (via librds) for one
+</I>&gt;<i> or more ODA services. rdsd will generate an event
+</I>&gt;<i> every time a group for that ODA service is received.
+</I>&gt;<i> This is the same procedure used for other information
+</I>&gt;<i> already (lrtxt, picode, ...).
+</I>
+Yes, it's quite clear that is has to be done that way.
+We'll have to look at some internals, though. The event
+mask is an unsigned long at the moment, we have to make 
+this a 64 bit int, otherwise we probably run out of
+free bits.
+
+&gt;<i>
+</I>&gt;<i> 2.
+</I>&gt;<i> The event should look like 'oda:&lt;aid&gt;:&lt;group&gt;:&lt;data&gt;',
+</I>&gt;<i> where &lt;aid&gt; is the application id, group is the name
+</I>&gt;<i> of the group in which the data was received (e.g.
+</I>&gt;<i> '11A'), and data is, well, the data :-)
+</I>&gt;<i> An application may span several groups at a time,
+</I>&gt;<i> that's why we need to include the group name. There's
+</I>&gt;<i> also application specific data already in the 3A
+</I>&gt;<i> group.
+</I>
+Allright, that looks good.
+
+&gt;<i>
+</I>&gt;<i> 3.
+</I>&gt;<i> Class RDSdecoder decodes all known content now, and
+</I>&gt;<i> stores it locally. New data generates an event, so
+</I>&gt;<i> that every client, who registered for that specific
+</I>&gt;<i> data, can be informed. TMC data is stored locally as
+</I>&gt;<i> well, and is only deleted after a certain lifetime
+</I>&gt;<i> expired.
+</I>
+Yes, that's the idea.
+
+&gt;<i>
+</I>&gt;<i> ODA data cannot be handled this way: There's no
+</I>&gt;<i> knowledge about content, and there's no lifetime
+</I>&gt;<i> associated with the data.
+</I>&gt;<i> So we have to distribute it immediately, to an
+</I>&gt;<i> arbitrary number of clients. As a client may be slow
+</I>&gt;<i> in fetching the data, there must be some sort of
+</I>&gt;<i> buffering based on a client connection. I think the
+</I>&gt;<i> best place to put that queue would be the RDSclient
+</I>&gt;<i> class itself. So there will be one ODA queue per
+</I>&gt;<i> application per client.
+</I>
+OK.
+
+&gt;<i>
+</I>&gt;<i> 4.
+</I>&gt;<i> RadioText+ can be handled differently, in addition to
+</I>&gt;<i> passing it through to clients transparently: As it
+</I>&gt;<i> augments the existing RadioText, we may think of a
+</I>&gt;<i> special interface for it. RT+ documentation suggests
+</I>&gt;<i> to use some sort of markup language for it, which may
+</I>&gt;<i> be a good idea for RT+ in rdsd as well.
+</I>
+I don't know enough about RT+ to comment on that.
+
+&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> What do you think about it?
+</I>
+Looks like a good concept, go on!
+
+Hans
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000088.html">[Rdsd-devel] Open Data Application
+</A></li>
+	<LI>Next message: <A HREF="000090.html">[Rdsd-devel] [ANNOUNCE] New developer
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#89">[ date ]</a>
+              <a href="thread.html#89">[ thread ]</a>
+              <a href="subject.html#89">[ subject ]</a>
+              <a href="author.html#89">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel]  Patch: Make RDS work with saa7134 cards
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2008-January/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20%20Patch%3A%20Make%20RDS%20work%20with%20saa7134%20cards&In-Reply-To=%3C1a8801c8538b%24ccff6bb0%246701a8c0%40MANLAP%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000156.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel]  Patch: Make RDS work with saa7134 cards</H1>
+    <B>mcmanu</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20%20Patch%3A%20Make%20RDS%20work%20with%20saa7134%20cards&In-Reply-To=%3C1a8801c8538b%24ccff6bb0%246701a8c0%40MANLAP%3E"
+       TITLE="[Rdsd-devel]  Patch: Make RDS work with saa7134 cards">mcmanuel at gmx.de
+       </A><BR>
+    <I>Thu Jan 10 14:21:29 CET 2008</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000156.html">[Rdsd-devel] [PATCH] rdsd output fifo for implementing GNS 1.0	protocol
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#155">[ date ]</a>
+              <a href="thread.html#155">[ thread ]</a>
+              <a href="subject.html#155">[ subject ]</a>
+              <a href="author.html#155">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Hans,
+
+I tried the patch with my Terratec Cinergy 600 card (with xtal=1). 
+Obviously, some valid fragments of radio text are received, but there seem 
+to be many errors and lost rds groups Perhaps this is caused by weak antenna 
+signals, but stereo radio sounds well and even at higher signal levels (4 
+stars in the &quot;radio&quot; console app by Gerd Knorr), situation is not better. A 
+hexdump of /dev/radio (see below) delivers about 32 bytes of data per second 
+(varying). Is there a chance to fine tune the saa6588 for better reception? 
+I never tested the card on Windows, so I don't know if it can perform 
+better.
+
+Here a dump of rdsquery. Station Name is MDR JUMP, radio text shall be 
+&quot;JUMP - DER NEUE SOUND IM RADIO.&quot;
+-----------------------------------
+carpc:/# rdsquery -t 
+rxfre,rxsig,rflags,picode,ptype,pname,locdt,utcdt,rtxt,lrtxt,tmc,aflist
+rflags:TP=1 TA=0 MUSIC=0 STEREO=0 AH=0 COMP=0 DPTY=0 AB=0
+picode:54210
+ptype:10
+rxfre:100900
+rflags:TP=1 TA=0 MUSIC=0 STEREO=0 AH=0 COMP=0 DPTY=0 AB=1
+picode:54210
+ptype:10
+rtxt:JUMP        EUE     D IM RADIO.
+rflags:TP=1 TA=0 MUSIC=0 STEREO=0 AH=0 COMP=0 DPTY=0 AB=1
+picode:54210
+ptype:10
+rflags:TP=0 TA=0 MUSIC=1 STEREO=1 AH=0 COMP=0 DPTY=0 AB=0
+picode:54210
+ptype:10
+pname:MDR JUMP
+rflags:TP=1 TA=0 MUSIC=1 STEREO=1 AH=0 COMP=0 DPTY=0 AB=0
+picode:54210
+ptype:10
+rflags:TP=1 TA=0 MUSIC=1 STEREO=1 AH=0 COMP=0 DPTY=0 AB=0
+picode:54210
+ptype:10
+rflags:TP=1 TA=0 MUSIC=1 STEREO=1 AH=0 COMP=0 DPTY=0 AB=1
+picode:54210
+ptype:10
+rtxt:JUMP        EUE     D IM RADIO.
+rflags:TP=1 TA=0 MUSIC=1 STEREO=1 AH=0 COMP=0 DPTY=0 AB=1
+picode:54210
+ptype:10
+rtxt:JUMP - D    EUE     D IM RADIO.
+rflags:TP=0 TA=0 MUSIC=0 STEREO=0 AH=0 COMP=0 DPTY=0 AB=0
+picode:61902
+ptype:24
+rxfre:100900
+rflags:TP=0 TA=0 MUSIC=0 STEREO=0 AH=0 COMP=0 DPTY=0 AB=0
+picode:54210
+ptype:10
+rxfre:100900
+rflags:TP=0 TA=0 MUSIC=0 STEREO=0 AH=0 COMP=0 DPTY=0 AB=0
+picode:54210
+ptype:10
+rflags:TP=0 TA=0 MUSIC=0 STEREO=0 AH=0 COMP=0 DPTY=0 AB=0
+picode:54210
+ptype:10
+rtxt:    uns
+rflags:TP=1 TA=0 MUSIC=0 STEREO=0 AH=0 COMP=0 DPTY=0 AB=0
+picode:54210
+ptype:10
+tmc:
+S evt=715 loc=55790 ext=2 dur=0 dir=0 div=0
+S evt=701 loc=10117 ext=1 dur=0 dir=1 div=0
+G evt=56 loc=0 ext=1 CI=4 dir=1 div=0
+S evt=468 loc=10273 ext=2 dur=0 dir=1 div=0
+G evt=815 loc=10715 ext=2 CI=1 dir=0 div=1
+G evt=701 loc=10310 ext=1 CI=6 dir=1 div=1
+G evt=1683 loc=59904 ext=1 CI=2 dir=1 div=0
+G evt=397 loc=12302 ext=2 CI=5 dir=0 div=1
+S evt=108 loc=12556 ext=1 dur=0 dir=1 div=0
+---------------------------
+raw output from /dev/radio is like:
+carpc:/# cat /dev/radio1 | hexdump -C
+00000000  c2 d3 00 46 85 49 08 46  12 c2 d3 40 48 05 49 cc 
+|<i><A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">...F.I.F... at H.I.</A>|
+</I>00000010  1d 12 44 4d 1b 47 25 09  30 38 12 31 2d 1b c2 d3 
+|<i>..DM.G%.08.1-...|
+</I>00000020  00 44 4d 12 f1 d5 1b c2  d3 00 cc 24 12 20 52 5b  |.DM........$. 
+R[|
+00000030  c2 d3 00 44 b5 49 00 b0  5b c2 d3 00 41 65 09 ef 
+|<i>...D.I..[...Ae..|
+</I>00000040  cd 1b c2 d3 00 4a 05 09  cc 28 12 c2 d3 00 48 25 
+|<i>.....J...(....H%|
+</I>00000050  09 33 32 12 32 20 1b 51  e5 09 20 52 12 f1 d5 1b  |.32.2 .Q.. 
+R....|
+00000060  4f 05 49 cc 5e 12 50 4d  1b c2 d3 00 d5 fd 12 00 
+|<i>O.I.^.PM........|
+</I>00000070  c8 1b c2 d3 00 08 46 12  00 00 1b c2 d3 00 48 05 
+|<i>......F.......H.|
+</I>00000080  09 44 4d 1b c2 d3 00 49  25 49 20 35 1b c2 d3 00  |.DM....I%I 
+5....|
+00000090  52 e5 09 48 54 12 c2 d3  00 49 05 bf cc 89 12 20  |R..HT....I..... 
+|<i>
+</I>000000a0  52 1b 42 65 49 23 01 12  67 45 1b 4a 05 09 cc 90 
+|<i>R.BeI#..gE.J....|
+</I>000000b0  52 55 4a 1b c2 d3 00 75  52 12 20 66 1b c2 d3 00  |RUJ....uR. 
+f....|
+000000c0  45 55 12 f1 d5 1b c2 d3  bf 4f 05 09 50 4d 1b c2 
+|<i>EU.......O..PM..|
+</I>000000d0  d3 00 50 35 09 67 00 12  c2 d3 00 48 85 09 bd 12 
+|<i>..P5.g.....H....|
+</I>000000e0  12 c2 d3 00 48 05 09 15  eb 12 44 4d 1b 41 25 09 
+|<i>....H.....DM.A%.|
+</I>000000f0  6e 75 12 20 73 1b 55 e5  09 67 86 12 f1 d5 bf c2  |nu. 
+s.U..g......|
+---------------------------
+
+greets
+Manu 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000156.html">[Rdsd-devel] [PATCH] rdsd output fifo for implementing GNS 1.0	protocol
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#155">[ date ]</a>
+              <a href="thread.html#155">[ thread ]</a>
+              <a href="subject.html#155">[ subject ]</a>
+              <a href="author.html#155">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

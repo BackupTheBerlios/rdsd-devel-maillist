@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] Re: [PATCH] saa6588 bugfix
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2005-November/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Re%3A%20%5BPATCH%5D%20saa6588%20bugfix&In-Reply-To=%3C43680759.2030505%40m1k.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000009.html">
+   <LINK REL="Next"  HREF="000011.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] Re: [PATCH] saa6588 bugfix</H1>
+    <B>Michael Krufky</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Re%3A%20%5BPATCH%5D%20saa6588%20bugfix&In-Reply-To=%3C43680759.2030505%40m1k.net%3E"
+       TITLE="[Rdsd-devel] Re: [PATCH] saa6588 bugfix">mkrufky at m1k.net
+       </A><BR>
+    <I>Wed Nov  2 01:24:57 CET 2005</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000009.html">[Rdsd-devel] [PATCH] saa6588 bugfix
+</A></li>
+        <LI>Next message: <A HREF="000011.html">[Rdsd-devel] saa6588 module name
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#10">[ date ]</a>
+              <a href="thread.html#10">[ thread ]</a>
+              <a href="subject.html#10">[ subject ]</a>
+              <a href="author.html#10">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hans J. Koch wrote:
+
+&gt;<i>Hello,
+</I>&gt;<i>the attached patch fixes a nasty bug in the handling of the RDS raw data 
+</I>&gt;<i>buffer. This caused decoding delays and sometimes wrong data.
+</I>&gt;<i>I must have implemented a million ring buffers in my life, but there's still 
+</I>&gt;<i>room for bugs :-)
+</I>&gt;<i>
+</I>&gt;<i>Signed-off-by: Hans J. Koch &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">koch at hjk-az.de</A>&gt;
+</I>&gt;<i>
+</I>&gt;<i>Greetings,
+</I>&gt;<i>Hans
+</I>&gt;<i>  
+</I>&gt;<i>
+</I>&gt;<i>------------------------------------------------------------------------
+</I>&gt;<i>
+</I>&gt;<i>--- orig/video4linux/saa6588.c	2005-11-01 22:59:29.000000000 +0100
+</I>&gt;<i>+++ mine/video4linux/saa6588.c	2005-11-01 21:37:39.000000000 +0100
+</I>&gt;<i>@@ -250,7 +250,7 @@ static void block_to_buf(struct saa6588 
+</I>&gt;<i> 		s-&gt;wr_index = 0;
+</I>&gt;<i> 
+</I>&gt;<i> 	if (s-&gt;wr_index == s-&gt;rd_index) {
+</I>&gt;<i>-		s-&gt;rd_index++;
+</I>&gt;<i>+		s-&gt;rd_index += 3;
+</I>&gt;<i> 		if (s-&gt;rd_index &gt;= s-&gt;buf_size)
+</I>&gt;<i> 			s-&gt;rd_index = 0;
+</I>&gt;<i> 	} else
+</I>&gt;<i>
+</I>Hans-
+
+I've applied your patch to *v4l-kernel* cvs.  Thank you.
+
+Please take note of the fact that all development has been moved away 
+from video4linux cvs, and we are now using a new directory structure, 
+layed out like that of the kernel source, in v4l-kernel cvs.
+
+Also, about the name of the saa5688 module:
+
+- i'm sorry that nobody has responded to your question until now... I 
+just took a look, and I have found that:
+
+- the module IS named saa6588
+
+- some other module is called rds - I dont know what module this is... 
+Maybe Mauro knows?
+
+Regards,
+
+Michael Krufky
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000009.html">[Rdsd-devel] [PATCH] saa6588 bugfix
+</A></li>
+	<LI>Next message: <A HREF="000011.html">[Rdsd-devel] saa6588 module name
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#10">[ date ]</a>
+              <a href="thread.html#10">[ thread ]</a>
+              <a href="subject.html#10">[ subject ]</a>
+              <a href="author.html#10">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

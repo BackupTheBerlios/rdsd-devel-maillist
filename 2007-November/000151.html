@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] SIGPIPE
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2007-November/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20SIGPIPE&In-Reply-To=%3C20071115175051.ctr4hh1jc4kwoskw%40www.lindenaar.org%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000150.html">
+   <LINK REL="Next"  HREF="000152.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] SIGPIPE</H1>
+    <B>Daniel Lindenaar</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20SIGPIPE&In-Reply-To=%3C20071115175051.ctr4hh1jc4kwoskw%40www.lindenaar.org%3E"
+       TITLE="[Rdsd-devel] SIGPIPE">daniel-rdsd at lindenaar.eu
+       </A><BR>
+    <I>Thu Nov 15 17:50:51 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000150.html">[Rdsd-devel] SIGPIPE
+</A></li>
+        <LI>Next message: <A HREF="000152.html">[Rdsd-devel] SIGPIPE
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#151">[ date ]</a>
+              <a href="thread.html#151">[ thread ]</a>
+              <a href="subject.html#151">[ subject ]</a>
+              <a href="author.html#151">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Quoting Hans-J&#252;rgen Koch &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">hjk at linutronix.de</A>&gt;:
+
+&gt;<i> Did you test with TCP/IP or unix domain sockets?
+</I>I believe it was a TCP/IP connection.
+&gt;<i> I wasn't aware that
+</I>&gt;<i> you can receive a SIGPIPE when a socket connection breaks. Seems I
+</I>&gt;<i> have to read some basic docs again :-)
+</I>&gt;<i> Anyway, if rdsd receives SIGPIPE signals, it is of course the right
+</I>&gt;<i> thing to catch them. It shouldn't need special handling, though. I
+</I>&gt;<i> tested that quite a lot and think that disconnecting clients are
+</I>&gt;<i> detected reliably. OTOH, I only tested with clients that disconnect
+</I>&gt;<i> gracefully. Did you just pull the cable?
+</I>
+I used the rdsquery tool, with -c 1 and sometimes it makes rdsd quit.  
+I do have a fairly slow system I'm going to install in my car, so  
+possibly it (almost) never happens on a fast system...
+
+I'll apply a patch which should eliminate the problem. This way I can  
+test my svn access...
+&gt;<i>
+</I>&gt;<i> Thanks,
+</I>&gt;<i> Hans
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Rdsd-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">Rdsd-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">https://lists.berlios.de/mailman/listinfo/rdsd-devel</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>
+regards,
+Daniel
+
+----------------------------------------------------------------
+This message was sent using IMP, the Internet Messaging Program.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000150.html">[Rdsd-devel] SIGPIPE
+</A></li>
+	<LI>Next message: <A HREF="000152.html">[Rdsd-devel] SIGPIPE
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#151">[ date ]</a>
+              <a href="thread.html#151">[ thread ]</a>
+              <a href="subject.html#151">[ subject ]</a>
+              <a href="author.html#151">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

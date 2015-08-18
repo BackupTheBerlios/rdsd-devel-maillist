@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] TMC details
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2006-June/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20TMC%20details&In-Reply-To=%3Cccfacb6f0606280254x46f748a7oe4cd28b4c47a0dcc%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000060.html">
+   <LINK REL="Next"  HREF="000062.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] TMC details</H1>
+    <B>Daniele Ravizza</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20TMC%20details&In-Reply-To=%3Cccfacb6f0606280254x46f748a7oe4cd28b4c47a0dcc%40mail.gmail.com%3E"
+       TITLE="[Rdsd-devel] TMC details">sirhaplo at tin.it
+       </A><BR>
+    <I>Wed Jun 28 11:54:15 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000060.html">[Rdsd-devel] saa7134 and saa6588 works togheter.
+</A></li>
+        <LI>Next message: <A HREF="000062.html">Fwd: [Rdsd-devel] TMC details
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#61">[ date ]</a>
+              <a href="thread.html#61">[ thread ]</a>
+              <a href="subject.html#61">[ subject ]</a>
+              <a href="author.html#61">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi all,
+I'm writing a software for extract TMC information from RDS and put those
+infos on a Database. Those infos will then drawn on a map with an icon.
+
+With read_rds.c i succesfully read every group, but i cannot understand how
+decode it.
+I tried something like that :
+
+Block B [ 11Bit common for RDS ][ 2 bit for type][ 3bit for duration]
+Block C [ 1bit for direction ][ 1bit for diversion ][ 3bit for extent ][
+11bit fo Event ]
+Block D [ 16bit x Location ]
+
+But i need more infos. I think that isn't so correct. I got those problems :
+
+1) I get location with ID too big for my location database. my DB stop to
+about 13000 location ... i got locations like 60000.
+2) Events : i dont know how events are coded.
+3) What are type / extension / diversion flags ?
+4) How are mantained the problems ? TMC stop to send message about that ?
+After how much time i must trow away the signal ?
+
+Thanks in advice. I want to make something usefull to all.
+
+-- 
+Daniele &quot;SirHap|0&quot; Ravizza
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/rdsd-devel/attachments/20060628/72e405aa/attachment.html">https://lists.berlios.de/pipermail/rdsd-devel/attachments/20060628/72e405aa/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000060.html">[Rdsd-devel] saa7134 and saa6588 works togheter.
+</A></li>
+	<LI>Next message: <A HREF="000062.html">Fwd: [Rdsd-devel] TMC details
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#61">[ date ]</a>
+              <a href="thread.html#61">[ thread ]</a>
+              <a href="subject.html#61">[ subject ]</a>
+              <a href="author.html#61">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,269 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] [PATCH] rdsd output fifo for implementing GNS 1.0 protocol
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2008-January/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20%5BPATCH%5D%20rdsd%20output%20fifo%20for%20implementing%20GNS%201.0%0A%20protocol&In-Reply-To=%3C20080127230424.1ebc4d9e%40dilbert.local%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000156.html">
+   <LINK REL="Next"  HREF="000160.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] [PATCH] rdsd output fifo for implementing GNS 1.0 protocol</H1>
+    <B>Hans-J&#252;rgen Koch</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20%5BPATCH%5D%20rdsd%20output%20fifo%20for%20implementing%20GNS%201.0%0A%20protocol&In-Reply-To=%3C20080127230424.1ebc4d9e%40dilbert.local%3E"
+       TITLE="[Rdsd-devel] [PATCH] rdsd output fifo for implementing GNS 1.0 protocol">hjk at linutronix.de
+       </A><BR>
+    <I>Sun Jan 27 23:04:24 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000156.html">[Rdsd-devel] [PATCH] rdsd output fifo for implementing GNS 1.0	protocol
+</A></li>
+        <LI>Next message: <A HREF="000160.html">[Rdsd-devel] [PATCH] rdsd output fifo for implementing GNS 1.0	protocol
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#159">[ date ]</a>
+              <a href="thread.html#159">[ thread ]</a>
+              <a href="subject.html#159">[ subject ]</a>
+              <a href="author.html#159">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Am Sun, 27 Jan 2008 16:21:11 +0100
+schrieb Tobias Lorenz &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">tobias.lorenz at gmx.net</A>&gt;:
+
+&gt;<i> Hi rdsd developers,
+</I>
+Hi Toby,
+
+&gt;<i> 
+</I>&gt;<i> this patch adds a new global option &quot;outfile&quot; to the configuration
+</I>&gt;<i> file. Using this outfile will allow to forward RDS blocks A,B,C,D to
+</I>&gt;<i> an rds-logfile or output-fifo. The patch is implemented in a way,
+</I>&gt;<i> that easily allows enhancing it with a RDS group filter function, so
+</I>&gt;<i> that only program relevant information is forwarded. But currently it
+</I>&gt;<i> just outputs every RDS block.
+</I>&gt;<i> 
+</I>&gt;<i> The purpose is this:
+</I>&gt;<i> There are some GPS-receivers that not only provide NMEA output, but
+</I>&gt;<i> also mix these information with RDS-TMC data for traffic information.
+</I>&gt;<i> This protocol is called GNS 1.0 and is really just the plain NMEA
+</I>&gt;<i> stream, but with 8 bytes for RDSA,B,C,D blocks enclosed in: ?........?
+</I>&gt;<i> 
+</I>&gt;<i> So, gpsd together with rdsd can produce a gns 1.0 stream, that can be
+</I>&gt;<i> feed to a wine/navigation software. For combining the streams from
+</I>&gt;<i> gpsd and rdsd, I already modified the gpspipe program. I'm going to
+</I>&gt;<i> stress test this and publish it later.
+</I>&gt;<i> 
+</I>&gt;<i> Bye,
+</I>&gt;<i> &#160; Toby
+</I>
+Thanks a lot for your work! At a first glance, I only found one thing
+I'd like you to change (see below).
+
+I've got lots of other work that eats up 200% of my time and won't be
+able to test this soon. Daniel, can you have a look at it and merge it,
+if you agree? I have no objections, provided that const string&amp; thing
+gets fixed.
+
+&gt;<i> 
+</I>&gt;<i> Signed-off-by: Tobias Lorenz &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">tobias.lorenz at gmx.net</A>&gt;
+</I>&gt;<i> Index: outhandler.h
+</I>&gt;<i> ===================================================================
+</I>&gt;<i> --- empty &#160; &#160; &#160; 2008-01-24 22:26:39.000000000 +0100
+</I>&gt;<i> +++ outhandler.h &#160; &#160; &#160; &#160;2008-01-23 23:10:49.000000000 +0100
+</I>&gt;<i> @@ -0,0 +1,55 @@
+</I>&gt;<i> +/***************************************************************************
+</I>&gt;<i> + * &#160; Copyright (C) 2008 by Tobias Lorenz
+</I>&gt;<i> &#160; &#160; &#160; *
+</I>&gt;<i> + * &#160; <A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">tobias.lorenz at gmx.net</A>
+</I>&gt;<i> &#160; &#160; &#160; *
+</I>&gt;<i> + *
+</I>&gt;<i> &#160; &#160; &#160; *
+</I>&gt;<i> + * &#160; This program is free software; you can redistribute it and/or
+</I>&gt;<i> modify &#160;*
+</I>&gt;<i> + * &#160; it under the terms of the GNU General Public License as
+</I>&gt;<i> published by &#160;*
+</I>&gt;<i> + * &#160; the Free Software Foundation; either version 2 of the License,
+</I>&gt;<i> or &#160; &#160; *
+</I>&gt;<i> + * &#160; (at your option) any later version.
+</I>&gt;<i> &#160; &#160; &#160; *
+</I>&gt;<i> + *
+</I>&gt;<i> &#160; &#160; &#160; *
+</I>&gt;<i> + * &#160; This program is distributed in the hope that it will be useful,
+</I>&gt;<i> &#160; &#160; &#160; *
+</I>&gt;<i> + * &#160; but WITHOUT ANY WARRANTY; without even the implied warranty of
+</I>&gt;<i> &#160; &#160; &#160; &#160;*
+</I>&gt;<i> + * &#160; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. &#160;See the
+</I>&gt;<i> &#160; &#160; &#160; *
+</I>&gt;<i> + * &#160; GNU General Public License for more details.
+</I>&gt;<i> &#160; &#160; &#160; &#160;*
+</I>&gt;<i> + *
+</I>&gt;<i> &#160; &#160; &#160; *
+</I>&gt;<i> + * &#160; You should have received a copy of the GNU General Public
+</I>&gt;<i> License &#160; &#160; *
+</I>&gt;<i> + * &#160; along with this program; if not, write to the
+</I>&gt;<i> &#160; &#160; &#160; *
+</I>&gt;<i> + * &#160; Free Software Foundation, Inc.,
+</I>&gt;<i> &#160; &#160; &#160; *
+</I>&gt;<i> + * &#160; 59 Temple Place - Suite 330, Boston, MA &#160;02111-1307, USA.
+</I>&gt;<i> &#160; &#160; &#160; *
+</I>&gt;<i> +
+</I>&gt;<i> ***************************************************************************/
+</I>&gt;<i> +#ifndef STDOUTHANDLER_H +#define STDOUTHANDLER_H
+</I>&gt;<i> +
+</I>&gt;<i> +#include &lt;string&gt;
+</I>&gt;<i> +#include &quot;rdsgroup.h&quot;
+</I>&gt;<i> +
+</I>&gt;<i> +namespace std {
+</I>&gt;<i> +
+</I>&gt;<i> +/**
+</I>&gt;<i> +Handles out messages.
+</I>&gt;<i> +
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">+ at author</A> Tobias Lorenz
+</I>&gt;<i> +*/
+</I>&gt;<i> +
+</I>&gt;<i> +
+</I>&gt;<i> +
+</I>&gt;<i> +class OutHandler{
+</I>&gt;<i> +public:
+</I>&gt;<i> + &#160;OutHandler();
+</I>&gt;<i> + &#160;~OutHandler();
+</I>&gt;<i> + &#160;int SetFilename(string filename_);
+</I>&gt;<i> + &#160;bool GetFileValid();
+</I>&gt;<i> + &#160;string GetFilename();
+</I>
+No. If you return a private string variable, make it const string&amp;.
+Like this:
+
+const string&amp; GetFilename();
+
+&gt;<i> + &#160;int Open();
+</I>&gt;<i> + &#160;void Close();
+</I>&gt;<i> + &#160;void Write(unsigned char *buf, int size);
+</I>&gt;<i> + &#160;void WriteGroup(RDSgroup *group);
+</I>&gt;<i> +private:
+</I>&gt;<i> + &#160;string filename;
+</I>&gt;<i> + &#160;bool filename_valid;
+</I>&gt;<i> + &#160;int fd;
+</I>&gt;<i> +};
+</I>&gt;<i> +
+</I>&gt;<i> +};
+</I>&gt;<i> +
+</I>&gt;<i> +#endif
+</I>&gt;<i> Index: outhandler.cpp
+</I>&gt;<i> ===================================================================
+</I>&gt;<i> --- empty &#160; &#160; &#160; 2008-01-24 22:26:39.000000000 +0100
+</I>&gt;<i> +++ outhandler.cpp &#160; &#160; &#160;2008-01-24 20:53:28.000000000 +0100
+</I>&gt;<i> @@ -0,0 +1,117 @@
+</I>&gt;<i> +/***************************************************************************
+</I>&gt;<i> + * &#160; Copyright (C) 2008 by Tobias Lorenz
+</I>&gt;<i> &#160; &#160; &#160; *
+</I>&gt;<i> + * &#160; <A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">tobias.lorenz at gmx.net</A>
+</I>&gt;<i> &#160; &#160; &#160; *
+</I>&gt;<i> + *
+</I>&gt;<i> &#160; &#160; &#160; *
+</I>&gt;<i> + * &#160; This program is free software; you can redistribute it and/or
+</I>&gt;<i> modify &#160;*
+</I>&gt;<i> + * &#160; it under the terms of the GNU General Public License as
+</I>&gt;<i> published by &#160;*
+</I>&gt;<i> + * &#160; the Free Software Foundation; either version 2 of the License,
+</I>&gt;<i> or &#160; &#160; *
+</I>&gt;<i> + * &#160; (at your option) any later version.
+</I>&gt;<i> &#160; &#160; &#160; *
+</I>&gt;<i> + *
+</I>&gt;<i> &#160; &#160; &#160; *
+</I>&gt;<i> + * &#160; This program is distributed in the hope that it will be useful,
+</I>&gt;<i> &#160; &#160; &#160; *
+</I>&gt;<i> + * &#160; but WITHOUT ANY WARRANTY; without even the implied warranty of
+</I>&gt;<i> &#160; &#160; &#160; &#160;*
+</I>&gt;<i> + * &#160; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. &#160;See the
+</I>&gt;<i> &#160; &#160; &#160; *
+</I>&gt;<i> + * &#160; GNU General Public License for more details.
+</I>&gt;<i> &#160; &#160; &#160; &#160;*
+</I>&gt;<i> + *
+</I>&gt;<i> &#160; &#160; &#160; *
+</I>&gt;<i> + * &#160; You should have received a copy of the GNU General Public
+</I>&gt;<i> License &#160; &#160; *
+</I>&gt;<i> + * &#160; along with this program; if not, write to the
+</I>&gt;<i> &#160; &#160; &#160; *
+</I>&gt;<i> + * &#160; Free Software Foundation, Inc.,
+</I>&gt;<i> &#160; &#160; &#160; *
+</I>&gt;<i> + * &#160; 59 Temple Place - Suite 330, Boston, MA &#160;02111-1307, USA.
+</I>&gt;<i> &#160; &#160; &#160; *
+</I>&gt;<i> +
+</I>&gt;<i> ***************************************************************************/
+</I>&gt;<i> +#include &quot;outhandler.h&quot; +#include &quot;rdsd_errors.h&quot;
+</I>&gt;<i> +#include &lt;fcntl.h&gt;
+</I>&gt;<i> +#include &lt;sys/ioctl.h&gt;
+</I>&gt;<i> +#include &lt;sstream&gt;
+</I>&gt;<i> +#include &lt;errno.h&gt;
+</I>&gt;<i> +#include &lt;iostream&gt;
+</I>&gt;<i> +#include &lt;fstream&gt;
+</I>&gt;<i> +#include &lt;ctime&gt;
+</I>&gt;<i> +
+</I>&gt;<i> +namespace std {
+</I>&gt;<i> +
+</I>&gt;<i> +OutHandler::OutHandler()
+</I>&gt;<i> + &#160; &#160; &#160; : fd(-1)
+</I>&gt;<i> +{
+</I>&gt;<i> + &#160;filename_valid = false;
+</I>&gt;<i> +}
+</I>&gt;<i> +
+</I>&gt;<i> +OutHandler::~OutHandler()
+</I>&gt;<i> +{
+</I>&gt;<i> + &#160; &#160; &#160; Close();
+</I>&gt;<i> +}
+</I>&gt;<i> +
+</I>&gt;<i> +int OutHandler::SetFilename(string filename_)
+</I>&gt;<i> +{
+</I>&gt;<i> + &#160;filename = &quot;&quot;;
+</I>&gt;<i> + &#160;ofstream test(filename_.c_str(),ios::app);
+</I>&gt;<i> + &#160;if (!test){
+</I>&gt;<i> + &#160; &#160;filename_valid = false;
+</I>&gt;<i> + &#160; &#160;return -1;
+</I>&gt;<i> + &#160;}
+</I>&gt;<i> + &#160;filename = filename_;
+</I>&gt;<i> + &#160;filename_valid = true;
+</I>&gt;<i> + &#160;return 0;
+</I>&gt;<i> +}
+</I>&gt;<i> +
+</I>&gt;<i> +string OutHandler::GetFilename()
+</I>&gt;<i> +{
+</I>&gt;<i> + &#160;return filename;
+</I>&gt;<i> +}
+</I>
+See above.
+
+Thanks,
+Hans
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000156.html">[Rdsd-devel] [PATCH] rdsd output fifo for implementing GNS 1.0	protocol
+</A></li>
+	<LI>Next message: <A HREF="000160.html">[Rdsd-devel] [PATCH] rdsd output fifo for implementing GNS 1.0	protocol
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#159">[ date ]</a>
+              <a href="thread.html#159">[ thread ]</a>
+              <a href="subject.html#159">[ subject ]</a>
+              <a href="author.html#159">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

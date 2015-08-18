@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] rdsd causes 100% CPU load
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20rdsd%20causes%20100%25%20CPU%20load&In-Reply-To=%3C20060119204620.56979.qmail%40web27313.mail.ukl.yahoo.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000019.html">
+   <LINK REL="Next"  HREF="000021.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] rdsd causes 100% CPU load</H1>
+    <B>Rolf Meeser</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20rdsd%20causes%20100%25%20CPU%20load&In-Reply-To=%3C20060119204620.56979.qmail%40web27313.mail.ukl.yahoo.com%3E"
+       TITLE="[Rdsd-devel] rdsd causes 100% CPU load">rolfm_9dq at yahoo.de
+       </A><BR>
+    <I>Thu Jan 19 21:46:20 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000019.html">[Rdsd-devel] Read data from a SAA6588 directly via I2C
+</A></li>
+        <LI>Next message: <A HREF="000021.html">[Rdsd-devel] rdsd causes 100% CPU load
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#20">[ date ]</a>
+              <a href="thread.html#20">[ thread ]</a>
+              <a href="subject.html#20">[ subject ]</a>
+              <a href="author.html#20">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+ 
+ my configuration has a single radiodev. I noticed, that rdsd is consuming all my spare CPU time, keeping system load at 100%. Apparently rdsd is constantly trying to read data from the radiodev, although due to the slow RDS data stream the driver hardly ever returns data. Instead the driver returns an EAGAIN error, whenever he has no data available.
+ 
+ rdsd should check for the EAGAIN error after calling the driver's read function, giving the CPU a chance to relax. I modified a few lines in RDSsource::Process() to achieve this (not very clean, actually...):
+ 
+       
+      case SRCTYPE_RADIODEV:              ret = read(fd,&amp;buf[0],buf.size());              if( ret &lt; 0 )                 if(errno == EAGAIN)                  usleep(3000);              break; 
+I let the process sleep an arbitrary 3 ms, which is short compared to the ~22 ms between two RDS blocks. This brought my CPU load down again.
+ 
+ Is there a better way to do this?
+ 
+ Cheers,
+ Rolf
+ 
+ 
+ 
+
+		
+---------------------------------
+Telefonieren Sie ohne weitere Kosten mit Ihren Freunden von PC zu PC!
+Jetzt Yahoo! Messenger installieren!
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/rdsd-devel/attachments/20060119/cc75eae3/attachment.html">https://lists.berlios.de/pipermail/rdsd-devel/attachments/20060119/cc75eae3/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000019.html">[Rdsd-devel] Read data from a SAA6588 directly via I2C
+</A></li>
+	<LI>Next message: <A HREF="000021.html">[Rdsd-devel] rdsd causes 100% CPU load
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#20">[ date ]</a>
+              <a href="thread.html#20">[ thread ]</a>
+              <a href="subject.html#20">[ subject ]</a>
+              <a href="author.html#20">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

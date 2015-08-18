@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] [Announce] RDS software now in alpha state
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20%5BAnnounce%5D%20RDS%20software%20now%20in%20alpha%20state&In-Reply-To=%3C200601030006.10799.koch%40hjk-az.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000014.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] [Announce] RDS software now in alpha state</H1>
+    <B>Hans J. Koch</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20%5BAnnounce%5D%20RDS%20software%20now%20in%20alpha%20state&In-Reply-To=%3C200601030006.10799.koch%40hjk-az.de%3E"
+       TITLE="[Rdsd-devel] [Announce] RDS software now in alpha state">koch at hjk-az.de
+       </A><BR>
+    <I>Tue Jan  3 00:06:10 CET 2006</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000014.html">[Rdsd-devel] Read data from a SAA6588 directly via I2C
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#13">[ date ]</a>
+              <a href="thread.html#13">[ thread ]</a>
+              <a href="subject.html#13">[ subject ]</a>
+              <a href="author.html#13">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Happy new year!
+Since January, 1 there is a first alpha release (0.0.1) of the Radio Data 
+System daemon (rdsd), the API library librds, and the commandline tool 
+rdsquery. The project homepage is
+
+<A HREF="http://rdsd.berlios.de">http://rdsd.berlios.de</A>
+
+rdsd, librds, and rdsquery allow access to RDS data received by a Video4Linux 
+radio device. You need a recent kernel that has a saa6588 module available. 
+At the moment, only bttv cards have a driver function for reading RDS data 
+from /dev/radio. The next thing I'll do is to build this into the saa7134 
+driver, too.
+
+The daemon rdsd can handle multiple sources (radio cards) and can distribute 
+decoded data via TCP/IP or Unix domain sockets to multiple applications. The 
+library librds contains all the dirty client stuff, so that a simple client 
+can be written with a few lines of code. It works quite stable for me, I've 
+got it in everyday use now, with an old Terratec TV/Radio+ card.
+
+If you've got a bttv card with SAA6588 RDS decoder chip on board, please 
+download and test the whole stuff. Please report your experiences on the 
+rdsd-devel mailing list. Feel free to ask questions and to criticize.
+
+Cheers,
+Hans
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000014.html">[Rdsd-devel] Read data from a SAA6588 directly via I2C
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#13">[ date ]</a>
+              <a href="thread.html#13">[ thread ]</a>
+              <a href="subject.html#13">[ subject ]</a>
+              <a href="author.html#13">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

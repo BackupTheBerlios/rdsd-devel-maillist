@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] Support for serial devices
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2006-March/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Support%20for%20serial%20devices&In-Reply-To=%3C200603022258.17911.koch%40hjk-az.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000034.html">
+   <LINK REL="Next"  HREF="000036.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] Support for serial devices</H1>
+    <B>Hans J. Koch</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Support%20for%20serial%20devices&In-Reply-To=%3C200603022258.17911.koch%40hjk-az.de%3E"
+       TITLE="[Rdsd-devel] Support for serial devices">koch at hjk-az.de
+       </A><BR>
+    <I>Thu Mar  2 22:58:17 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000034.html">[Rdsd-devel] Support for serial devices
+</A></li>
+        <LI>Next message: <A HREF="000036.html">[Rdsd-devel] Support for serial devices
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#35">[ date ]</a>
+              <a href="thread.html#35">[ thread ]</a>
+              <a href="subject.html#35">[ subject ]</a>
+              <a href="author.html#35">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Am Donnerstag, 2. M&#228;rz 2006 12:21 schrieb Michael Renner:
+&gt;<i> Moin,
+</I>&gt;<i>
+</I>&gt;<i> back in the good old days, when MS DOS was state of the art, people used
+</I>&gt;<i> to use a serial adapter to connect a FM-Radio with build in RDS-decoder to
+</I>&gt;<i> the computer.
+</I>&gt;<i> An example for such an interface can be found at
+</I>&gt;<i> <A HREF="http://members.aol.com/MSOSYSware/hard_rds.htm">http://members.aol.com/MSOSYSware/hard_rds.htm</A>
+</I>&gt;<i>
+</I>&gt;<i> The goal was to attach the RDS clock and data signal to two handshake
+</I>&gt;<i> lines of a RS232 port.
+</I>&gt;<i>
+</I>&gt;<i> Do you have plans to support such simple adapters? Many peolple I know
+</I>&gt;<i> still own and use such receivers and would be happy to be able to continue
+</I>&gt;<i> using it for receiving and decoding RDS with linux.
+</I>
+Hi Michael,
+as there is no standard for such devices, it's hard to support all kinds of 
+different hardware. The recommended solution is to write a V4L2 driver that 
+creates a /dev/radio interface for that hardware. An example is the driver 
+for the &quot;FiFi-Radio&quot; (see <A HREF="http://www.ov-lennestadt.de/Projekte/ukw-radio/">http://www.ov-lennestadt.de/Projekte/ukw-radio/</A>). 
+I've got such a device (thanks again, Rolf!) and started testing it, but 
+didn't get very far yet as I have very little time at the moment.
+
+If you look at the sources of the fifi-driver, you see that it is not much. If 
+you include a specialized driver for a certain serial device into rdsd, it's 
+probably a similar amount of code. And that code is needed by very few 
+people, but increases the size of the binary, has to be documented, 
+maintained etc. For these reasons, I'm against directly supporting serial 
+devices in rdsd.
+
+Hans
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000034.html">[Rdsd-devel] Support for serial devices
+</A></li>
+	<LI>Next message: <A HREF="000036.html">[Rdsd-devel] Support for serial devices
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#35">[ date ]</a>
+              <a href="thread.html#35">[ thread ]</a>
+              <a href="subject.html#35">[ subject ]</a>
+              <a href="author.html#35">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

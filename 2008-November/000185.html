@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] [PATCH] Doxyfile paths
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2008-November/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20%5BPATCH%5D%20Doxyfile%20paths&In-Reply-To=%3C200811181904.17031.tobias.lorenz%40gmx.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000184.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] [PATCH] Doxyfile paths</H1>
+    <B>Tobias Lorenz</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20%5BPATCH%5D%20Doxyfile%20paths&In-Reply-To=%3C200811181904.17031.tobias.lorenz%40gmx.net%3E"
+       TITLE="[Rdsd-devel] [PATCH] Doxyfile paths">tobias.lorenz at gmx.net
+       </A><BR>
+    <I>Tue Nov 18 19:04:16 CET 2008</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000184.html">[Rdsd-devel] [PATCH] rdsquery: hex pi code, no wait on immediate
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#185">[ date ]</a>
+              <a href="thread.html#185">[ thread ]</a>
+              <a href="subject.html#185">[ subject ]</a>
+              <a href="author.html#185">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+the following patch removes the absolute paths in the Doxyfile configuration, so that the generation of the documentation should not work on other systems too.
+
+Bye,
+Toby
+
+Signed-off-by: Tobias Lorenz &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">tobias.lorenz at gmx.net</A>&gt;
+
+Index: rdsd/Doxyfile
+===================================================================
+--- rdsd/Doxyfile	(Revision 66)
++++ rdsd/Doxyfile	(Arbeitskopie)
+@@ -25,7 +25,7 @@
+ ALWAYS_DETAILED_SEC    = NO
+ INLINE_INHERITED_MEMB  = NO
+ FULL_PATH_NAMES        = YES
+-STRIP_FROM_PATH        = /home/hans/develop/cairotest/
++STRIP_FROM_PATH        = 
+ STRIP_FROM_INC_PATH    = 
+ SHORT_NAMES            = NO
+ JAVADOC_AUTOBRIEF      = NO
+@@ -80,7 +80,7 @@
+ #---------------------------------------------------------------------------
+ # configuration options related to the input files
+ #---------------------------------------------------------------------------
+-INPUT                  = /home/hans/develop/rdsd
++INPUT                  = .
+ FILE_PATTERNS          = *.c \
+                          *.cc \
+                          *.cxx \
+Index: rdsquery/Doxyfile
+===================================================================
+--- rdsquery/Doxyfile	(Revision 66)
++++ rdsquery/Doxyfile	(Arbeitskopie)
+@@ -25,7 +25,7 @@
+ ALWAYS_DETAILED_SEC    = NO
+ INLINE_INHERITED_MEMB  = NO
+ FULL_PATH_NAMES        = NO
+-STRIP_FROM_PATH        = /home/hans/develop/rds_svn/trunk/librds/
++STRIP_FROM_PATH        = 
+ STRIP_FROM_INC_PATH    = 
+ SHORT_NAMES            = NO
+ JAVADOC_AUTOBRIEF      = NO
+@@ -77,7 +77,7 @@
+ #---------------------------------------------------------------------------
+ # configuration options related to the input files
+ #---------------------------------------------------------------------------
+-INPUT                  = /home/hans/develop/rds_svn/trunk/rdsquery
++INPUT                  = 
+ FILE_PATTERNS          = *.c \
+                          *.cc \
+                          *.cxx \
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/rdsd-devel/attachments/20081118/5c641c81/attachment.html">https://lists.berlios.de/pipermail/rdsd-devel/attachments/20081118/5c641c81/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000184.html">[Rdsd-devel] [PATCH] rdsquery: hex pi code, no wait on immediate
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#185">[ date ]</a>
+              <a href="thread.html#185">[ thread ]</a>
+              <a href="subject.html#185">[ subject ]</a>
+              <a href="author.html#185">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

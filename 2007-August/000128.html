@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] Reading RDS data
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2007-August/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Reading%20RDS%20data&In-Reply-To=%3C200708301017.41447.koch%40hjk-az.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000127.html">
+   <LINK REL="Next"  HREF="000129.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] Reading RDS data</H1>
+    <B>Hans J. Koch</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Reading%20RDS%20data&In-Reply-To=%3C200708301017.41447.koch%40hjk-az.de%3E"
+       TITLE="[Rdsd-devel] Reading RDS data">koch at hjk-az.de
+       </A><BR>
+    <I>Thu Aug 30 10:17:41 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000127.html">[Rdsd-devel] Reading RDS data
+</A></li>
+        <LI>Next message: <A HREF="000129.html">[Rdsd-devel] Reading RDS data
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#128">[ date ]</a>
+              <a href="thread.html#128">[ thread ]</a>
+              <a href="subject.html#128">[ subject ]</a>
+              <a href="author.html#128">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Am Dienstag 28 August 2007 13:17 schrieb Derek Philip:
+&gt;<i> Hi 
+</I>
+Hi Derek,
+sorry for the late answer. It's holiday time :-)
+
+&gt;<i> 
+</I>&gt;<i> I have managed to get the saa6588 driver running with a KNC ONE TV-RDS
+</I>&gt;<i> card.
+</I>
+Fine. AFAIK, this is a bttv card? In that case, it should work out of the box
+with a standard kernel.
+
+&gt;<i> With deubg set to 2 I see that the RDS data is being read by the saa6588
+</I>&gt;<i> driver through its dmesg output.
+</I>
+Does the data look reasonable? (different bytes/groups, amount of bytes 
+per second)
+Are you sure you tuned to a station that sends RDS signals? If you didn't,
+or if the RDS signal is to weak, you might see bytes coming in, but they
+don't form proper RDS groups, so the rdsd decoder stage will drop them.
+Note that even if the audio signal sounds strong and clear, RDS signals
+can be too weak.
+Do you receive radio via antenna or via cable? If it's cable, it's well
+possible that they don't send all RDS groups or no RDS at all.
+
+&gt;<i> When I try to use th rdsd daemon, through /dev/radio0, I don't see any
+</I>&gt;<i> indication that it is seeing this data.
+</I>
+How did you test? rdsd itself doesn't generate any output. It waits for
+queries from other tools, like rdsquery. 
+For debugging purposes it's useful not to start rdsd in daemon mode, then
+you can see some messages on the console. See man rdsd for details.
+
+&gt;<i> 
+</I>&gt;<i> Is there anything else I need to do to get rdsd to see this apart from
+</I>&gt;<i> seting it to look at /dev/radio0 in the conf?
+</I>
+No. You can post your rdsd.conf, then we can see if it's set up correctly.
+
+&gt;<i> 
+</I>&gt;<i> System details
+</I>&gt;<i> 
+</I>&gt;<i> Ubuntu 7.04
+</I>
+More useful would be:
+- The part of dmesg where your card is detected
+- The part of lspci output concerning your card
+- output of lsmod
+
+
+&gt;<i> KNC ONE Tv-RDS (saa7134, saa6588)
+</I>                  ^^^^^^^
+If this is really a saa7134 card, I'd like to see your patch for the
+saa7134 driver.
+
+Thanks,
+Hans
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000127.html">[Rdsd-devel] Reading RDS data
+</A></li>
+	<LI>Next message: <A HREF="000129.html">[Rdsd-devel] Reading RDS data
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#128">[ date ]</a>
+              <a href="thread.html#128">[ thread ]</a>
+              <a href="subject.html#128">[ subject ]</a>
+              <a href="author.html#128">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

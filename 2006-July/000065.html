@@ -1,0 +1,204 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] is this output reasonable ??
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2006-July/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20is%20this%20output%20reasonable%20%3F%3F&In-Reply-To=%3C200607172212.09462.jurgen%40schindele.name%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000064.html">
+   <LINK REL="Next"  HREF="000066.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] is this output reasonable ??</H1>
+    <B>J&#252;rgen Schindele</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20is%20this%20output%20reasonable%20%3F%3F&In-Reply-To=%3C200607172212.09462.jurgen%40schindele.name%3E"
+       TITLE="[Rdsd-devel] is this output reasonable ??">jurgen at schindele.name
+       </A><BR>
+    <I>Mon Jul 17 22:12:09 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000064.html">[Rdsd-devel] TMC details
+</A></li>
+        <LI>Next message: <A HREF="000066.html">[Rdsd-devel] is this output reasonable ??
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#65">[ date ]</a>
+              <a href="thread.html#65">[ thread ]</a>
+              <a href="subject.html#65">[ subject ]</a>
+              <a href="author.html#65">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hello developpers,
+i am new to this list and i'd like to know if the debug results of my card are ok 
+
+Here the whole story.
+
+I have a Medion &quot;(Tevion) MD 9717&quot; from ALDI
+this is the same PCB as &quot;KNC One TV-Station RDS&quot;
+so i patched the saa6588 from an other hardware to this board.
+
+All goes fine i connect on the i2c-bus and i have the following output
+in syslog. Does this seem to be reasonable output ??
+Can i debug someting else ???
+
+modprobe saa7134 i2c_scan=1
+
+Jul 17 22:07:37 server kernel: saa7134: module not supported by Novell, setting U taint flag.
+Jul 17 22:07:37 server kernel: saa7130/34: v4l2 driver version 0.2.14 loaded
+Jul 17 22:07:37 server kernel: ACPI: PCI Interrupt 0000:01:0a.0[A] -&gt; Link [LNK3] -&gt; GSI 10 (level, low) -&gt; IRQ 10
+Jul 17 22:07:37 server kernel: saa7134[0]: found at 0000:01:0a.0, rev: 1, irq: 10, latency: 32, mmio: 0xdf022000
+Jul 17 22:07:37 server kernel: saa7134[0]: subsystem: 1131:0000, board: KNC One TV-Station RDS / Typhoon TV Tuner RDS [card=7,insmod option]
+Jul 17 22:07:37 server kernel: saa7134[0]: board init: gpio is 100a0
+Jul 17 22:07:37 server kernel:  : chip found @ 0xc0 (saa7134[0])
+Jul 17 22:07:37 server kernel:  : Returned more than 5 bytes. It is not a TEA5767
+Jul 17 22:07:37 server kernel: tuner 2-0060: type set to 5 (Philips PAL_BG (FI1216 and compatibles))
+Jul 17 22:07:37 server kernel: saa7134[0]: Huh, no eeprom present (err=-5)?
+Jul 17 22:07:37 server kernel: saa7134[0]: i2c scan: found device @ 0x20  [rds decoder (saa6588)]
+Jul 17 22:07:37 server kernel: saa7134[0]: i2c scan: found device @ 0xc0  [tuner (analog)]
+Jul 17 22:07:37 server kernel: saa7134[0]: registered device video0 [v4l2]
+Jul 17 22:07:37 server kernel: saa7134[0]: registered device vbi0
+Jul 17 22:07:37 server kernel: saa7134[0]: registered device radio0
+
+
+I tune to SWR3 with Kradio (great sound :-))
+modprobe saa6588 debug=15
+Jul 17 22:10:02 server kernel: saa6588: module not supported by Novell, setting U taint flag.
+Jul 17 22:10:02 server kernel: saa6588: chip found @ 0x20
+Jul 17 22:10:02 server kernel: saa6588: writing: 0w=0x20 1w=0x20 2w=0x2f
+Jul 17 22:10:02 server kernel: saa6588: New block: 0xa3 0xd3 0x00 1 blocks total.
+Jul 17 22:10:02 server kernel: Saw block 0 again.
+Jul 17 22:10:02 server kernel: Saw block 0 again.
+Jul 17 22:10:02 server kernel: saa6588: New block: 0x51 0x25 0x09 2 blocks total.
+Jul 17 22:10:02 server kernel: saa6588: New block: 0x49 0x20 0x12 3 blocks total.
+Jul 17 22:10:02 server kernel: saa6588: New block: 0x54 0x4e 0x1b 4 blocks total.
+Jul 17 22:10:02 server kernel: saa6588: New block: 0xa3 0xd3 0x00 5 blocks total.
+Jul 17 22:10:02 server kernel: saa6588: New block: 0x20 0x57 0x12 6 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0xa2 0xd5 0x1b 7 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0xa3 0xd3 0x00 8 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0x6d 0x64 0x12 9 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0x20 0x20 0x1b 10 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0xa3 0xd3 0x00 11 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0x48 0x85 0x09 12 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0xef 0x30 0x1b 13 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0xa3 0xd3 0x00 14 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0x4c 0x05 0x09 15 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0x20 0x20 0x1b 16 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0xa3 0xd3 0x00 17 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0x4e 0x45 0x12 18 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0x49 0x53 0x1b 19 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0xa3 0xd3 0x00 20 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0x45 0xe5 0x09 21 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0xa2 0xd5 0x1b 22 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0xa3 0xd3 0x00 23 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0x49 0x05 0x09 24 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0x57 0x53 0x1b 25 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0xa3 0xd3 0x00 26 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0x49 0x65 0x09 27 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0x67 0x45 0x1b 28 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0xa3 0xd3 0x00 29 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0x4a 0x05 0x09 30 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0x33 0x52 0x1b 31 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0xa3 0xd3 0x00 32 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0x53 0x25 0x09 33 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0x20 0x56 0x12 34 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0xa3 0xd3 0x00 35 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0x46 0xe5 0x09 36 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0x57 0x46 0x12 37 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0xa3 0xd3 0x00 38 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0x4f 0x05 0x09 39 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0x78 0x6d 0x12 40 blocks total.
+Jul 17 22:10:03 server kernel: saa6588: New block: 0x20 0x20 0x1b 41 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0x48 0x85 0x09 42 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0xc9 0x1a 0x12 43 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0xef 0x30 0x1b 44 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0x4c 0x05 0x09 45 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0x79 0x6d 0x12 46 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0x20 0x20 0x1b 47 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0xa3 0xd3 0x00 48 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0x20 0x2a 0x12 49 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0x69 0x44 0x1b 50 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0xa3 0xd3 0x00 51 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0xb6 0x61 0x12 52 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0xa2 0xd5 0x1b 53 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0x49 0x05 0x09 54 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0x7a 0x6d 0x12 55 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0x57 0x53 0x1b 56 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0xa3 0xd3 0x00 57 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0x23 0x01 0x12 58 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0x67 0x45 0x1b 59 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0xa3 0xd3 0x00 60 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0x7c 0x6d 0x12 61 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0x33 0x52 0x1b 62 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0xa3 0xd3 0x00 63 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0x20 0x65 0x12 64 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0x75 0x4d 0x1b 65 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0xa3 0xd3 0x00 66 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0x57 0x64 0x12 67 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0xa2 0xd5 0x1b 68 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0xa3 0xd3 0x00 69 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0x4f 0x05 0x09 70 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0x20 0x20 0x1b 71 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0xa3 0xd3 0x00 72 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0x50 0x35 0x09 73 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0x46 0xcd 0x1b 74 blocks total.
+Jul 17 22:10:04 server kernel: saa6588: New block: 0xa3 0xd3 0x00 75 blocks total.
+Jul 17 22:10:05 server kernel: saa6588: New block: 0xc9 0x1a 0x12 76 blocks total.
+Jul 17 22:10:05 server kernel: saa6588: New block: 0xef 0x30 0x1b 77 blocks total.
+Jul 17 22:10:05 server kernel: saa6588: New block: 0xa3 0xd3 0x00 78 blocks total.
+Jul 17 22:10:05 server kernel: saa6588: New block: 0x4c 0x05 0x09 79 blocks total.
+Jul 17 22:10:05 server kernel: saa6588: New block: 0x20 0x20 0x1b 80 blocks total.
+Jul 17 22:10:05 server kernel: saa6588: New block: 0xa3 0xd3 0x00 81 blocks total.
+Jul 17 22:10:05 server kernel: saa6588: New block: 0x56 0x25 0x09 82 blocks total.
+Jul 17 22:10:05 server kernel: saa6588: New block: 0x73 0x6b 0x1b 83 blocks total.
+Jul 17 22:10:05 server kernel: saa6588: New block: 0xa3 0xd3 0x00 84 blocks total.
+Jul 17 22:10:05 server kernel: saa6588: New block: 0x45 0xe5 0x09 85 blocks total.
+Jul 17 22:10:05 server kernel: saa6588: New block: 0xa2 0xd5 0x1b 86 blocks total.
+Jul 17 22:10:05 server kernel: saa6588: New block: 0xa3 0xd3 0x00 87 blocks total.
+Jul 17 22:10:05 server kernel: saa6588: New block: 0x79 0xe5 0x12 88 blocks total.
+Jul 17 22:10:05 server kernel: saa6588: New block: 0x57 0x53 0x1b 89 blocks total.
+Jul 17 22:10:05 server kernel: saa6588: New block: 0xa3 0xd3 0x00 90 blocks total.
+Jul 17 22:10:05 server kernel: saa6588: New block: 0x49 0x65 0x09 91 blocks total.
+Jul 17 22:10:05 server kernel: saa6588: New block: 0x67 0x45 0x1b 92 blocks total.
+Jul 17 22:10:05 server kernel: saa6588: New block: 0xa3 0xd3 0x00 93 blocks total.
+Jul 17 22:10:05 server kernel: saa6588: New block: 0x4a 0x05 0x09 94 blocks total.
+Jul 17 22:10:05 server kernel: saa6588: New block: 0x79 0x64 0x12 95 blocks total.
+Jul 17 22:10:05 server kernel: saa6588: New block: 0xa3 0xd3 0x00 96 blocks total.
+Jul 17 22:10:05 server kernel: saa6588: New block: 0x57 0x25 0x09 97 blocks total.
+Jul 17 22:10:05 server kernel: saa6588: New block: 0x75 0x64 0x1b 98 blocks total.
+Jul 17 22:10:05 server kernel: saa6588: New block: 0xa3 0xd3 0x00 99 blocks total.
+Jul 17 22:10:05 server kernel: saa6588: New block: 0x46 0xe5 0x09 99 blocks total.
+Jul 17 22:10:05 server kernel: saa6588: New block: 0xa2 0xd5 0x1b 99 blocks total.
+and so on .......
+
+Thanks for your help !
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000064.html">[Rdsd-devel] TMC details
+</A></li>
+	<LI>Next message: <A HREF="000066.html">[Rdsd-devel] is this output reasonable ??
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#65">[ date ]</a>
+              <a href="thread.html#65">[ thread ]</a>
+              <a href="subject.html#65">[ subject ]</a>
+              <a href="author.html#65">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

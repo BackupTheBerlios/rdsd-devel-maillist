@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] hqct driver works and AF patches
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2007-November/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20hqct%20driver%20works%20and%20AF%20patches&In-Reply-To=%3C20071113170137.537koxc3gg0wco8g%40www.lindenaar.org%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000140.html">
+   <LINK REL="Next"  HREF="000141.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] hqct driver works and AF patches</H1>
+    <B>Daniel Lindenaar</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20hqct%20driver%20works%20and%20AF%20patches&In-Reply-To=%3C20071113170137.537koxc3gg0wco8g%40www.lindenaar.org%3E"
+       TITLE="[Rdsd-devel] hqct driver works and AF patches">daniel-rdsd at lindenaar.eu
+       </A><BR>
+    <I>Tue Nov 13 17:01:37 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000140.html">[Rdsd-devel] hqct driver works and AF patches
+</A></li>
+        <LI>Next message: <A HREF="000141.html">[Rdsd-devel] hqct driver works and AF patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#146">[ date ]</a>
+              <a href="thread.html#146">[ thread ]</a>
+              <a href="subject.html#146">[ subject ]</a>
+              <a href="author.html#146">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Quoting Hans-J&#252;rgen Koch &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">hjk at linutronix.de</A>&gt;:
+
+&gt;&gt;<i> RDSdecoder class would then
+</I>&gt;&gt;<i> hold a vector of this channel data.
+</I>&gt;<i>
+</I>&gt;<i> Well, you can only receive one frequency at a given time. Do you plan
+</I>&gt;<i> to remember decoded data of the old station when you change frequency?
+</I>&gt;<i> If yes (and I'm not really against it), you have quite a lot of
+</I>&gt;<i> housekeeping work to do. Some data might still be useful after a few
+</I>&gt;<i> seconds, but not after two minutes (e.g. radio text). So data needs to
+</I>&gt;<i> be invalidated (or deleted) after a certain time.
+</I>
+Uhm well, I plan to do as little housekeeping as possible ;). One way  
+to go about this is to do no housekeeping whatsoever and accept that  
+radio text is outdated when returning to a channel. Another would be  
+to put a timestamp in de RDSchanneldata /class/ (already implemented  
+that...) and on switching clear out any outdated data entries.
+&gt;<i>
+</I>&gt;&gt;<i> One element is the 'current
+</I>&gt;&gt;<i> channel' and gets updated with normal RDS data. Once EON data is
+</I>&gt;&gt;<i> received, elements are added and filled as appropriate.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Let me know what you think about this.
+</I>&gt;<i>
+</I>&gt;<i> Sounds good. It seems to fit into the concept of rdsd. Go on.
+</I>&gt;<i>
+</I>&gt;<i> To get write access to SVN, you must have an berlios user account. If
+</I>&gt;<i> you haven't got one yet, register there and tell me your user name. I
+</I>&gt;<i> can then add you as a developer.
+</I>
+Ill get to that and send you my username...
+
+and I'll have a look at the html messages... damn defaults.
+
+Daniel
+
+----------------------------------------------------------------
+This message was sent using IMP, the Internet Messaging Program.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000140.html">[Rdsd-devel] hqct driver works and AF patches
+</A></li>
+	<LI>Next message: <A HREF="000141.html">[Rdsd-devel] hqct driver works and AF patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#146">[ date ]</a>
+              <a href="thread.html#146">[ thread ]</a>
+              <a href="subject.html#146">[ subject ]</a>
+              <a href="author.html#146">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

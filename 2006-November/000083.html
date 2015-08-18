@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] Get only -1 when trying to read from radio0
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2006-November/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Get%20only%20-1%20when%20trying%20to%20read%20from%20radio0&In-Reply-To=%3C20061120112526.6172d977.enrico.troeger%40uvena.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000082.html">
+   <LINK REL="Next"  HREF="000084.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] Get only -1 when trying to read from radio0</H1>
+    <B>Enrico Tr&#246;ger</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Get%20only%20-1%20when%20trying%20to%20read%20from%20radio0&In-Reply-To=%3C20061120112526.6172d977.enrico.troeger%40uvena.de%3E"
+       TITLE="[Rdsd-devel] Get only -1 when trying to read from radio0">enrico.troeger at uvena.de
+       </A><BR>
+    <I>Mon Nov 20 11:25:26 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000082.html">[Rdsd-devel] Get only -1 when trying to read from radio0
+</A></li>
+        <LI>Next message: <A HREF="000084.html">[Rdsd-devel] Get only -1 when trying to read from radio0
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#83">[ date ]</a>
+              <a href="thread.html#83">[ thread ]</a>
+              <a href="subject.html#83">[ subject ]</a>
+              <a href="author.html#83">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Mon, 20 Nov 2006 10:40:28 +0100 (MET), &quot;Hans J. Koch&quot;
+&lt;<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">koch at hjk-az.de</A>&gt; wrote:
+
+&gt;<i> Am Montag, 20. November 2006 03:17 schrieb Enrico Tr&#246;ger:
+</I>&gt;<i> &gt; Hi,
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; I just discovered this amazing project.
+</I>&gt;<i> &gt; I've played a bit with it but can't read any RDS info.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; I'm using kernel 2.6.18.3 with a Lifeview FlyVideo 2000 bttv card
+</I>&gt;<i> &gt; (bttv parameters are card=54, tuner=5).
+</I>&gt;<i>
+</I>&gt;<i> Are you sure this card has an RDS decoder? The manufacturers website
+</I>&gt;<i> says nothing about it...
+</I>I have no idea. How to find out?
+
+&gt;<i> &gt; To have a start, I started my radio app to tune in a station (used
+</I>&gt;<i> &gt; the German station EinsLive) and then I used the read_rds.c to get
+</I>&gt;<i> &gt; something to see. But the output is the following:
+</I>&gt;<i> &gt; Radio device opened, trying to read...
+</I>&gt;<i> &gt; Read returns -1
+</I>&gt;<i> &gt; Terminating.
+</I>&gt;<i>
+</I>&gt;<i> Before you can read anything, you have to load the module:
+</I>&gt;<i>
+</I>&gt;<i> modprobe saa6588
+</I>Of course, I did it before.
+
+&gt;<i> Have a look at dmesg to see if the driver actually found an SAA6588
+</I>&gt;<i> RDS decoder.
+</I>No, the driver doesn't output anything at all.
+
+Here is dmesg's output from the bttv driver, hope it helps:
+
+bttv: driver version 0.9.16 loaded
+bttv: using 8 buffers with 2080k (520 pages) each for capture
+bttv: Bt8xx card found (0).
+bttv0: Bt878 (rev 17) at 0000:00:0b.0, irq: 20, latency: 32, mmio:
+0xdddfe000 bttv0: using: Lifeview FlyVideo 2000 /FlyVideo A2/ Lifetec
+LT 9415 TV [LR90] [card=54,insmod option] bttv0: gpio: en=00000000,
+out=00000000 in=0044dfff [init] bttv0: FlyVideo Radio=yes
+RemoteControl=no  Tuner=5 gpio=0x44dfff bttv0: FlyVideo  LR90=yes
+tda9821/tda9820=no  capture_only=no bttv0: using tuner=5
+bttv0: i2c: checking for MSP34xx @ 0x80... not found
+bttv0: i2c: checking for TDA9875 @ 0xb0... not found
+bttv0: i2c: checking for TDA7432 @ 0x8a... not found
+bttv0: i2c: checking for TDA9887 @ 0x86... not found
+tuner 1-0061: chip found @ 0xc2 (bt878 #0 [sw])
+tuner 1-0061: type set to 5 (Philips PAL_BG (FI1216 and compatibles))
+bttv0: registered device video0
+bttv0: registered device vbi0
+bttv0: registered device radio0
+bttv0: PLL: 28636363 =&gt; 35468950 .. ok
+
+Regards,
+Enrico
+
+--
+Get my GPG key from <A HREF="http://www.uvena.de/pub.key">http://www.uvena.de/pub.key</A>
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: not available
+Type: application/pgp-signature
+Size: 189 bytes
+Desc: not available
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/rdsd-devel/attachments/20061120/388593d7/attachment.pgp">https://lists.berlios.de/pipermail/rdsd-devel/attachments/20061120/388593d7/attachment.pgp</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000082.html">[Rdsd-devel] Get only -1 when trying to read from radio0
+</A></li>
+	<LI>Next message: <A HREF="000084.html">[Rdsd-devel] Get only -1 when trying to read from radio0
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#83">[ date ]</a>
+              <a href="thread.html#83">[ thread ]</a>
+              <a href="subject.html#83">[ subject ]</a>
+              <a href="author.html#83">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

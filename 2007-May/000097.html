@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] RDS on SAA7134
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2007-May/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20RDS%20on%20SAA7134&In-Reply-To=%3C200705171527.00320.koch%40hjk-az.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000096.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] RDS on SAA7134</H1>
+    <B>Hans J. Koch</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20RDS%20on%20SAA7134&In-Reply-To=%3C200705171527.00320.koch%40hjk-az.de%3E"
+       TITLE="[Rdsd-devel] RDS on SAA7134">koch at hjk-az.de
+       </A><BR>
+    <I>Thu May 17 15:26:59 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000096.html">[Rdsd-devel] RDS on SAA7134
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#97">[ date ]</a>
+              <a href="thread.html#97">[ thread ]</a>
+              <a href="subject.html#97">[ subject ]</a>
+              <a href="author.html#97">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Am Donnerstag 17 Mai 2007 schrieb Tom Laermans:
+&gt;<i>
+</I>&gt;<i> Does the card logic, or rdsd (or anything else) automatically switch
+</I>&gt;<i> frequency (like a car radio) when the current frequency reception gets
+</I>&gt;<i> bad? That would be something I need...
+</I>
+Not automatically. librds has a function to query signal strength and
+another to set the frequency, so a userspace application could do that.
+
+However, it's not trivial to define what &quot;signal quality&quot; is. For 
+listening to radio, a value proportional to RF field strength might be
+appropriate. For RDS data reception, there's a certain minimal level for
+the decoder to work. If you're near that level, the number of error blocks
+rapidly increases until no reasonable reception is possible anymore.
+It is well possible that you have the impression of a strong station
+(because audio is loud and clear), but RDS is hardly working.
+
+Another thing you'll need is the alternative frequency list for a station.
+Code for that is not complete in rdsd, there's still some work to do.
+
+Hans
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000096.html">[Rdsd-devel] RDS on SAA7134
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#97">[ date ]</a>
+              <a href="thread.html#97">[ thread ]</a>
+              <a href="subject.html#97">[ subject ]</a>
+              <a href="author.html#97">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

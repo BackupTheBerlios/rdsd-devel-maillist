@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] Missing cstdio
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2010-March/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Missing%20cstdio&In-Reply-To=%3CCOL121-W63893EF44316ACAF33211FC6260%40phx.gbl%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000192.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] Missing cstdio</H1>
+    <B>Hannu Vuolasaho</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Missing%20cstdio&In-Reply-To=%3CCOL121-W63893EF44316ACAF33211FC6260%40phx.gbl%3E"
+       TITLE="[Rdsd-devel] Missing cstdio">vuokko at msn.com
+       </A><BR>
+    <I>Tue Mar 23 05:41:11 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000192.html">[Rdsd-devel] Missing cstdio
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#198">[ date ]</a>
+              <a href="thread.html#198">[ thread ]</a>
+              <a href="subject.html#198">[ subject ]</a>
+              <a href="author.html#198">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+
+
+
+
+
+Hello!
+
+RDS-TMC isn't that big thing. If you have the standard, it's quite simple after that.
+
+&gt;<i> 
+</I>&gt;<i>    Then what you can do with RDS-TMC data is actually quite limited as
+</I>&gt;<i> most countries scramble it, but if you have info on this, i'm
+</I>&gt;<i> interested :)
+</I>
+Well. The &quot;encryption&quot; is weak. 30 static &quot;keys&quot;, each one for each day of the month and the location is only scrambled. key number is transmitted in the TMC packet or frame or what was it.
+
+Below is paste from one of my electronics report. I should get that device working. I never fully implemented it. It has been too long and there are now days TMC navigators.
+
+--------
+
+
+It was dark night in November and I was reading Usenet where people were 
+wishing having a car navigator which would be capable receiving RDS-TMC 
+information. First I pointed my browser to wikipedia to better 
+understand TMC protocol and after a while I followed links and ended up 
+to
+
+<A HREF="http://dev.inversepath.com/rds/.">http://dev.inversepath.com/rds/.</A> 
+Those terrorist threats and bullfigts just got me totally interested. 
+The idea of decoding TMC was born.
+
+
+It was clear from beginning that in Finland TMC was encrypted but the 
+pdf in <A HREF="http://dev.inversepath.com/rds/">http://dev.inversepath.com/rds/</A> gave hope.
+
+ Described in ISO 14819-6
+
+ Only the Location Code is encrypted
+
+ It involves bitwise operations against a key. So that is not hard 
+to implement.
+
+I had to know this more about.
+
+
+ Best thing when you are in technical school, is to get access to 
+library. And trough library to standards. When you have the standard 
+rest is just applying it. I had pointer and I knew where to get what I 
+wanted. Few hours later I had encryption key sniffer. It was overkill 
+brute force solution which took always less than 20 encrypted location 
+codes to find the key. Time in CPU was always under minute without any 
+compiler made optimizations. Was this the encryption? It can't be 
+encryption. Just some kind of transmission error which needs to be 
+corrected. Weird that it happens always in location code.
+ 
+
+ How do I know what is right location. Links for Finnish location and 
+event tables can be found from
+
+ 
+<A HREF="http://www.destia.fi/tmc/english/default.asp">http://www.destia.fi/tmc/english/default.asp</A> and comparing results 
+of key in trial to true location. There are gaps in location numbers so 
+if result is in gap the key is wrong.
+-----
+
+
+So. Rest is just impelement those things. Hopefully I helped.
+
+Hannu Vuolasaho
+
+P.S. Sorry about html message. 
+
+ 		 	   		  
+_________________________________________________________________
+Hotmail: Trusted email with powerful SPAM protection.
+<A HREF="https://signup.live.com/signup.aspx?id=60969">https://signup.live.com/signup.aspx?id=60969</A>
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/rdsd-devel/attachments/20100323/481dfb48/attachment.html">https://lists.berlios.de/pipermail/rdsd-devel/attachments/20100323/481dfb48/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000192.html">[Rdsd-devel] Missing cstdio
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#198">[ date ]</a>
+              <a href="thread.html#198">[ thread ]</a>
+              <a href="subject.html#198">[ subject ]</a>
+              <a href="author.html#198">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

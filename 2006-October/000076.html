@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] New to the list....
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2006-October/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20New%20to%20the%20list....&In-Reply-To=%3C200610211720.37715.koch%40hjk-az.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000075.html">
+   <LINK REL="Next"  HREF="000077.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] New to the list....</H1>
+    <B>Hans J. Koch</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20New%20to%20the%20list....&In-Reply-To=%3C200610211720.37715.koch%40hjk-az.de%3E"
+       TITLE="[Rdsd-devel] New to the list....">koch at hjk-az.de
+       </A><BR>
+    <I>Sat Oct 21 17:20:36 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000075.html">[Rdsd-devel] New to the list....
+</A></li>
+        <LI>Next message: <A HREF="000077.html">[Rdsd-devel] New to the list....
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#76">[ date ]</a>
+              <a href="thread.html#76">[ thread ]</a>
+              <a href="subject.html#76">[ subject ]</a>
+              <a href="author.html#76">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Am Samstag, 21. Oktober 2006 10:24 schrieb Henry Vredegoor:
+&gt;<i> Hello everybody,
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> As the Subject of this mail says: I'm new to this list...
+</I>
+Welcome!
+
+&gt;<i>
+</I>&gt;<i> I am verry interested in RDS software, TMC in particular and freeware
+</I>&gt;<i> navigation software in general.
+</I>
+So am I.
+
+&gt;<i> Unfortunately I have little usefull software knowledge at the moment
+</I>&gt;<i> (working on it......  ;-)    ) but I do know a few things on hardware and
+</I>&gt;<i> datacommunication in general.
+</I>&gt;<i>
+</I>&gt;<i> That is what my first question is about:
+</I>&gt;<i> I read the previous postings and it seems that everybody is using some
+</I>&gt;<i> TV/Radio card with saa7134/saa6588 or similar on it?
+</I>
+Well, the answer to this is simple: There is exactly one specified way to 
+handle RDS data under Linux. It's described in the V4L2 API specifications. 
+Note that this is a great advantage over other operating systems which don't 
+have a clearly defined API for RDS data.
+
+Consequently, rdsd follows V4L2 specs, and reads RDS data from devices that 
+have a V4L2 compliant driver. At the moment, these are mainly ordinary 
+TV/Radio cards with bttv or saa7134 chipsets. All of these cards use a 
+SAA6588 RDS decoder, if they have RDS capability.
+
+The only other hardware I have is this:
+<A HREF="http://www.ov-lennestadt.de/projekte/ukw-radio/">http://www.ov-lennestadt.de/projekte/ukw-radio/</A> (in German only)
+It's made for educational purposes by German radio amateurs. The device is 
+connected to a serial port, and they wrote a Linux driver that makes it look 
+like a V4L2 device. As a consequence, it works fine with any radio 
+application and with rdsd, although it doesn't use a SAA6588. That's the way 
+exotic hardware should be handled.
+
+&gt;<i>
+</I>&gt;<i> As far as I understand it now:
+</I>&gt;<i> This gives you the opportunity to use a standard kernel driver in LINUX and
+</I>&gt;<i> the TV/Radio card-hardware to access the RDS datastream.
+</I>&gt;<i> The SAA6588 also decodes the bitstream for you and nicely delivers the data
+</I>&gt;<i> in blocks to the driver wich than can be used by the daemon software rdsd.
+</I>
+Yes, the saa6588 kernel driver is quite simple, since the SAA6588 already does 
+all the dirty work.
+
+&gt;<i>
+</I>&gt;<i> Also I think I read that people are having trouble to find a compatible
+</I>&gt;<i> card with one of these IC's.
+</I>
+Yes, it's getting more and more difficult. RDS capability doesn't seem to be 
+an important feature that people are willing to pay for, so manufacturers 
+seem to phase out these cards.
+
+&gt;<i>
+</I>&gt;<i> Maybe I'm telling something you all already know but in fact it's verry
+</I>&gt;<i> easy to have access to a raw RDS datastream.
+</I>&gt;<i> On the web there are numerous projects that describe how to do this with a
+</I>&gt;<i> standard  FM (car-)radio, maybe with the help of a little extra hardware.
+</I>
+Yes, of course you can solder an RDS decoder IC to the output of any tuner. It 
+shouldn't even be difficult to upgrade a radio card with an SAA6588 by 
+connecting its I2C bus to the I2C bus of the tuner.
+
+&gt;<i>
+</I>&gt;<i> Since the emphasis for this project (obviously) is software maybe it can
+</I>&gt;<i> help to have a simple source for raw RDS testdata without having the
+</I>&gt;<i> trouble of getting these out of a complex TV/Radiocard?
+</I>
+As rdsd can read from a simple file, this is easy. There is a file with a few 
+minutes of RDS test data on the rdsd homepage.
+
+&gt;<i>
+</I>&gt;<i> Another observation would be that there is currently no possibility to work
+</I>&gt;<i> with the raw bitstream (I mean the non decoded/blocked data coming out of
+</I>&gt;<i> an &quot;old&quot; RDS decoder-IC such as the 7330B) in LINUX? (you would have to do
+</I>&gt;<i> the bitstream decoding/blocking yourself in software)
+</I>
+This is clearly a kernel driver task. If you wrote e.g. a 7330B driver, you 
+would have to convert data from the chip (however it looks like) to V4L2 
+format. If the chip is accessible via the video chip's I2C bus, it would work 
+out of the box. If you need to access it some other way, you need some 
+additional effort, as in the radio amateur project mentioned above.
+
+&gt;<i>
+</I>&gt;<i> Would like to have oppinions/clarifications from you on this.
+</I>
+HTH,
+Hans
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000075.html">[Rdsd-devel] New to the list....
+</A></li>
+	<LI>Next message: <A HREF="000077.html">[Rdsd-devel] New to the list....
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#76">[ date ]</a>
+              <a href="thread.html#76">[ thread ]</a>
+              <a href="subject.html#76">[ subject ]</a>
+              <a href="author.html#76">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

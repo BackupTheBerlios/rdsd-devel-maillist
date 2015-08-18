@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] Ubuntu compile patch
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2009-June/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Ubuntu%20compile%20patch&In-Reply-To=%3C268161120906150854x637c108pec4c4833ddf196c%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000188.html">
+   <LINK REL="Next"  HREF="000189.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] Ubuntu compile patch</H1>
+    <B>Edouard Lafargue</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Ubuntu%20compile%20patch&In-Reply-To=%3C268161120906150854x637c108pec4c4833ddf196c%40mail.gmail.com%3E"
+       TITLE="[Rdsd-devel] Ubuntu compile patch">edouard at lafargue.name
+       </A><BR>
+    <I>Mon Jun 15 17:54:56 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000188.html">[Rdsd-devel] Making the code compile on Ubtuntu 9.04
+</A></li>
+        <LI>Next message: <A HREF="000189.html">[Rdsd-devel] New option to prevent rdsd from polling the radio	device for frequency
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#187">[ date ]</a>
+              <a href="thread.html#187">[ thread ]</a>
+              <a href="subject.html#187">[ subject ]</a>
+              <a href="author.html#187">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Here is the patch I had to do to make the various rds utilities on Ubuntu
+9.04, if anyone cares to test &amp; commit:
+
+Index: librds/src/librds.cpp
+===================================================================
+--- librds/src/librds.cpp    (revision 66)
++++ librds/src/librds.cpp    (working copy)
+@@ -128,7 +128,7 @@
+           buf_size will receive the required size for buf.
+   \return RDS_OK on success.
+ */
+-int rds_get_debug_text(RDSConnectionHandle hnd, char* buf, unsigned int*
+buf_size)
++int rds_get_debug_text(RDSConnectionHandle hnd, char* buf, size_t*
+buf_size)
+ {
+   RDSconnection* conn = (RDSconnection*)hnd;
+   return conn-&gt;GetDebugTextBuffer(buf,*buf_size);
+Index: librds/src/librds.h
+===================================================================
+--- librds/src/librds.h    (revision 66)
++++ librds/src/librds.h    (working copy)
+@@ -196,7 +196,7 @@
+ //! Set debug parameters.
+ int rds_set_debug_params(RDSConnectionHandle hnd, int debug_level, unsigned
+int max_lines);
+ //! Get stored debug messages or query the required buffer size.
+-int rds_get_debug_text(RDSConnectionHandle hnd, char* buf, unsigned int*
+buf_size);
++int rds_get_debug_text(RDSConnectionHandle hnd, char* buf, size_t*
+buf_size);
+ //! Enumerate the sources that rdsd knows about.
+ int rds_enum_sources(RDSConnectionHandle hnd, char* buf, size_t bufsize);
+ //! Set the event mask for a RDS data source.
+Index: rdsquery/src/rdsquery.cpp
+===================================================================
+--- rdsquery/src/rdsquery.cpp    (revision 66)
++++ rdsquery/src/rdsquery.cpp    (working copy)
+@@ -42,7 +42,7 @@
+
+ void show_debug(RDSConnectionHandle hnd)
+ {
+-  unsigned int buf_size = 0;
++  size_t buf_size = 0;
+   rds_get_debug_text(hnd,0,&amp;buf_size); // query required size
+   if (buf_size&gt;0){
+     vector&lt;char&gt; buf(buf_size);
+Index: rdsquery/src/rdsqueryhandler.cpp
+===================================================================
+--- rdsquery/src/rdsqueryhandler.cpp    (revision 66)
++++ rdsquery/src/rdsqueryhandler.cpp    (working copy)
+@@ -295,7 +295,7 @@
+
+ void RdsQueryHandler::show_debug()
+ {
+-  unsigned int buf_size = 0;
++  size_t buf_size = 0;
+   int ret = rds_get_debug_text(handle,0, &amp;buf_size); // query required size
+   if (ret){
+     ShowError(ret);
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/rdsd-devel/attachments/20090615/0f7e9e2e/attachment.html">https://lists.berlios.de/pipermail/rdsd-devel/attachments/20090615/0f7e9e2e/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000188.html">[Rdsd-devel] Making the code compile on Ubtuntu 9.04
+</A></li>
+	<LI>Next message: <A HREF="000189.html">[Rdsd-devel] New option to prevent rdsd from polling the radio	device for frequency
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#187">[ date ]</a>
+              <a href="thread.html#187">[ thread ]</a>
+              <a href="subject.html#187">[ subject ]</a>
+              <a href="author.html#187">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

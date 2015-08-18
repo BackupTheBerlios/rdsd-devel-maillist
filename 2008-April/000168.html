@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] Option &quot;i&quot; initialization
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2008-April/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Option%20%22i%22%20initialization&In-Reply-To=%3C20080429171812.GH3195%40local%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000167.html">
+   <LINK REL="Next"  HREF="000169.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] Option &quot;i&quot; initialization</H1>
+    <B>Hans J. Koch</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Option%20%22i%22%20initialization&In-Reply-To=%3C20080429171812.GH3195%40local%3E"
+       TITLE="[Rdsd-devel] Option &quot;i&quot; initialization">hjk at linutronix.de
+       </A><BR>
+    <I>Tue Apr 29 19:18:12 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000167.html">[Rdsd-devel] Option &quot;i&quot; initialization
+</A></li>
+        <LI>Next message: <A HREF="000169.html">[Rdsd-devel] RDS data document
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#168">[ date ]</a>
+              <a href="thread.html#168">[ thread ]</a>
+              <a href="subject.html#168">[ subject ]</a>
+              <a href="author.html#168">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Tue, Apr 29, 2008 at 06:44:20AM -0700, goog long wrote:
+&gt;<i> I have attached a patch to initialize option &quot;i&quot; to false. Without this
+</I>&gt;<i> fix, opts.GetDirectWanted is always true in rdsquery.cpp.
+</I>
+Thanks for your patch, I applied it to SVN.
+
+Thanks,
+Hans
+
+&gt;<i> 
+</I>&gt;<i> --- rdsquery-0.0.1.orig/src/rdsqoptions.cpp    2008-04-25 15:30:28.000000000 -0400
+</I>&gt;<i> +++ rdsquery-0.0.1/src/rdsqoptions.cpp    2008-04-25 15:31:14.000000000 -0400
+</I>&gt;<i> @@ -38,7 +38,8 @@
+</I>&gt;<i>      event_mask(0), freq_to_set(-1.0),
+</I>&gt;<i>      have_opt_e(false), have_opt_f(false),
+</I>&gt;<i>      have_opt_s(false), have_opt_p(false),
+</I>&gt;<i> -    have_opt_t(false), have_opt_u(false)
+</I>&gt;<i> +    have_opt_t(false), have_opt_u(false),
+</I>&gt;<i> +    have_opt_i(false)
+</I>&gt;<i>  {
+</I>&gt;<i>  
+</I>&gt;<i>  }
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i>        
+</I>&gt;<i> ---------------------------------
+</I>&gt;<i> Be a better friend, newshound, and know-it-all with Yahoo! Mobile.  Try it now.
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Rdsd-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">Rdsd-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">https://lists.berlios.de/mailman/listinfo/rdsd-devel</A>
+</I>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000167.html">[Rdsd-devel] Option &quot;i&quot; initialization
+</A></li>
+	<LI>Next message: <A HREF="000169.html">[Rdsd-devel] RDS data document
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#168">[ date ]</a>
+              <a href="thread.html#168">[ thread ]</a>
+              <a href="subject.html#168">[ subject ]</a>
+              <a href="author.html#168">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

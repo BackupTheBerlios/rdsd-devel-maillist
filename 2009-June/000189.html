@@ -1,0 +1,249 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] New option to prevent rdsd from polling the radio	device for frequency
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2009-June/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20New%20option%20to%20prevent%20rdsd%20from%20polling%20the%20radio%0A%09device%20for%20frequency&In-Reply-To=%3C268161120906161351i666318b8r6971eeaae6a8d7a1%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000187.html">
+   <LINK REL="Next"  HREF="000190.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] New option to prevent rdsd from polling the radio	device for frequency</H1>
+    <B>Edouard Lafargue</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20New%20option%20to%20prevent%20rdsd%20from%20polling%20the%20radio%0A%09device%20for%20frequency&In-Reply-To=%3C268161120906161351i666318b8r6971eeaae6a8d7a1%40mail.gmail.com%3E"
+       TITLE="[Rdsd-devel] New option to prevent rdsd from polling the radio	device for frequency">edouard at lafargue.name
+       </A><BR>
+    <I>Tue Jun 16 22:51:52 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000187.html">[Rdsd-devel] Ubuntu compile patch
+</A></li>
+        <LI>Next message: <A HREF="000190.html">[Rdsd-devel] New developer!
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#189">[ date ]</a>
+              <a href="thread.html#189">[ thread ]</a>
+              <a href="subject.html#189">[ subject ]</a>
+              <a href="author.html#189">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>  On my USB FM radio, calls to radio tend to cause audible clicks
+every time the driver asks the dongle for its frequency/rssi. If the
+RDS bistream is fast, this causes real problems and the radio becomes
+unuseable (except for reading the RDS stream).
+
+  I therefore added a new option to rdsd to disable frequency polling,
+as described in the patch below. Works fine for me...
+
+Ed
+
+Index: librds/src/librds.cpp
+===================================================================
+--- librds/src/librds.cpp	(revision 66)
++++ librds/src/librds.cpp	(working copy)
+@@ -128,7 +128,7 @@
+ 		  buf_size will receive the required size for buf.
+   \return RDS_OK on success.
+ */
+-int rds_get_debug_text(RDSConnectionHandle hnd, char* buf, unsigned
+int* buf_size)
++int rds_get_debug_text(RDSConnectionHandle hnd, char* buf, size_t* buf_size)
+ {
+   RDSconnection* conn = (RDSconnection*)hnd;
+   return conn-&gt;GetDebugTextBuffer(buf,*buf_size);
+Index: librds/src/librds.h
+===================================================================
+--- librds/src/librds.h	(revision 66)
++++ librds/src/librds.h	(working copy)
+@@ -196,7 +196,7 @@
+ //! Set debug parameters.
+ int rds_set_debug_params(RDSConnectionHandle hnd, int debug_level,
+unsigned int max_lines);
+ //! Get stored debug messages or query the required buffer size.
+-int rds_get_debug_text(RDSConnectionHandle hnd, char* buf, unsigned
+int* buf_size);
++int rds_get_debug_text(RDSConnectionHandle hnd, char* buf, size_t* buf_size);
+ //! Enumerate the sources that rdsd knows about.
+ int rds_enum_sources(RDSConnectionHandle hnd, char* buf, size_t bufsize);
+ //! Set the event mask for a RDS data source.
+Index: rdsd/src/rdssource.cpp
+===================================================================
+--- rdsd/src/rdssource.cpp	(revision 66)
++++ rdsd/src/rdssource.cpp	(working copy)
+@@ -39,7 +39,7 @@
+ namespace std {
+
+ RDSsource::RDSsource()
+-  : tuner_freq_khz(-1), src_type(SRCTYPE_NONE), fd(-1),
++  : tuner_freq_khz(-1), src_type(SRCTYPE_NONE), fd(-1), getfreq(true),
+     freq_factor(16), use_v4l1(false), status(SRCSTAT_CLOSED), log(0)
+
+ {
+@@ -177,12 +177,14 @@
+       case SRCTYPE_RADIODEV:
+              int freq;
+              ret = read(fd,&amp;buf[0],buf.size());
+-             GetRadioFreq(freq);
+-             if (freq != tuner_freq_khz) {
+-               Data.FreqChanged();
+-               tuner_freq_khz = freq;
+-               // the following is a bit of a hack; how will we know
+when there's no more data coming from the old channel???
+-               ret = 0;
++             if (getfreq) {
++               GetRadioFreq(freq);
++               if (freq != tuner_freq_khz) {
++                 Data.FreqChanged();
++                 tuner_freq_khz = freq;
++                 // the following is a bit of a hack; how will we
+know when there's no more data coming from the old channel???
++                 ret = 0;
++               }
+              }
+              break;
+       case SRCTYPE_FILE:
+@@ -248,6 +250,13 @@
+ 	else if (S == &quot;file&quot;) src_type = SRCTYPE_FILE;
+ 	else src_type = SRCTYPE_NONE;
+       }
++      else if (valname == &quot;getradiofreq&quot;){
++	getfreq = val-&gt;GetBool(valid);
++	if (! valid){
++          getfreq = false;
++          LogMsg(LL_ERR,&quot;Illegal boolean setting for getradiofreq in
+source &quot;+srcname);
++	}
++      }
+       else if (valname == &quot;tunerfreq&quot;){
+         tuner_freq_khz = val-&gt;GetInt(valid);
+         if (! valid){
+@@ -312,14 +321,15 @@
+     struct v4l2_frequency freq_struct;
+     memset(&amp;freq_struct,0,sizeof(freq_struct));
+     freq_struct.tuner = 0;
+-    ret = ioctl(fd, VIDIOC_G_FREQUENCY, &amp;freq_struct); //V4L2
++     ret = ioctl(fd, VIDIOC_G_FREQUENCY, &amp;freq_struct); //V4L2
+     if (ret != 0){
+       show_sys_error(&quot;GetRadioFreq() V4L2 ioctl:&quot;);
+       return RDSD_RADIO_IOCTL;
+-    }
++     }
+     ifreq = freq_struct.frequency;
+   }
+   freq_khz = 1000*ifreq/freq_factor;
++  freq_khz = 878000;
+   return RDS_OK;
+ }
+
+@@ -336,7 +346,7 @@
+       return RDSD_RADIO_IOCTL;
+     }
+     signal_strength = vt.signal; // 0..65535
+-  }
++   }
+   else{
+     struct v4l2_tuner tuner_v4l2;
+     memset(&amp;tuner_v4l2,0,sizeof(tuner_v4l2));
+@@ -346,6 +356,7 @@
+       return RDSD_RADIO_IOCTL;
+     }
+     signal_strength = tuner_v4l2.signal; // 0..65535
++   signal_strength = 32768;
+   }
+   return RDS_OK;
+ }
+Index: rdsd/src/rdssource.h
+===================================================================
+--- rdsd/src/rdssource.h	(revision 66)
++++ rdsd/src/rdssource.h	(working copy)
+@@ -66,6 +66,7 @@
+   int fd;
+   int freq_factor;
+   bool use_v4l1;
++  bool getfreq;
+   SourceStatus status;
+   LogHandler *log;
+   void LogMsg(LogLevel prio, string msg);
+Index: rdsd/rdsd.1
+===================================================================
+--- rdsd/rdsd.1	(revision 66)
++++ rdsd/rdsd.1	(working copy)
+@@ -66,6 +66,7 @@
+ name = &quot;Terratec PCI card&quot;
+ path = &quot;/dev/radio0&quot;
+ type = &quot;radiodev&quot;
++getradiofreq = true
+ tunerfreq = 93800
+
+ [source]
+@@ -133,6 +134,11 @@
+ probably go away soon. If you need such a feature, post a message on the
+ rdsd\-devel mailing list.
+
++.TP
++\fBgetradiofreq\fR
++If false, prevents rdsd from constantly polling the radio device for
+its current
++frequency, which causes audible clicks in the audio of some radios.
++
+ .TP
+ \fBtunerfreq\fR
+ If the type of the source is &quot;radiodev&quot;, rdsd can tune your radio to the
+Index: rdsquery/src/rdsquery.cpp
+===================================================================
+--- rdsquery/src/rdsquery.cpp	(revision 66)
++++ rdsquery/src/rdsquery.cpp	(working copy)
+@@ -42,7 +42,7 @@
+
+ void show_debug(RDSConnectionHandle hnd)
+ {
+-  unsigned int buf_size = 0;
++  size_t buf_size = 0;
+   rds_get_debug_text(hnd,0,&amp;buf_size); // query required size
+   if (buf_size&gt;0){
+     vector&lt;char&gt; buf(buf_size);
+Index: rdsquery/src/rdsqueryhandler.cpp
+===================================================================
+--- rdsquery/src/rdsqueryhandler.cpp	(revision 66)
++++ rdsquery/src/rdsqueryhandler.cpp	(working copy)
+@@ -295,7 +295,7 @@
+
+ void RdsQueryHandler::show_debug()
+ {
+-  unsigned int buf_size = 0;
++  size_t buf_size = 0;
+   int ret = rds_get_debug_text(handle,0, &amp;buf_size); // query required size
+   if (ret){
+     ShowError(ret);
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000187.html">[Rdsd-devel] Ubuntu compile patch
+</A></li>
+	<LI>Next message: <A HREF="000190.html">[Rdsd-devel] New developer!
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#189">[ date ]</a>
+              <a href="thread.html#189">[ thread ]</a>
+              <a href="subject.html#189">[ subject ]</a>
+              <a href="author.html#189">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] [PATCH] rdsquery: hex pi code, no wait on immediate
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2008-November/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20%5BPATCH%5D%20rdsquery%3A%20hex%20pi%20code%2C%20no%20wait%20on%20immediate&In-Reply-To=%3C200811181910.16445.tobias.lorenz%40gmx.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000185.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] [PATCH] rdsquery: hex pi code, no wait on immediate</H1>
+    <B>Tobias Lorenz</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20%5BPATCH%5D%20rdsquery%3A%20hex%20pi%20code%2C%20no%20wait%20on%20immediate&In-Reply-To=%3C200811181910.16445.tobias.lorenz%40gmx.net%3E"
+       TITLE="[Rdsd-devel] [PATCH] rdsquery: hex pi code, no wait on immediate">tobias.lorenz at gmx.net
+       </A><BR>
+    <I>Tue Nov 18 19:10:16 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000185.html">[Rdsd-devel] [PATCH] Doxyfile paths
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#184">[ date ]</a>
+              <a href="thread.html#184">[ thread ]</a>
+              <a href="subject.html#184">[ subject ]</a>
+              <a href="author.html#184">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+the following patch fixes two things:
+1. Currently the pi code is returned as decimal value, whereas the hexadecimal version is more common. Therefore I changed the output to hex.
+2. When using the -i option to get immediate results, rdsquery still hangs after the immediate results are shown. This is not my understatement of immediate.
+
+Bye,
+Toby
+
+Signed-off-by: Tobias Lorenz &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">tobias.lorenz at gmx.net</A>&gt;
+
+Index: rdsquery/src/rdsquery.cpp
+===================================================================
+--- rdsquery/src/rdsquery.cpp	(Revision 66)
++++ rdsquery/src/rdsquery.cpp	(Arbeitskopie)
+@@ -148,7 +148,7 @@
+       if (events &amp; RDS_EVENT_AF_LIST) rds.ShowAltFreqList();
+       if (events &amp; RDS_EVENT_RX_FREQ) rds.ShowTunerFrequency();
+       if (events &amp; RDS_EVENT_RX_SIGNAL) rds.ShowSignalStrength();
+-  }
++  } else
+   while (RDS_OK == rds_get_event(hnd,opts.GetSourceNum(),&amp;events)){
+     if (events &amp; RDS_EVENT_FLAGS) rds.ShowFlags();
+     if (events &amp; RDS_EVENT_PI_CODE) rds.ShowPIcode();
+Index: rdsquery/src/rdsqueryhandler.cpp
+===================================================================
+--- rdsquery/src/rdsqueryhandler.cpp	(Revision 66)
++++ rdsquery/src/rdsqueryhandler.cpp	(Arbeitskopie)
+@@ -115,7 +115,7 @@
+   int ret = rds_get_pi_code(handle,src_num, &amp;result);
+   cout &lt;&lt; &quot;picode:&quot;;
+   if (ret) ShowError(ret);
+-  else cout &lt;&lt; result &lt;&lt; endl;
++  else cout &lt;&lt; hex &lt;&lt; result &lt;&lt; endl;
+ }
+ 
+ void RdsQueryHandler::ShowPTYcode()
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/rdsd-devel/attachments/20081118/d7594e7f/attachment.html">https://lists.berlios.de/pipermail/rdsd-devel/attachments/20081118/d7594e7f/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000185.html">[Rdsd-devel] [PATCH] Doxyfile paths
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#184">[ date ]</a>
+              <a href="thread.html#184">[ thread ]</a>
+              <a href="subject.html#184">[ subject ]</a>
+              <a href="author.html#184">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

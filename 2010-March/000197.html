@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] Patch: cstdio and bracket
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2010-March/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Patch%3A%20cstdio%20and%20bracket&In-Reply-To=%3C20100323004906.GD2547%40local%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000196.html">
+   <LINK REL="Next"  HREF="000192.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] Patch: cstdio and bracket</H1>
+    <B>Hans J. Koch</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Patch%3A%20cstdio%20and%20bracket&In-Reply-To=%3C20100323004906.GD2547%40local%3E"
+       TITLE="[Rdsd-devel] Patch: cstdio and bracket">hjk at linutronix.de
+       </A><BR>
+    <I>Tue Mar 23 01:49:07 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000196.html">[Rdsd-devel] Patch: cstdio and bracket
+</A></li>
+        <LI>Next message: <A HREF="000192.html">[Rdsd-devel] Missing cstdio
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#197">[ date ]</a>
+              <a href="thread.html#197">[ thread ]</a>
+              <a href="subject.html#197">[ subject ]</a>
+              <a href="author.html#197">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Mon, Mar 22, 2010 at 08:21:57PM -0400, Brian Jenkins wrote:
+&gt;<i> All:
+</I>&gt;<i> 
+</I>&gt;<i> Unless I missed something there are two errors that prevent a compile in rdsd. See the diff below.
+</I>&gt;<i> 
+</I>&gt;<i> tmclist.cpp is one curly bracket short. Without digging too deep I believe I picked the correct location. Please verify that I did.
+</I>&gt;<i> 
+</I>&gt;<i> On the second one, was &lt;cstdio&gt; supposed to be supplied by config.h and configure? Or should this be added here?
+</I>
+Sorry, I cannot be of much help here. The last time I compiled rdsd was at
+least 2 years ago. It compiled then. I gave other people write permission
+since then, but didn't have the time to check what they did. Sad thing...
+
+Could you use svn blame to find out who committed these lines?
+
+Anyway, if you're seriously interested in working with rdsd, I've got no
+problems with giving you write permission so you can fix such nasty things
+yourself.
+
+Thanks,
+Hans
+
+&gt;<i> 
+</I>&gt;<i> Thanks
+</I>&gt;<i> Brian
+</I>&gt;<i> 
+</I>&gt;<i> #svn diff
+</I>&gt;<i> Index: trunk/rdsd/src/tmclist.cpp
+</I>&gt;<i> ===================================================================
+</I>&gt;<i> --- trunk/rdsd/src/tmclist.cpp	(revision 73)
+</I>&gt;<i> +++ trunk/rdsd/src/tmclist.cpp	(working copy)
+</I>&gt;<i> @@ -66,6 +66,7 @@
+</I>&gt;<i>                           oss &lt;&lt; &quot;GS CI=&quot; &lt;&lt; CI &lt;&lt; &quot; GSI=&quot; &lt;&lt; GSI;
+</I>&gt;<i>                           oss &lt;&lt; &quot; F1=&quot; &lt;&lt; event &lt;&lt; &quot; F2=&quot; &lt;&lt; location; // Free Format
+</I>&gt;<i>                         }
+</I>&gt;<i> +                     }
+</I>&gt;<i>                       break;
+</I>&gt;<i>      case TMC_SINGLE: oss &lt;&lt; &quot;S evt=&quot; &lt;&lt; event &lt;&lt; &quot; loc=&quot; &lt;&lt; location;
+</I>&gt;<i>                       oss &lt;&lt; &quot; ext=&quot; &lt;&lt; extent &lt;&lt; &quot; dur=&quot; &lt;&lt; duration;
+</I>&gt;<i> Index: trunk/rdsd/src/rdsd.cpp
+</I>&gt;<i> ===================================================================
+</I>&gt;<i> --- trunk/rdsd/src/rdsd.cpp	(revision 73)
+</I>&gt;<i> +++ trunk/rdsd/src/rdsd.cpp	(working copy)
+</I>&gt;<i> @@ -29,6 +29,7 @@
+</I>&gt;<i>  #include &lt;fcntl.h&gt;
+</I>&gt;<i>  #include &lt;cstring&gt;
+</I>&gt;<i>  #include &lt;sstream&gt;
+</I>&gt;<i> +#include &lt;cstdio&gt;
+</I>&gt;<i>  
+</I>&gt;<i>  using namespace std;
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Rdsd-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">Rdsd-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">https://lists.berlios.de/mailman/listinfo/rdsd-devel</A>
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000196.html">[Rdsd-devel] Patch: cstdio and bracket
+</A></li>
+	<LI>Next message: <A HREF="000192.html">[Rdsd-devel] Missing cstdio
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#197">[ date ]</a>
+              <a href="thread.html#197">[ thread ]</a>
+              <a href="subject.html#197">[ subject ]</a>
+              <a href="author.html#197">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

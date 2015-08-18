@@ -1,0 +1,213 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] New to the list....
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2006-October/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20New%20to%20the%20list....&In-Reply-To=%3C200610221930.31606.koch%40hjk-az.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000079.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] New to the list....</H1>
+    <B>Hans J. Koch</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20New%20to%20the%20list....&In-Reply-To=%3C200610221930.31606.koch%40hjk-az.de%3E"
+       TITLE="[Rdsd-devel] New to the list....">koch at hjk-az.de
+       </A><BR>
+    <I>Sun Oct 22 19:30:30 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000079.html">[Rdsd-devel] New to the list....
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#80">[ date ]</a>
+              <a href="thread.html#80">[ thread ]</a>
+              <a href="subject.html#80">[ subject ]</a>
+              <a href="author.html#80">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Am Sonntag, 22. Oktober 2006 03:10 schrieb Henry Vredegoor:
+[...]
+&gt;<i> &gt;
+</I>&gt;<i> &gt; RDS data read from /dev/radio is still &quot;raw data&quot;. You get a
+</I>&gt;<i> &gt; stream of
+</I>&gt;<i> &gt; 3-byte-blocks that still need decoding (that's what rdsd
+</I>&gt;<i> &gt; does). The good
+</I>&gt;<i> &gt; thing is that these blocks always have the same format, no
+</I>&gt;<i> &gt; matter from which
+</I>&gt;<i> &gt; hardware they come.
+</I>&gt;<i>
+</I>&gt;<i> This is all a matter of how you define &quot;raw&quot;!!  ;-) :
+</I>&gt;<i> I'm used as a former SA to think in this case off &quot;raw&quot; as unprocessed,
+</I>&gt;<i> transparent, not interpreted.
+</I>&gt;<i> In the case of /dev/rrds to me it would be a stream of bits (bytes) for
+</I>&gt;<i> witch you have to do the error checking/repair, strip the extra error
+</I>&gt;<i> correction info bits.
+</I>
+Why would you want to do all that yourself? What could be an application that 
+needs that?
+
+&gt;<i> In the block device /dev/rds you have the error corrected data and have the
+</I>&gt;<i> &quot;real&quot; data.
+</I>
+RDS data will always be a character device.
+
+&gt;<i> To me such a device is similar to a tty device in the sense that it is
+</I>&gt;<i> &quot;&#239;nterpreted&quot;, processed upon. (Compare rtty and tty)
+</I>&gt;<i> In the situation where you do not have the radio &quot;inside&quot; the PC but as
+</I>&gt;<i> some external unit (Serial, USB, Bluetooth) or do not have the control over
+</I>&gt;<i> the radio (no tuning, mode selection etc., only data input) it seems more
+</I>&gt;<i> appropriate (simpler) to me.
+</I>
+OK, but such exotic things like tuners without tuning are still covered by 
+V4L2 specs. Just let the respective IOCTRL do nothing...
+
+&gt;<i>
+</I>&gt;<i> But I agree, for the application-level this would be still raw data.....
+</I>
+An application should avoid reading RDS data directly from the device file. If 
+you want to use rdsd, you MUST NOT read from /dev/radio!
+Applications should always use librds to read decoded data from rdsd. 
+Otherwise they reinvent the wheel. A nice side effect is that they get 
+network capability for free. You can have a radio card in one server and 
+distribute decoded RDS data to your whole LAN.
+
+One word to all developers:
+If rdsd doesn't decode the data you need yet, please don't start writing a 
+whole new application, but add it to rdsd. I'll give you all the help you 
+need.  
+
+
+&gt;<i>
+</I>&gt;<i> I see an RDS interface not per s&#233; as a radio but more as some data-source.
+</I>&gt;<i> A data source you can tune the frequency of, make mode selections and so
+</I>&gt;<i> on, sure, but no &quot;real&quot; radio.
+</I>&gt;<i> (Think of special TMC receiver hardware)
+</I>
+As I said, most RDS receivers ARE radios. Special TMC hardware can easily be 
+seen as a radio with missing features. Even normal radios usually don't 
+implement all features. No need for two devices.
+
+A real problem I am aware of is RDS data sent via DVB. The DVB guys told me 
+they receive RDS groups along with the video stream and decode them in their 
+user space applications. It would be nice if they could find a way to make 
+their RDS raw data available, e.g through a unix domain socket, so that rdsd 
+could be used for decoding. I didn't have the time to further discuss this 
+issue with them.
+
+&gt;<i> That would be a separate device I could set Volume, treble, bass and so on
+</I>&gt;<i> and that I would actual be listening to.
+</I>&gt;<i> And why not talk (for the setup of the radio etc.) to a device &quot;/dev/rds&quot;
+</I>&gt;<i> (Just one device, no separate device &quot;/dev/radio&quot; at all required)?
+</I>&gt;<i>
+</I>&gt;<i> And:
+</I>&gt;<i>
+</I>&gt;<i> History is history................ ;-)
+</I>
+Sure, but I can tell you straight away that you would not get such an approach 
+into the official kernel. If you want to change V4L2 specs, you'll have to 
+give your reasons and discuss them on the V4L mailing list. If you even want 
+to introduce a new character device, you'd need the OK from Linus, Andrew and 
+others which you'll never get.
+
+Of course you're always free to write your own kernel module that does all 
+that you like. If you have a special application that really needs e.g. the 
+raw bit stream, this is the only way you can do it. But you won't get that 
+module into the official kernel, as it violates V4L2 specs.
+
+[...]
+&gt;<i> &gt; * Add TMC decoding
+</I>&gt;<i>
+</I>&gt;<i> And of course TMC message presentation/display!! (not only
+</I>&gt;<i> decoding!!)...... The really difficult app in my opinion.
+</I>&gt;<i> Not only the use (and keeping it up to date!!) of a database to translate
+</I>&gt;<i> the TMC codes to actual messages/locations in a particular language, but
+</I>&gt;<i> also operational aspects of situations.
+</I>
+Yes, of course. I'll start by adding event decoding. First, you need 
+information about the type of event to decode the rest. Second, the Event 
+Table is the same for all countries, while the location tables are different. 
+The conversion of event and location numbers to clear text has to be done by 
+rdsd, otherwise each application would need it's own tables. I'll add new 
+functions to librds to allow applications to query clear text TMC messages in 
+a selectable language. 
+
+&gt;<i>
+</I>&gt;<i> Let alone getting this info in some sort of navigation app........
+</I>
+I'm working on that, too. But it's still in planning, too early to publish 
+something.
+
+
+&gt;<i> &gt; Of course, I'd appreciate it if
+</I>&gt;<i> &gt; somebody wrote a
+</I>&gt;<i> &gt; decent GUI using librds.
+</I>&gt;<i>
+</I>&gt;<i> I thought about that.
+</I>&gt;<i> I think it would be nice and a good strategy/starting point to develop some
+</I>&gt;<i> sort of command line interface and -application witch uses a standard
+</I>&gt;<i> command set to perform basic actions on all types of supported RDS hardware
+</I>&gt;<i> (Something like the standard modem &quot;AT command&quot; set), maybe using rdslib
+</I>&gt;<i> ??.
+</I>
+Did you ever have a look at the code? There is a command line application 
+called &quot;rdsquery&quot; that does that. In my superkaramba script, I call rdsquery 
+every 5 seconds, it gets the last radiotext string, and superkaramba displays 
+it on my desktop. Of course, you can do many more things with such a 
+commandline tool.
+
+
+&gt;<i>
+</I>&gt;<i> E.g.. Simple commands like &quot;Set Frequency&quot;, &quot;Set PTY mode&quot;, &quot;Set TA mode&quot;,
+</I>&gt;<i> &quot;Read Frequency&quot;, &quot;Read Mode&quot;, &quot;Start reading RDS Data&quot; and such.
+</I>&gt;<i>
+</I>&gt;<i> All standard GUI applications should adhere to such a standard and could be
+</I>&gt;<i> used with all hardware for which this interface would be implemented.
+</I>
+The standard for GUI applications is the librds API.
+
+&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Utopia?!
+</I>&gt;<i>
+</I>&gt;<i> Again only my 2 cents worth opinion and what I understand of it!!
+</I>&gt;<i>
+</I>&gt;<i> Or am I way of base/dreamin' ??   :-)
+</I>
+No, but did you ever read the V4L2 API specs? Or the INSTALL/README/manpages 
+that are included in the rdsd/librds/rdsquery distribution? If not, you 
+should do so.
+
+Cheers,
+Hans
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000079.html">[Rdsd-devel] New to the list....
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#80">[ date ]</a>
+              <a href="thread.html#80">[ thread ]</a>
+              <a href="subject.html#80">[ subject ]</a>
+              <a href="author.html#80">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

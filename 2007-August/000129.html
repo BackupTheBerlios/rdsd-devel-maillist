@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] Reading RDS data
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2007-August/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Reading%20RDS%20data&In-Reply-To=%3C200708301326.54348.koch%40hjk-az.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000128.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] Reading RDS data</H1>
+    <B>Hans J. Koch</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Reading%20RDS%20data&In-Reply-To=%3C200708301326.54348.koch%40hjk-az.de%3E"
+       TITLE="[Rdsd-devel] Reading RDS data">koch at hjk-az.de
+       </A><BR>
+    <I>Thu Aug 30 13:26:54 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000128.html">[Rdsd-devel] Reading RDS data
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#129">[ date ]</a>
+              <a href="thread.html#129">[ thread ]</a>
+              <a href="subject.html#129">[ subject ]</a>
+              <a href="author.html#129">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Am Donnerstag 30 August 2007 12:39 schrieb Derek Philip:
+
+&gt;<i> 
+</I>&gt;<i> &gt; KNC ONE Tv-RDS (saa7134, saa6588)
+</I>&gt;<i>                   ^^^^^^^
+</I>&gt;<i> If this is really a saa7134 card, I'd like to see your patch for the
+</I>&gt;<i> saa7134 driver.
+</I>&gt;<i> 
+</I>&gt;<i> DCP:It is a saa7134 card, gnomeradio works ok, I did have problems with
+</I>&gt;<i> insmod of the saa6588 module while the saa7134 module was installed,
+</I>&gt;<i> this would hang the machine. A work mate, who knows conciderably more
+</I>&gt;<i> than me on the subject, saw that the soin lock in the saa6588 module was
+</I>&gt;<i> not initialised, on including a call to initialise it I was able to
+</I>&gt;<i> install the module. It's a one liner, I'll get the details. 
+</I>
+I'm very much interested in that!
+
+&gt;<i> It may not 
+</I>&gt;<i> fix all of the problem
+</I>
+True. It won't work. The saa7134 driver needs to be modified, too. At least
+the radio_read() function needs to be added. I wrote the necessary code,
+but couldn't find that bug (freezing machine), so I never saw it work.
+
+&gt;<i> Its frustrating that I can see the data in a debug message but can't get
+</I>&gt;<i> at it :{.
+</I>
+I really wonder where that data comes from. Reading from /dev/radioX is 
+usually not possible with an unmodified saa7134 driver.
+
+Thanks,
+Hans
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000128.html">[Rdsd-devel] Reading RDS data
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#129">[ date ]</a>
+              <a href="thread.html#129">[ thread ]</a>
+              <a href="subject.html#129">[ subject ]</a>
+              <a href="author.html#129">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

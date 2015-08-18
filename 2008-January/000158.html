@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] [PATCH] rdsquery immediate works now
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2008-January/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20%5BPATCH%5D%20rdsquery%20immediate%20works%20now&In-Reply-To=%3C200801272206.22458.tobias.lorenz%40gmx.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000157.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] [PATCH] rdsquery immediate works now</H1>
+    <B>Tobias Lorenz</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20%5BPATCH%5D%20rdsquery%20immediate%20works%20now&In-Reply-To=%3C200801272206.22458.tobias.lorenz%40gmx.net%3E"
+       TITLE="[Rdsd-devel] [PATCH] rdsquery immediate works now">tobias.lorenz at gmx.net
+       </A><BR>
+    <I>Sun Jan 27 22:06:22 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000157.html">[Rdsd-devel] [PATCH] rdsquery immediate works now
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#158">[ date ]</a>
+              <a href="thread.html#158">[ thread ]</a>
+              <a href="subject.html#158">[ subject ]</a>
+              <a href="author.html#158">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+&gt;<i> I intended it this way; return current data immediately and then the 
+</I>&gt;<i> number of events specified with -c n.
+</I>
+Then I was right with your original intention. But at least here, it doesn't work this way.
+
+&gt;<i> The imho right change to make is that -c 0 implies not to wait for 
+</I>&gt;<i> events and some other number e.g. 999999 or -1 for an infinite number of 
+</I>&gt;<i> events...
+</I>
+Without my patch, my rdsquery does always return at least the current data and one event.
+See for yourself:
+
+&lt;&lt;&lt; snip
+<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">root at tobias-laptop</A>:/home/users/tobias# rdsquery -t pname -c 0
+pname:SWR1 BW
+pname:SWR1 BW
+pname:SWR1 BW
+...
+Caught SIGINT, closing connection, exiting.
+<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">root at tobias-laptop</A>:/home/users/tobias# rdsquery -t pname -c -1
+pname:SWR1 BW
+pname:SWR1 BW
+<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">root at tobias-laptop</A>:/home/users/tobias# rdsquery -t pname -c 1
+pname:SWR1 BW
+pname:SWR1 BW
+<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">root at tobias-laptop</A>:/home/users/tobias# rdsquery -t pname -c 2
+pname:SWR1 BW
+pname:SWR1 BW
+pname:SWR1 BW
+&lt;&lt;&lt; snap
+
+This seems to be a result from the current implementation:
+&lt;&lt;&lt; snip
+  if (opts.GetDirectWanted()) {
+    ...
+  }
+  while (RDS_OK == rds_get_event(hnd,opts.GetSourceNum(),events)){
+    ...
+    if (! rds.DecRecordCounters(events)) break;
+  }
+&lt;&lt;&lt; snap
+
+The first output comes from what's within the if clause.
+One event is at least processed, because the break condition is at the end of the while loop.
+Probably you also intended to have the break condition at the beginning of the while loop?
+
+Bye,
+  Toby
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000157.html">[Rdsd-devel] [PATCH] rdsquery immediate works now
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#158">[ date ]</a>
+              <a href="thread.html#158">[ thread ]</a>
+              <a href="subject.html#158">[ subject ]</a>
+              <a href="author.html#158">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

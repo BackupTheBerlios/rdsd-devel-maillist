@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> No subject
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2012-March/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20No%20subject&In-Reply-To=%3Cmailman.0.1331737805.10710.rdsd-devel%40lists.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000200.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>No subject</H1>
+    <B></B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20No%20subject&In-Reply-To=%3Cmailman.0.1331737805.10710.rdsd-devel%40lists.berlios.de%3E"
+       TITLE="No subject">
+       </A><BR>
+    <I>Wed Mar 14 16:10:05 CET 2012</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000200.html">[Rdsd-devel] Status of SAA6588 support in current kernels
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#72">[ date ]</a>
+              <a href="thread.html#72">[ thread ]</a>
+              <a href="subject.html#72">[ subject ]</a>
+              <a href="author.html#72">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Saw block 0 again.
+saa6588: New block (0): 0xee 0xa6 0x1b 99 blocks total.
+Saw block 3 again.
+saa6588: New block (0): 0x62 0xe6 0x12 99 blocks total.
+saa6588: New block (0): 0x09 0x3b 0x09 99 blocks total.
+Saw block 1 again.
+saa6588: New block (1): 0xf7 0x73 0x24 99 blocks total.
+Saw block 4 again.
+
+As you see the third bytes have 5 values ... this mean 5 block (form 0 to
+4).
+But the RDS talk about 4 block ...
+
+2=B0 Question : How about this fifth type of block ?
+
+3=B0 Question : As u see i never got 4 block correctly ordered. It's normal=
+ ?
+How can i get the real order ?
+
+4=B0 Question : Kenrel say Saw block x again. The module poll the chip, whe=
+n
+it say Saw block 4 again it mean that no new block are arrived ?! I dont
+lost any packet ?
+
+Thanks in advice
+
+--=20
+Daniele Ravizza
+
+------=_Part_42806_5205620.1154424140460
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+
+Hello,&lt;br&gt;i have some problems with blocks count.&lt;br&gt;One group is 104 bytes=
+. every group is composed by 4 blocks.&lt;br&gt;Every block is 26bit. 16bit of da=
+ta and 10 of check.&lt;br&gt;&lt;br&gt;1=B0 Question : why the saa6588 module get every=
+ block with 3 bytes (24bit) ... it discard 2 bit every time. Are them usele=
+ss ?
+&lt;br&gt;&lt;br&gt;From debug=3D4 i got those messages :&lt;br&gt;saa6588: New block (0): 0x=
+69 0xde 0x00 99 blocks total.&lt;br&gt;Saw block 0 again.&lt;br&gt;saa6588: New block (=
+0): 0xee 0xa6 0x1b 99 blocks total.&lt;br&gt;Saw block 3 again.&lt;br&gt;saa6588: New b=
+lock (0): 0x62 0xe6 0x12 99 blocks total.
+&lt;br&gt;saa6588: New block (0): 0x09 0x3b 0x09 99 blocks total.&lt;br&gt;Saw block 1 =
+again.&lt;br&gt;saa6588: New block (1): 0xf7 0x73 0x24 99 blocks total.&lt;br&gt;Saw bl=
+ock 4 again.&lt;br&gt;&lt;br&gt;As you see the third bytes have 5 values ... this mean =
+5 block (form 0 to 4).
+&lt;br&gt;But the RDS talk about 4 block ...&lt;br&gt;&lt;br&gt;2=B0 Question : How about thi=
+s fifth type of block ?&lt;br&gt;&lt;br&gt;3=B0 Question : As u see i never got 4 block=
+ correctly ordered. It's normal ? How can i get the real order ?&lt;br&gt;&lt;br&gt;4=
+=B0 Question : Kenrel say Saw block x again. The module poll the chip, when=
+ it say Saw block 4 again it mean that no new block are arrived ?! I dont l=
+ost any packet ?
+&lt;br&gt;&lt;br&gt;Thanks in advice&lt;br&gt;&lt;br&gt;-- &lt;br&gt;Daniele Ravizza
+
+------=_Part_42806_5205620.1154424140460--
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000200.html">[Rdsd-devel] Status of SAA6588 support in current kernels
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#72">[ date ]</a>
+              <a href="thread.html#72">[ thread ]</a>
+              <a href="subject.html#72">[ subject ]</a>
+              <a href="author.html#72">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

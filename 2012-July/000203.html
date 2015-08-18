@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] Polling mode or interrupt-driven mode?
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2012-July/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Polling%20mode%20or%20interrupt-driven%20mode%3F&In-Reply-To=%3C500828FC.2060600%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] Polling mode or interrupt-driven mode?</H1>
+    <B>Micha&#322; Mora&#324;ski</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Polling%20mode%20or%20interrupt-driven%20mode%3F&In-Reply-To=%3C500828FC.2060600%40gmail.com%3E"
+       TITLE="[Rdsd-devel] Polling mode or interrupt-driven mode?">michal.moranski at gmail.com
+       </A><BR>
+    <I>Thu Jul 19 17:34:20 CEST 2012</I>
+    <P><UL>
+        
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#203">[ date ]</a>
+              <a href="thread.html#203">[ thread ]</a>
+              <a href="subject.html#203">[ subject ]</a>
+              <a href="author.html#203">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hello All !
+I'm new here. I want to thank you for your hard job with this project. 
+It's really good.
+Let me introduce myself. I live in Poland, and i'm working in a 
+radio-company. I'm very familiar with RDS toys :)
+Let me ask you a question - is the saa6588 driver work ok for you? Can 
+you compare it to other receivers?
+I'm asking about that, becouse i've noticed, that quality of decoded 
+bitstream isn't realy good. There are many out-of-sequence packets and 
+so on.
+I've patched the driver for checking data overflow flag. The flag was 
+set in every 4 or 5 received packets. That's really bad. It means, that 
+we (i) have a lots of data lost.
+I'm using FlyVideo3000 card from LifeView with ADDED RDS SAA6588 chip 
+soldiered to i2c bus of the board :) Maybe that is the reason of the bad 
+performance?
+There are several hi-res picrures of saa6588-equiped tuners, but all of 
+them have connected DAVN output of saa6588 to some GPIO pin of SAA7134(5).
+Could anyone check if it's really true? If so, can you track the trace 
+of PCB and check to which one of GPIO it's connected? It's really 
+important, becouse in my opinion it should be connected. IMHO the driver 
+should work in interrupt mode instead of polling mode. Saa6588 is 
+designed to indicate presence of valid data by pulling down DAVN pin, so 
+uC can read i2c data immediately. If there is no such a thing, we can 
+loss a lots of data.
+
+Thanks again.
+
+Michal.
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#203">[ date ]</a>
+              <a href="thread.html#203">[ thread ]</a>
+              <a href="subject.html#203">[ subject ]</a>
+              <a href="author.html#203">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

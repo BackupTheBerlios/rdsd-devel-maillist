@@ -1,0 +1,188 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] hqct driver works and AF patches
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2007-November/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20hqct%20driver%20works%20and%20AF%20patches&In-Reply-To=%3C20071112225415.7f0bd8a8%40dilbert.local%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000139.html">
+   <LINK REL="Next"  HREF="000146.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] hqct driver works and AF patches</H1>
+    <B>Hans-J&#252;rgen Koch</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20hqct%20driver%20works%20and%20AF%20patches&In-Reply-To=%3C20071112225415.7f0bd8a8%40dilbert.local%3E"
+       TITLE="[Rdsd-devel] hqct driver works and AF patches">hjk at linutronix.de
+       </A><BR>
+    <I>Mon Nov 12 22:54:15 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000139.html">[Rdsd-devel] hqct driver works and AF patches
+</A></li>
+        <LI>Next message: <A HREF="000146.html">[Rdsd-devel] hqct driver works and AF patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#140">[ date ]</a>
+              <a href="thread.html#140">[ thread ]</a>
+              <a href="subject.html#140">[ subject ]</a>
+              <a href="author.html#140">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Am Mon, 12 Nov 2007 22:12:07 +0100
+schrieb &quot;Daniel Lindenaar (rdsd)&quot; &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">daniel-rdsd at lindenaar.eu</A>&gt;:
+
+&gt;<i> Hi Hans-Juergen,
+</I>&gt;<i> Hans-J&#252;rgen Koch wrote:
+</I>&gt;<i> &gt; Am Sun, 11 Nov 2007 15:47:01 +0100
+</I>&gt;<i> &gt; schrieb &quot;Daniel Lindenaar (rdsd)&quot; &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">daniel-rdsd at lindenaar.eu</A>&gt;:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;   
+</I>&gt;<i> &gt;&gt; Hi guys,
+</I>&gt;<i> &gt;&gt;     
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Hi Daniel,
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;   
+</I>&gt;<i> &gt;&gt; I'm new to this list and rdsd. I've downloaded the svn version of
+</I>&gt;<i> &gt;&gt; RDSd as I was looking for a rds decoder for my HQCT radio module
+</I>&gt;<i> &gt;&gt; (google hqct). 
+</I>&gt;<i> &gt;&gt;     
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Looks interesting. A bit expensive, but several people on this list
+</I>&gt;<i> &gt; were looking for a device like that. Unfortunately, the xtronic
+</I>&gt;<i> &gt; webshop order form is a bit unorthodox, so I couldn't find out yet
+</I>&gt;<i> &gt; if they can deliver the device to Germany...
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;   
+</I>&gt;<i> Well it's supposed to work well for in-car systems with varying signal
+</I>&gt;<i> strength etc... I don't know if there's a cheaper device that's as
+</I>&gt;<i> good, or whether it's actually as good as I think it is.
+</I>&gt;<i> &gt;&gt; I've adapted the driver for hqct to act (partly) as an
+</I>&gt;<i> &gt;&gt; v4l tuner and to spew the rds data via device read().
+</I>&gt;<i> &gt;&gt;     
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Fine, that's the way it has to be done. Did you already try to post
+</I>&gt;<i> &gt; your driver on the video4linux mailing list? By all means, we should
+</I>&gt;<i> &gt; try to get this into the mainline kernel. If you send me your V4L
+</I>&gt;<i> &gt; driver, I can review it.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;   
+</I>&gt;<i> Nope not yet, but I just got it to work yesterday and it's not at all
+</I>&gt;<i> complete yet. But if you'd have a look, that'd be nice and you could
+</I>&gt;<i> tell me if it's going in the right direction... May I repeat the it's
+</I>&gt;<i> by no means finished or even complete; it's work in progress...
+</I>&gt;<i> &gt;&gt; Also I came across a small typo regarding AF decoding, which is
+</I>&gt;<i> &gt;&gt; now fixed. Would it be possible to get SVN access or do you guys
+</I>&gt;<i> &gt;&gt; want me to send a diff.
+</I>&gt;<i> &gt;&gt;     
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Please send a diff for this one so I can get an idea of what you're
+</I>&gt;<i> &gt; about to do. In general, I've got no problems with giving you SVN
+</I>&gt;<i> &gt; write access then.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;   
+</I>&gt;<i> The AF typo is a small diff (see attachment)... 
+</I>
+I applied it to SVN, thanks for that one. Good catch ;-)
+
+&gt;<i> the EON stuff is much
+</I>&gt;<i> bigger I'm afraid.
+</I>
+I know, I read the specs...
+
+&gt;<i> &gt;&gt; I'm now starting to work on EON implementation (I can't promise 
+</I>&gt;<i> &gt;&gt; anything, but i want this working for myself so i'll probably get
+</I>&gt;<i> &gt;&gt; it to work ;)
+</I>&gt;<i> &gt;&gt;     
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Sounds good :-)
+</I>&gt;<i> &gt;   
+</I>&gt;<i> Alright. I'll try to give an idea on how I'm implementing EON and the
+</I>&gt;<i> changes I think it requires. Bear with me on this...
+</I>&gt;<i> The EON system should provide a listner with information on related
+</I>&gt;<i> radio channels. It provides stuff like PICode, station identification,
+</I>&gt;<i> AF list, pty, traffic anouncements etc.
+</I>&gt;<i> Following the meaning of the EON part of the RDS standard, I think
+</I>&gt;<i> rdsd should keep a list of channels it has information about. That
+</I>&gt;<i> makes more sense than demanding from a client to keep that
+</I>&gt;<i> information. 
+</I>
+I agree.
+
+&gt;<i> For the case of the traffic anouncement: the TA event
+</I>&gt;<i> would be raised and the client can then request the PI code of the
+</I>&gt;<i> referenced TA channel. The client also requests the AF list for that
+</I>&gt;<i> PI and changes channel for the duration of the announcement and
+</I>&gt;<i> returns to the original when TA is finished...
+</I>
+OK.
+
+&gt;<i> 
+</I>&gt;<i> Now for implementation. I think the RDSdecoder contains two types of
+</I>&gt;<i> data. General data and channel specific data. General data would be
+</I>&gt;<i> date/time, group counters and events. The rest i.e. PI code, radio
+</I>&gt;<i> text, AFlist, etc. is channel specific. This channel specific data
+</I>&gt;<i> would be contained in a seperate struct. 
+</I>
+class, please. I'd like to avoid C structs in a C++ program.
+
+&gt;<i> RDSdecoder class would then
+</I>&gt;<i> hold a vector of this channel data. 
+</I>
+Well, you can only receive one frequency at a given time. Do you plan
+to remember decoded data of the old station when you change frequency?
+If yes (and I'm not really against it), you have quite a lot of
+housekeeping work to do. Some data might still be useful after a few
+seconds, but not after two minutes (e.g. radio text). So data needs to
+be invalidated (or deleted) after a certain time.
+
+&gt;<i> One element is the 'current
+</I>&gt;<i> channel' and gets updated with normal RDS data. Once EON data is
+</I>&gt;<i> received, elements are added and filled as appropriate.
+</I>&gt;<i> 
+</I>&gt;<i> Let me know what you think about this.
+</I>
+Sounds good. It seems to fit into the concept of rdsd. Go on.
+
+To get write access to SVN, you must have an berlios user account. If
+you haven't got one yet, register there and tell me your user name. I
+can then add you as a developer.
+
+Thanks,
+Hans
+
+P.S. Is it possible your mail client sends multipart messages, with a
+html part? If so, turn it off. The messages become too big. This
+message had almost 50kB, and the normal limit for this list is 40kB, so
+I had to approve it manually. Thanks.
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000139.html">[Rdsd-devel] hqct driver works and AF patches
+</A></li>
+	<LI>Next message: <A HREF="000146.html">[Rdsd-devel] hqct driver works and AF patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#140">[ date ]</a>
+              <a href="thread.html#140">[ thread ]</a>
+              <a href="subject.html#140">[ subject ]</a>
+              <a href="author.html#140">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

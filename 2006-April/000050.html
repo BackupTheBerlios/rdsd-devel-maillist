@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] Re: Saa6588 rds decoder
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2006-April/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Re%3A%20Saa6588%20rds%20decoder&In-Reply-To=%3C200604252349.14666.koch%40hjk-az.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000049.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] Re: Saa6588 rds decoder</H1>
+    <B>Hans J. Koch</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Re%3A%20Saa6588%20rds%20decoder&In-Reply-To=%3C200604252349.14666.koch%40hjk-az.de%3E"
+       TITLE="[Rdsd-devel] Re: Saa6588 rds decoder">koch at hjk-az.de
+       </A><BR>
+    <I>Tue Apr 25 23:49:13 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000049.html">[Rdsd-devel] Tuner Cards with the SAA6588 chip
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#50">[ date ]</a>
+              <a href="thread.html#50">[ thread ]</a>
+              <a href="subject.html#50">[ subject ]</a>
+              <a href="author.html#50">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Am Dienstag, 25. April 2006 22:46 schrieben Sie:
+&gt;<i> hello,
+</I>&gt;<i> i have a terratec cinergy 600 with the saa6588 rds decoder. your module
+</I>&gt;<i> inserts himself very well in the kernel (no error messages) 
+</I>
+This just means the module could be loaded and it found a saa6588 on the i2c 
+bus. It doesn't mean that rdsd can actually read RDS data from /dev/radio. 
+The card driver must be changed to use the saa6588 module. I have done that 
+for bttv (is in the stable kernel now) and started work for saa7134, but 
+haven't finished that yet. As the cinergy 600 is a saa7134 card - bad luck. 
+You'll have to wait a little. I hope I can make some progress during the 
+LinuxTag (May 3.-6.). 
+
+&gt;<i> but data is 
+</I>&gt;<i> only available with the syslog with module option &quot;debug=4&quot;.
+</I>
+If you see valid data there, then the saa6588 module works.
+
+&gt;<i>
+</I>&gt;<i> how can i read rds data from the saa6588 and your driver ? qtradio
+</I>&gt;<i> doesn't see the rds function. i have no /dev/i2c-0 :( is there a program
+</I>&gt;<i> to do that ? i tried rdsd but only the gstat command (in telnet) shows
+</I>&gt;<i> something.
+</I>
+/dev/i2c support is kind of experimental until now. rdsd cannot work with a 
+saa7134 card right now. If it outputs something other than an error message, 
+then this is a bug :-)
+
+I suggest you subscribe to the rdsd-devel mailing list and ask further 
+questions there. I will keep you informed when saa7134 support is ready. It 
+is on the very top of my priority list.
+
+Greetings,
+Hans
+
+&gt;<i>
+</I>&gt;<i> as i'm in the countryside with few radios, i don't know if my card
+</I>&gt;<i> receive rds correctly.
+</I>&gt;<i>
+</I>&gt;<i> thank you.
+</I>&gt;<i> best regards
+</I>&gt;<i>
+</I>&gt;<i> michael todorovic (france)
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000049.html">[Rdsd-devel] Tuner Cards with the SAA6588 chip
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#50">[ date ]</a>
+              <a href="thread.html#50">[ thread ]</a>
+              <a href="subject.html#50">[ subject ]</a>
+              <a href="author.html#50">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

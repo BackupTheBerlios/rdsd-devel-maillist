@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] Re: RDS and windows
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2005-May/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Re%3A%20RDS%20and%20windows&In-Reply-To=%3C200505272303.55513.koch%40hjk-az.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000003.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] Re: RDS and windows</H1>
+    <B>Hans J. Koch</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20Re%3A%20RDS%20and%20windows&In-Reply-To=%3C200505272303.55513.koch%40hjk-az.de%3E"
+       TITLE="[Rdsd-devel] Re: RDS and windows">koch at hjk-az.de
+       </A><BR>
+    <I>Fri May 27 23:03:54 CEST 2005</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000003.html">[Rdsd-devel] able to get /etc/rdsd.conf file?
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#4">[ date ]</a>
+              <a href="thread.html#4">[ thread ]</a>
+              <a href="subject.html#4">[ subject ]</a>
+              <a href="author.html#4">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Stan,
+Sorry for answering so late, but as I told you, I was on holidays.
+Now, my reply:
+
+&gt;<i> Hans,
+</I>&gt;<i>     Sorry about all the stupid questions. 
+</I>
+There is no such thing. Just because a question seems to be easy to answer by 
+some persons doesn't make it stupid.
+
+&gt;<i>     I really 
+</I>&gt;<i> appreciate your help on this subject.
+</I>
+We should probably return to the rdsd mailing list with these questions and 
+answers, so that others can appreciate it, too :-)
+
+I cc the list, and ask you to reply to the list.
+
+&gt;<i> It seems like 
+</I>&gt;<i> not many people know much about RDS. 
+</I>
+I don't know, it's not such a difficult topic...
+
+&gt;<i> I have another 
+</I>&gt;<i> question,   I was looking over the RBDS spec and I
+</I>&gt;<i> noticed in the data-link layer description about error
+</I>&gt;<i> protection and checksum.  I noticed that in your RDS
+</I>&gt;<i> decoder you are dont do any error correction.  Will
+</I>&gt;<i> that be done in the driver you are working on?  or is
+</I>&gt;<i> the error correction done on the hardware?
+</I>
+As for the SAA6588, error correction is done in hardware. V4L2 specs say that 
+in each block there are flags that tell you wether the block is OK, had 
+errors that could be corrected, or has uncorrectable errors. It's up to rdsd 
+to decide how to deal with errors. This is not as trivial as it seems, e.g. 
+if a block containing 4 characters of radio text has errors, should the whole 
+string of 64 chars be thrown away ? What else can be done ? There are 
+certainly many possible strategies. And there is not only radio text... 
+
+Hans
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000003.html">[Rdsd-devel] able to get /etc/rdsd.conf file?
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#4">[ date ]</a>
+              <a href="thread.html#4">[ thread ]</a>
+              <a href="subject.html#4">[ subject ]</a>
+              <a href="author.html#4">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

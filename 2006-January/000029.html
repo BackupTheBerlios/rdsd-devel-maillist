@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] rdsd causes 100% CPU load
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20rdsd%20causes%20100%25%20CPU%20load&In-Reply-To=%3C20060121122514.92288.qmail%40web27313.mail.ukl.yahoo.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000024.html">
+   <LINK REL="Next"  HREF="000031.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] rdsd causes 100% CPU load</H1>
+    <B>Rolf Meeser</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20rdsd%20causes%20100%25%20CPU%20load&In-Reply-To=%3C20060121122514.92288.qmail%40web27313.mail.ukl.yahoo.com%3E"
+       TITLE="[Rdsd-devel] rdsd causes 100% CPU load">rolfm_9dq at yahoo.de
+       </A><BR>
+    <I>Sat Jan 21 13:25:14 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000024.html">[Rdsd-devel] rdsd causes 100% CPU load
+</A></li>
+        <LI>Next message: <A HREF="000031.html">[Rdsd-devel] rdsd causes 100% CPU load
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#29">[ date ]</a>
+              <a href="thread.html#29">[ thread ]</a>
+              <a href="subject.html#29">[ subject ]</a>
+              <a href="author.html#29">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>--- Soyeb Aswat &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">soyeb at btinternet.com</A>&gt; schrieb:
+
+&gt;<i> Hello Rolf,
+</I>
+Hi Soyeb,
+
+ 
+&gt;<i> &gt; I have my own homemade radio, which connects via a
+</I>&gt;<i> &gt; serial port. There's an SAA6579 RDS demodulator on
+</I>&gt;<i> &gt; board. I have developed my own kernel driver for
+</I>&gt;<i> it,
+</I>&gt;<i> &gt; although I have no experience with this so far...
+</I>&gt;<i> &gt; My system is Debian, with a 2.6.10 kernel.
+</I>&gt;<i> &gt;  
+</I>&gt;<i> &gt; You can have a look at our radio project on
+</I>&gt;<i> &gt; www.ov-lennestadt.de/Projekte/ukw-radio
+</I>&gt;<i> 
+</I>&gt;<i> This is very interesting!  I don't speak German so I
+</I>&gt;<i> don't understand
+</I>&gt;<i> the text of your website, but looking at the picture
+</I>&gt;<i> it has a knob.  Is
+</I>&gt;<i> that for tuning?  Can you tune the radio from the
+</I>&gt;<i> computer?  Have you
+</I>&gt;<i> considered giving it a USB interface?
+</I>
+The radio has three interface elements for the user: A
+knob for setting the volume of the integrated
+headphone amplifier (the headphone cable is also the
+antenna), a button for automatic tuning to the next
+station, and a second button used to store/recall a
+favourite radio station.
+
+The radio runs from either three dry batteries (4.5V)
+or three NiMH batteries (3.6V).
+
+You can connect it via serial port to the PC. And yes,
+you can set the frequency from the PC, which is what
+my kernel module does. There's also limited access to
+the field strength and the stereo flag. The radio
+sends raw demodulated RDS data via the serial port,
+and the kernel module synchronizes on it and provides
+the interface to Hans' rdsd software.
+
+The radio chip itself is a TEA5768.
+
+I wished it had a USB interface, this is maybe what we
+add next time :-)
+This project was meant to be built up by kids in our
+local ham radio club, so we wanted as much 'big'
+components as possible, the radio chip and a few SMDs
+being the only chicken feed left to the experienced
+guys.
+
+I'm not totally up to date, but I believe that more
+than 60 radios have been built up to now!
+
+&gt;<i> Regards,
+</I>&gt;<i> 
+</I>&gt;<i> Soyeb
+</I>
+Cheers,
+Rolf
+
+ 
+
+
+
+	
+
+	
+		
+___________________________________________________________ 
+Telefonate ohne weitere Kosten vom PC zum PC: <A HREF="http://messenger.yahoo.de">http://messenger.yahoo.de</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000024.html">[Rdsd-devel] rdsd causes 100% CPU load
+</A></li>
+	<LI>Next message: <A HREF="000031.html">[Rdsd-devel] rdsd causes 100% CPU load
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#29">[ date ]</a>
+              <a href="thread.html#29">[ thread ]</a>
+              <a href="subject.html#29">[ subject ]</a>
+              <a href="author.html#29">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>

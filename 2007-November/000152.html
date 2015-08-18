@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Rdsd-devel] SIGPIPE
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/rdsd-devel/2007-November/index.html" >
+   <LINK REL="made" HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20SIGPIPE&In-Reply-To=%3C20071115175917.22ebca5c%40dilbert.local%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000151.html">
+   <LINK REL="Next"  HREF="000153.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Rdsd-devel] SIGPIPE</H1>
+    <B>Hans-J&#252;rgen Koch</B> 
+    <A HREF="mailto:rdsd-devel%40lists.berlios.de?Subject=Re%3A%20%5BRdsd-devel%5D%20SIGPIPE&In-Reply-To=%3C20071115175917.22ebca5c%40dilbert.local%3E"
+       TITLE="[Rdsd-devel] SIGPIPE">hjk at linutronix.de
+       </A><BR>
+    <I>Thu Nov 15 17:59:17 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000151.html">[Rdsd-devel] SIGPIPE
+</A></li>
+        <LI>Next message: <A HREF="000153.html">[Rdsd-devel] EON adaptations
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#152">[ date ]</a>
+              <a href="thread.html#152">[ thread ]</a>
+              <a href="subject.html#152">[ subject ]</a>
+              <a href="author.html#152">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Am Thu, 15 Nov 2007 17:50:51 +0100
+schrieb Daniel Lindenaar &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">daniel-rdsd at lindenaar.eu</A>&gt;:
+
+&gt;<i> Quoting Hans-J&#252;rgen Koch &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">hjk at linutronix.de</A>&gt;:
+</I>&gt;<i> 
+</I>&gt;<i> &gt; Did you test with TCP/IP or unix domain sockets?
+</I>&gt;<i> I believe it was a TCP/IP connection.
+</I>&gt;<i> &gt; I wasn't aware that
+</I>&gt;<i> &gt; you can receive a SIGPIPE when a socket connection breaks. Seems I
+</I>&gt;<i> &gt; have to read some basic docs again :-)
+</I>&gt;<i> &gt; Anyway, if rdsd receives SIGPIPE signals, it is of course the right
+</I>&gt;<i> &gt; thing to catch them. It shouldn't need special handling, though. I
+</I>&gt;<i> &gt; tested that quite a lot and think that disconnecting clients are
+</I>&gt;<i> &gt; detected reliably. OTOH, I only tested with clients that disconnect
+</I>&gt;<i> &gt; gracefully. Did you just pull the cable?
+</I>&gt;<i> 
+</I>&gt;<i> I used the rdsquery tool, with -c 1 and sometimes it makes rdsd
+</I>&gt;<i> quit. 
+</I>
+For several month I used a Superkaramba script that called rdsquery
+every 5 seconds to display radio text on my desktop. It was running the
+whole day without any such effects. Funny.
+
+&gt;<i> I do have a fairly slow system I'm going to install in my car,
+</I>&gt;<i> so possibly it (almost) never happens on a fast system...
+</I>
+Shouldn't matter, too. I usually run rdsd on an old <A HREF="https://lists.berlios.de/mailman/listinfo/rdsd-devel">Pentium at 133MHz.</A>
+
+&gt;<i> 
+</I>&gt;<i> I'll apply a patch which should eliminate the problem. This way I
+</I>&gt;<i> can test my svn access...
+</I>
+Fine.
+
+Thanks,
+Hans
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000151.html">[Rdsd-devel] SIGPIPE
+</A></li>
+	<LI>Next message: <A HREF="000153.html">[Rdsd-devel] EON adaptations
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#152">[ date ]</a>
+              <a href="thread.html#152">[ thread ]</a>
+              <a href="subject.html#152">[ subject ]</a>
+              <a href="author.html#152">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/rdsd-devel">More information about the Rdsd-devel
+mailing list</a><br>
+</body></html>
